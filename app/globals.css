@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@theme {
+  --font-sans: var(--font-plex-sans, "IBM Plex Sans"), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-plex-mono, "IBM Plex Mono"), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-bg: #0c1210;
+  --color-surface: #121a17;
+  --color-surface-raised: #17211d;
+  --color-border: #253028;
+  --color-border-strong: #34423a;
+
+  --color-text: #e7ebe6;
+  --color-text-muted: #93a196;
+  --color-text-dim: #5f6d63;
+
+  --color-emerald: #3fa772;
+  --color-emerald-dim: #234f3a;
+  --color-amber: #c9963f;
+  --color-amber-dim: #52401f;
+  --color-red: #c15a4a;
+  --color-red-dim: #4d2620;
+  --color-accent: #4fb787;
+}
+
+html, body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+::selection {
+  background: var(--color-emerald-dim);
+  color: var(--color-text);
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 3px;
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}

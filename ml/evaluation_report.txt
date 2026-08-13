@@ -1,0 +1,26 @@
+========================================================
+AGRISURGE — PURE NUMPY ML MODEL EVALUATION REPORT
+========================================================
+Model Type: DecisionTree (Max Depth: 6)
+Training Rows: 176
+Test Rows:     44
+
+Metrics:
+Accuracy:  0.9318
+Precision: 0.8889
+Recall:    0.9412
+F1 Score:  0.9143
+
+--- TOP FEATURE IMPORTANCES ---
+          feature  importance
+             ndvi    0.678791
+    temperature_c    0.126239
+soil_moisture_pct    0.124017
+     humidity_pct    0.044699
+      rainfall_mm    0.017861
+     crop_Soybean    0.007036
+   soil_type_Clay    0.001356
+      crop_Cotton    0.000000
+         latitude    0.000000
+        crop_Rice    0.000000
+========================================================

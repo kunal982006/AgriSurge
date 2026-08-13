@@ -1,0 +1,70 @@
+========================================================
+AGRISURGE — DATASET ANALYSIS REPORT
+========================================================
+Dataset File: dataset.csv
+Total Rows: 220
+Total Columns: 11
+
+--- 1. COLUMN NAMES & DATA TYPES ---
+  - rainfall_mm: float64
+  - temperature_c: float64
+  - humidity_pct: float64
+  - soil_moisture_pct: float64
+  - ndvi: float64
+  - crop_failure: int64
+  - latitude: float64
+  - longitude: float64
+  - crop: str
+  - soil_type: str
+  - irrigation_type: str
+
+--- 2. MISSING VALUES PER COLUMN ---
+  - rainfall_mm: 0 missing (0.00%)
+  - temperature_c: 0 missing (0.00%)
+  - humidity_pct: 0 missing (0.00%)
+  - soil_moisture_pct: 0 missing (0.00%)
+  - ndvi: 0 missing (0.00%)
+  - crop_failure: 0 missing (0.00%)
+  - latitude: 0 missing (0.00%)
+  - longitude: 0 missing (0.00%)
+  - crop: 0 missing (0.00%)
+  - soil_type: 0 missing (0.00%)
+  - irrigation_type: 0 missing (0.00%)
+
+--- 3. DUPLICATE ROWS ---
+Total Duplicate Rows: 0
+
+--- 4. CATEGORICAL COLUMNS & UNIQUE VALUES ---
+  - crop (5 unique): {'Rice': 55, 'Soybean': 48, 'Sugarcane': 42, 'Wheat': 38, 'Cotton': 37}
+  - soil_type (5 unique): {'Clay': 49, 'Black Soil': 48, 'Loamy': 42, 'Red Soil': 42, 'Alluvial': 39}
+  - irrigation_type (4 unique): {'Rainfed': 99, 'Borewell': 45, 'Canal': 41, 'Drip': 35}
+
+--- 5. NUMERICAL VARIABLES SUMMARY ---
+                   count        mean        std      min        25%        50%         75%       max
+rainfall_mm        220.0  116.046818  77.987245   6.0000  39.975000  118.10000  165.900000  338.1000
+temperature_c      220.0   31.165455   7.304592  15.4000  24.775000   28.95000   37.675000   45.0000
+humidity_pct       220.0   59.395909  22.018735  20.9000  37.800000   62.80000   78.625000   94.9000
+soil_moisture_pct  220.0   26.860909  13.456794   5.3000  13.850000   27.90000   38.650000   49.9000
+ndvi               220.0    0.504500   0.262875   0.0600   0.217500    0.62000    0.722500    0.8500
+crop_failure       220.0    0.359091   0.480828   0.0000   0.000000    0.00000    1.000000    1.0000
+latitude           220.0   19.928647   1.098144  18.0063  18.991550   19.87645   20.816425   21.9475
+longitude          220.0   75.457191   1.446965  73.1221  74.175275   75.40575   76.742250   77.9908
+
+--- 6. TARGET DISTRIBUTION (crop_failure) ---
+Value Counts: {0: 141, 1: 79}
+Percentages:  {0: 0.6409090909090909, 1: 0.35909090909090907}
+
+--- 7. CORRELATIONS WITH TARGET ---
+crop_failure         1.000000
+temperature_c        0.698701
+latitude             0.000336
+longitude           -0.061563
+rainfall_mm         -0.656989
+humidity_pct        -0.807416
+soil_moisture_pct   -0.822016
+ndvi                -0.919598
+
+--- 8. SUITABILITY ASSESSMENT ---
+The dataset contains real weather, vegetation, soil, and crop features alongside a binary outcome target (crop_failure).
+It is suitable for supervised agricultural risk classification.
+========================================================

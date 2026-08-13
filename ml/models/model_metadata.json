@@ -1,0 +1,69 @@
+{
+  "model_version": "1.0.0",
+  "model_type": "PureNumpyDecisionTree",
+  "trained_at": "2026-08-13T10:50:35.779184+00:00",
+  "dataset_name": "dataset.csv",
+  "target_column": "crop_failure",
+  "numerical_features": [
+    "rainfall_mm",
+    "temperature_c",
+    "humidity_pct",
+    "soil_moisture_pct",
+    "ndvi",
+    "latitude",
+    "longitude"
+  ],
+  "categorical_features": [
+    "crop",
+    "soil_type",
+    "irrigation_type"
+  ],
+  "evaluation_metrics": {
+    "accuracy": 0.9318181818181818,
+    "precision": 0.8888888888888888,
+    "recall": 0.9411764705882353,
+    "f1": 0.9142857142857143
+  },
+  "top_features": [
+    {
+      "feature": "ndvi",
+      "importance": 0.6787912736741708
+    },
+    {
+      "feature": "temperature_c",
+      "importance": 0.12623939445066062
+    },
+    {
+      "feature": "soil_moisture_pct",
+      "importance": 0.12401738888824568
+    },
+    {
+      "feature": "humidity_pct",
+      "importance": 0.04469939914560589
+    },
+    {
+      "feature": "rainfall_mm",
+      "importance": 0.017860657350915174
+    },
+    {
+      "feature": "crop_Soybean",
+      "importance": 0.007036016532178703
+    },
+    {
+      "feature": "soil_type_Clay",
+      "importance": 0.001355869958223166
+    },
+    {
+      "feature": "crop_Cotton",
+      "importance": 0.0
+    },
+    {
+      "feature": "latitude",
+      "importance": 0.0
+    },
+    {
+      "feature": "crop_Rice",
+      "importance": 0.0
+    }
+  ]
+}
