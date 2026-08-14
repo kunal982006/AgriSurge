@@ -1,3 +1,5 @@
+import { PricingCalculationDetails } from "./pricingConfig";
+
 export type RiskTier = "low" | "moderate" | "high";
 
 export type PricingRuleThreshold = {
@@ -13,4 +15,5 @@ export type PremiumBreakdown = {
   riskTier: RiskTier;
   multiplier: number;
   recommendedPremium: number;
+  details?: PricingCalculationDetails;
 };

@@ -1,0 +1,1437 @@
+State,District,Crop,Season,Area-2024-25,Production-2024-25,Yield-2024-25
+Maharashtra,Ahilyanagar,Rice,Kharif,0.19,0.52,2683.00
+Maharashtra,Ahilyanagar,Rice,Total,0.19,0.52,2683.00
+Maharashtra,Ahilyanagar,Wheat,Rabi,1.28,2.55,1997.00
+Maharashtra,Ahilyanagar,Wheat,Total,1.28,2.55,1997.00
+Maharashtra,Ahilyanagar,Maize,Kharif,0.91,2.62,2891.00
+Maharashtra,Ahilyanagar,Maize,Rabi,0.42,1.33,3154.00
+Maharashtra,Ahilyanagar,Maize,Summer,0.07,0.29,4273.00
+Maharashtra,Ahilyanagar,Maize,Total,1.39,4.23,3037.00
+Maharashtra,Ahilyanagar,Jowar,Kharif,0.00,0.00,410.00
+Maharashtra,Ahilyanagar,Jowar,Rabi,1.49,1.33,892.00
+Maharashtra,Ahilyanagar,Jowar,Total,1.49,1.33,891.00
+Maharashtra,Ahilyanagar,Bajra,Kharif,0.81,1.12,1371.00
+Maharashtra,Ahilyanagar,Bajra,Summer,0.03,0.03,910.00
+Maharashtra,Ahilyanagar,Bajra,Total,0.85,1.14,1354.00
+Maharashtra,Ahilyanagar,Ragi,Kharif,0.00,0.00,863.00
+Maharashtra,Ahilyanagar,Ragi,Total,0.00,0.00,863.00
+Maharashtra,Ahilyanagar,Small Millets,Kharif,0.01,0.00,229.00
+Maharashtra,Ahilyanagar,Small Millets,Total,0.01,0.00,229.00
+Maharashtra,Ahilyanagar,Shree Anna /Nutri Cereals,Kharif,0.83,1.12,1358.00
+Maharashtra,Ahilyanagar,Shree Anna /Nutri Cereals,Rabi,1.49,1.33,892.00
+Maharashtra,Ahilyanagar,Shree Anna /Nutri Cereals,Summer,0.03,0.03,910.00
+Maharashtra,Ahilyanagar,Shree Anna /Nutri Cereals,Total,2.35,2.48,1056.00
+Maharashtra,Ahilyanagar,Nutri/Coarse Cereals,Kharif,1.73,3.74,2159.00
+Maharashtra,Ahilyanagar,Nutri/Coarse Cereals,Rabi,1.91,2.66,1391.00
+Maharashtra,Ahilyanagar,Nutri/Coarse Cereals,Summer,0.10,0.31,3223.00
+Maharashtra,Ahilyanagar,Nutri/Coarse Cereals,Total,3.74,6.71,1794.00
+Maharashtra,Ahilyanagar,Cereals,Kharif,1.92,4.26,2212.00
+Maharashtra,Ahilyanagar,Cereals,Rabi,3.19,5.21,1633.00
+Maharashtra,Ahilyanagar,Cereals,Summer,0.10,0.31,3223.00
+Maharashtra,Ahilyanagar,Cereals,Total,5.21,9.78,1876.00
+Maharashtra,Ahilyanagar,Tur,Kharif,0.75,0.74,984.00
+Maharashtra,Ahilyanagar,Tur,Total,0.75,0.74,984.00
+Maharashtra,Ahilyanagar,Gram,Rabi,1.08,0.91,844.00
+Maharashtra,Ahilyanagar,Gram,Total,1.08,0.91,844.00
+Maharashtra,Ahilyanagar,Urad,Kharif,0.70,0.76,1088.00
+Maharashtra,Ahilyanagar,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Ahilyanagar,Urad,Total,0.70,0.76,1088.00
+Maharashtra,Ahilyanagar,Moong,Kharif,0.50,0.39,779.00
+Maharashtra,Ahilyanagar,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Ahilyanagar,Moong,Total,0.50,0.39,778.00
+Maharashtra,Ahilyanagar,Other Pulses,Kharif,0.04,0.01,314.00
+Maharashtra,Ahilyanagar,Other Pulses,Rabi,0.02,0.01,351.00
+Maharashtra,Ahilyanagar,Other Pulses,Total,0.06,0.02,325.00
+Maharashtra,Ahilyanagar,Total Pulses,Total,3.09,2.82,913.00
+Maharashtra,Ahilyanagar,Total Food Grains,Kharif,3.92,6.16,1573.00
+Maharashtra,Ahilyanagar,Total Food Grains,Rabi,4.28,6.12,1430.00
+Maharashtra,Ahilyanagar,Total Food Grains,Summer,0.10,0.31,3195.00
+Maharashtra,Ahilyanagar,Total Food Grains,Total,8.30,12.59,1518.00
+Maharashtra,Akola,Wheat,Rabi,0.29,0.64,2211.00
+Maharashtra,Akola,Wheat,Total,0.29,0.64,2211.00
+Maharashtra,Akola,Maize,Kharif,0.00,0.00,2746.00
+Maharashtra,Akola,Maize,Rabi,0.00,0.00,1250.00
+Maharashtra,Akola,Maize,Summer,0.00,0.01,1667.00
+Maharashtra,Akola,Maize,Total,0.01,0.01,1600.00
+Maharashtra,Akola,Jowar,Kharif,0.00,0.00,1000.00
+Maharashtra,Akola,Jowar,Rabi,0.01,0.01,792.00
+Maharashtra,Akola,Jowar,Summer,0.02,0.02,832.00
+Maharashtra,Akola,Jowar,Total,0.04,0.03,833.00
+Maharashtra,Akola,Shree Anna /Nutri Cereals,Kharif,0.00,0.00,1000.00
+Maharashtra,Akola,Shree Anna /Nutri Cereals,Rabi,0.01,0.01,792.00
+Maharashtra,Akola,Shree Anna /Nutri Cereals,Summer,0.02,0.02,832.00
+Maharashtra,Akola,Shree Anna /Nutri Cereals,Total,0.04,0.03,833.00
+Maharashtra,Akola,Nutri/Coarse Cereals,Kharif,0.00,0.00,1318.00
+Maharashtra,Akola,Nutri/Coarse Cereals,Rabi,0.01,0.01,884.00
+Maharashtra,Akola,Nutri/Coarse Cereals,Summer,0.03,0.03,940.00
+Maharashtra,Akola,Nutri/Coarse Cereals,Total,0.05,0.04,953.00
+Maharashtra,Akola,Cereals,Kharif,0.00,0.00,1318.00
+Maharashtra,Akola,Cereals,Rabi,0.30,0.65,2148.00
+Maharashtra,Akola,Cereals,Summer,0.03,0.03,940.00
+Maharashtra,Akola,Cereals,Total,0.33,0.68,2038.00
+Maharashtra,Akola,Tur,Kharif,0.61,0.77,1257.00
+Maharashtra,Akola,Tur,Total,0.61,0.77,1257.00
+Maharashtra,Akola,Gram,Rabi,1.18,1.16,981.00
+Maharashtra,Akola,Gram,Total,1.18,1.16,981.00
+Maharashtra,Akola,Urad,Kharif,0.02,0.01,453.00
+Maharashtra,Akola,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Akola,Urad,Total,0.02,0.01,456.00
+Maharashtra,Akola,Moong,Kharif,0.02,0.01,350.00
+Maharashtra,Akola,Moong,Summer,0.02,0.00,184.00
+Maharashtra,Akola,Moong,Total,0.04,0.01,264.00
+Maharashtra,Akola,Other Pulses,Kharif,0.00,0.00,538.00
+Maharashtra,Akola,Other Pulses,Total,0.00,0.00,538.00
+Maharashtra,Akola,Total Pulses,Total,1.85,1.95,1051.00
+Maharashtra,Akola,Total Food Grains,Kharif,0.65,0.79,1208.00
+Maharashtra,Akola,Total Food Grains,Rabi,1.48,1.81,1219.00
+Maharashtra,Akola,Total Food Grains,Summer,0.05,0.03,609.00
+Maharashtra,Akola,Total Food Grains,Total,2.19,2.63,1202.00
+Maharashtra,Amravati,Rice,Kharif,0.06,0.05,975.00
+Maharashtra,Amravati,Rice,Total,0.06,0.05,975.00
+Maharashtra,Amravati,Wheat,Rabi,0.52,0.84,1603.00
+Maharashtra,Amravati,Wheat,Total,0.52,0.84,1603.00
+Maharashtra,Amravati,Maize,Kharif,0.25,0.55,2219.00
+Maharashtra,Amravati,Maize,Rabi,0.01,0.01,1048.00
+Maharashtra,Amravati,Maize,Summer,0.01,0.01,1711.00
+Maharashtra,Amravati,Maize,Total,0.26,0.57,2172.00
+Maharashtra,Amravati,Jowar,Kharif,0.08,0.07,929.00
+Maharashtra,Amravati,Jowar,Rabi,0.00,0.00,794.00
+Maharashtra,Amravati,Jowar,Summer,0.02,0.02,832.00
+Maharashtra,Amravati,Jowar,Total,0.10,0.09,906.00
+Maharashtra,Amravati,Bajra,Kharif,0.00,0.00,390.00
+Maharashtra,Amravati,Bajra,Summer,0.00,0.00,910.00
+Maharashtra,Amravati,Bajra,Total,0.00,0.00,414.00
+Maharashtra,Amravati,Small Millets,Kharif,0.00,0.00,356.00
+Maharashtra,Amravati,Small Millets,Total,0.00,0.00,356.00
+Maharashtra,Amravati,Shree Anna /Nutri Cereals,Kharif,0.08,0.08,901.00
+Maharashtra,Amravati,Shree Anna /Nutri Cereals,Rabi,0.00,0.00,794.00
+Maharashtra,Amravati,Shree Anna /Nutri Cereals,Summer,0.02,0.02,832.00
+Maharashtra,Amravati,Shree Anna /Nutri Cereals,Total,0.11,0.09,885.00
+Maharashtra,Amravati,Nutri/Coarse Cereals,Kharif,0.33,0.62,1884.00
+Maharashtra,Amravati,Nutri/Coarse Cereals,Rabi,0.01,0.01,952.00
+Maharashtra,Amravati,Nutri/Coarse Cereals,Summer,0.03,0.03,1089.00
+Maharashtra,Amravati,Nutri/Coarse Cereals,Total,0.37,0.66,1800.00
+Maharashtra,Amravati,Cereals,Kharif,0.39,0.68,1754.00
+Maharashtra,Amravati,Cereals,Rabi,0.54,0.85,1589.00
+Maharashtra,Amravati,Cereals,Summer,0.03,0.03,1089.00
+Maharashtra,Amravati,Cereals,Total,0.95,1.56,1643.00
+Maharashtra,Amravati,Tur,Kharif,1.17,1.04,886.00
+Maharashtra,Amravati,Tur,Total,1.17,1.04,886.00
+Maharashtra,Amravati,Gram,Rabi,1.12,1.55,1386.00
+Maharashtra,Amravati,Gram,Total,1.12,1.55,1386.00
+Maharashtra,Amravati,Urad,Kharif,0.01,0.00,291.00
+Maharashtra,Amravati,Urad,Total,0.01,0.00,291.00
+Maharashtra,Amravati,Moong,Kharif,0.00,0.00,290.00
+Maharashtra,Amravati,Moong,Summer,0.03,0.01,184.00
+Maharashtra,Amravati,Moong,Total,0.04,0.01,198.00
+Maharashtra,Amravati,Other Pulses,Kharif,0.00,0.00,442.00
+Maharashtra,Amravati,Other Pulses,Rabi,0.00,0.00,349.00
+Maharashtra,Amravati,Other Pulses,Total,0.00,0.00,430.00
+Maharashtra,Amravati,Total Pulses,Total,2.34,2.60,1113.00
+Maharashtra,Amravati,Total Food Grains,Kharif,1.57,1.72,1095.00
+Maharashtra,Amravati,Total Food Grains,Rabi,1.66,2.40,1452.00
+Maharashtra,Amravati,Total Food Grains,Summer,0.06,0.03,580.00
+Maharashtra,Amravati,Total Food Grains,Total,3.29,4.16,1266.00
+Maharashtra,Beed,Wheat,Rabi,0.48,0.81,1673.00
+Maharashtra,Beed,Wheat,Total,0.48,0.81,1673.00
+Maharashtra,Beed,Maize,Kharif,0.07,0.16,2307.00
+Maharashtra,Beed,Maize,Rabi,0.03,0.09,2526.00
+Maharashtra,Beed,Maize,Summer,0.02,0.03,1533.00
+Maharashtra,Beed,Maize,Total,0.13,0.28,2242.00
+Maharashtra,Beed,Jowar,Kharif,0.01,0.01,504.00
+Maharashtra,Beed,Jowar,Rabi,1.81,2.00,1108.00
+Maharashtra,Beed,Jowar,Summer,0.00,0.00,775.00
+Maharashtra,Beed,Jowar,Total,1.82,2.01,1104.00
+Maharashtra,Beed,Bajra,Kharif,0.32,0.50,1534.00
+Maharashtra,Beed,Bajra,Summer,0.09,0.08,910.00
+Maharashtra,Beed,Bajra,Total,0.41,0.58,1403.00
+Maharashtra,Beed,Small Millets,Kharif,0.02,0.01,430.00
+Maharashtra,Beed,Small Millets,Total,0.02,0.01,430.00
+Maharashtra,Beed,Shree Anna /Nutri Cereals,Kharif,0.35,0.51,1447.00
+Maharashtra,Beed,Shree Anna /Nutri Cereals,Rabi,1.81,2.00,1108.00
+Maharashtra,Beed,Shree Anna /Nutri Cereals,Summer,0.09,0.08,909.00
+Maharashtra,Beed,Shree Anna /Nutri Cereals,Total,2.25,2.59,1154.00
+Maharashtra,Beed,Nutri/Coarse Cereals,Kharif,0.42,0.67,1591.00
+Maharashtra,Beed,Nutri/Coarse Cereals,Rabi,1.84,2.09,1135.00
+Maharashtra,Beed,Nutri/Coarse Cereals,Summer,0.11,0.11,1029.00
+Maharashtra,Beed,Nutri/Coarse Cereals,Total,2.37,2.87,1212.00
+Maharashtra,Beed,Cereals,Kharif,0.42,0.67,1591.00
+Maharashtra,Beed,Cereals,Rabi,2.32,2.90,1247.00
+Maharashtra,Beed,Cereals,Summer,0.11,0.11,1029.00
+Maharashtra,Beed,Cereals,Total,2.85,3.68,1290.00
+Maharashtra,Beed,Tur,Kharif,0.51,0.45,884.00
+Maharashtra,Beed,Tur,Total,0.51,0.45,884.00
+Maharashtra,Beed,Gram,Rabi,1.85,1.91,1033.00
+Maharashtra,Beed,Gram,Total,1.85,1.91,1033.00
+Maharashtra,Beed,Urad,Kharif,0.50,0.45,901.00
+Maharashtra,Beed,Urad,Total,0.50,0.45,901.00
+Maharashtra,Beed,Moong,Kharif,0.12,0.10,805.00
+Maharashtra,Beed,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Beed,Moong,Total,0.12,0.10,800.00
+Maharashtra,Beed,Other Pulses,Kharif,0.00,0.00,304.00
+Maharashtra,Beed,Other Pulses,Rabi,0.19,0.08,395.00
+Maharashtra,Beed,Other Pulses,Total,0.20,0.08,394.00
+Maharashtra,Beed,Total Pulses,Total,3.18,2.99,940.00
+Maharashtra,Beed,Total Food Grains,Kharif,1.56,1.67,1075.00
+Maharashtra,Beed,Total Food Grains,Rabi,4.37,4.89,1119.00
+Maharashtra,Beed,Total Food Grains,Summer,0.11,0.11,1022.00
+Maharashtra,Beed,Total Food Grains,Total,6.03,6.67,1106.00
+Maharashtra,Bhandara,Rice,Kharif,1.85,3.91,2117.00
+Maharashtra,Bhandara,Rice,Summer,0.65,1.79,2760.00
+Maharashtra,Bhandara,Rice,Total,2.50,5.71,2284.00
+Maharashtra,Bhandara,Wheat,Rabi,0.13,0.19,1460.00
+Maharashtra,Bhandara,Wheat,Total,0.13,0.19,1460.00
+Maharashtra,Bhandara,Maize,Rabi,0.01,0.05,3283.00
+Maharashtra,Bhandara,Maize,Summer,0.01,0.01,970.00
+Maharashtra,Bhandara,Maize,Total,0.02,0.05,2482.00
+Maharashtra,Bhandara,Jowar,Rabi,0.00,0.00,398.00
+Maharashtra,Bhandara,Jowar,Total,0.00,0.00,398.00
+Maharashtra,Bhandara,Shree Anna /Nutri Cereals,Rabi,0.00,0.00,398.00
+Maharashtra,Bhandara,Shree Anna /Nutri Cereals,Total,0.00,0.00,398.00
+Maharashtra,Bhandara,Nutri/Coarse Cereals,Rabi,0.01,0.05,3253.00
+Maharashtra,Bhandara,Nutri/Coarse Cereals,Summer,0.01,0.01,970.00
+Maharashtra,Bhandara,Nutri/Coarse Cereals,Total,0.02,0.05,2467.00
+Maharashtra,Bhandara,Cereals,Kharif,1.85,3.91,2117.00
+Maharashtra,Bhandara,Cereals,Rabi,0.14,0.24,1640.00
+Maharashtra,Bhandara,Cereals,Summer,0.66,1.80,2739.00
+Maharashtra,Bhandara,Cereals,Total,2.65,5.95,2245.00
+Maharashtra,Bhandara,Tur,Kharif,0.09,0.04,437.00
+Maharashtra,Bhandara,Tur,Total,0.09,0.04,437.00
+Maharashtra,Bhandara,Gram,Rabi,0.19,0.19,1036.00
+Maharashtra,Bhandara,Gram,Total,0.19,0.19,1036.00
+Maharashtra,Bhandara,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Bhandara,Moong,Total,0.00,0.00,184.00
+Maharashtra,Bhandara,Other Pulses,Kharif,0.00,0.00,510.00
+Maharashtra,Bhandara,Other Pulses,Rabi,0.27,0.16,594.00
+Maharashtra,Bhandara,Other Pulses,Total,0.27,0.16,594.00
+Maharashtra,Bhandara,Total Pulses,Total,0.56,0.40,714.00
+Maharashtra,Bhandara,Total Food Grains,Kharif,1.94,3.95,2035.00
+Maharashtra,Bhandara,Total Food Grains,Rabi,0.60,0.59,979.00
+Maharashtra,Bhandara,Total Food Grains,Summer,0.66,1.80,2734.00
+Maharashtra,Bhandara,Total Food Grains,Total,3.20,6.35,1980.00
+Maharashtra,Buldhana,Wheat,Rabi,0.68,1.29,1899.00
+Maharashtra,Buldhana,Wheat,Total,0.68,1.29,1899.00
+Maharashtra,Buldhana,Maize,Kharif,0.26,0.93,3552.00
+Maharashtra,Buldhana,Maize,Rabi,0.17,0.68,3945.00
+Maharashtra,Buldhana,Maize,Summer,0.07,0.12,1800.00
+Maharashtra,Buldhana,Maize,Total,0.50,1.74,3452.00
+Maharashtra,Buldhana,Jowar,Kharif,0.02,0.03,1281.00
+Maharashtra,Buldhana,Jowar,Rabi,0.16,0.18,1151.00
+Maharashtra,Buldhana,Jowar,Summer,0.04,0.03,832.00
+Maharashtra,Buldhana,Jowar,Total,0.22,0.24,1103.00
+Maharashtra,Buldhana,Bajra,Kharif,0.00,0.00,324.00
+Maharashtra,Buldhana,Bajra,Summer,0.01,0.01,910.00
+Maharashtra,Buldhana,Bajra,Total,0.01,0.01,850.00
+Maharashtra,Buldhana,Small Millets,Kharif,0.00,0.00,635.00
+Maharashtra,Buldhana,Small Millets,Total,0.00,0.00,635.00
+Maharashtra,Buldhana,Shree Anna /Nutri Cereals,Kharif,0.02,0.03,1201.00
+Maharashtra,Buldhana,Shree Anna /Nutri Cereals,Rabi,0.16,0.18,1151.00
+Maharashtra,Buldhana,Shree Anna /Nutri Cereals,Summer,0.05,0.04,848.00
+Maharashtra,Buldhana,Shree Anna /Nutri Cereals,Total,0.23,0.25,1088.00
+Maharashtra,Buldhana,Nutri/Coarse Cereals,Kharif,0.28,0.96,3372.00
+Maharashtra,Buldhana,Nutri/Coarse Cereals,Rabi,0.33,0.87,2604.00
+Maharashtra,Buldhana,Nutri/Coarse Cereals,Summer,0.12,0.17,1384.00
+Maharashtra,Buldhana,Nutri/Coarse Cereals,Total,0.74,1.99,2701.00
+Maharashtra,Buldhana,Cereals,Kharif,0.28,0.96,3372.00
+Maharashtra,Buldhana,Cereals,Rabi,1.01,2.16,2132.00
+Maharashtra,Buldhana,Cereals,Summer,0.12,0.17,1384.00
+Maharashtra,Buldhana,Cereals,Total,1.41,3.28,2317.00
+Maharashtra,Buldhana,Tur,Kharif,0.89,1.70,1905.00
+Maharashtra,Buldhana,Tur,Total,0.89,1.70,1905.00
+Maharashtra,Buldhana,Gram,Rabi,2.56,3.35,1307.00
+Maharashtra,Buldhana,Gram,Total,2.56,3.35,1307.00
+Maharashtra,Buldhana,Urad,Kharif,0.08,0.06,744.00
+Maharashtra,Buldhana,Urad,Summer,0.01,0.01,539.00
+Maharashtra,Buldhana,Urad,Total,0.09,0.07,722.00
+Maharashtra,Buldhana,Moong,Kharif,0.08,0.06,767.00
+Maharashtra,Buldhana,Moong,Summer,0.02,0.00,184.00
+Maharashtra,Buldhana,Moong,Total,0.10,0.07,653.00
+Maharashtra,Buldhana,Other Pulses,Kharif,0.00,0.00,361.00
+Maharashtra,Buldhana,Other Pulses,Rabi,0.01,0.00,572.00
+Maharashtra,Buldhana,Other Pulses,Total,0.01,0.00,563.00
+Maharashtra,Buldhana,Total Pulses,Total,3.65,5.18,1419.00
+Maharashtra,Buldhana,Total Food Grains,Kharif,1.34,2.77,2076.00
+Maharashtra,Buldhana,Total Food Grains,Rabi,3.58,5.51,1539.00
+Maharashtra,Buldhana,Total Food Grains,Summer,0.15,0.17,1172.00
+Maharashtra,Buldhana,Total Food Grains,Total,5.07,8.46,1670.00
+Maharashtra,Chandrapur,Rice,Kharif,1.91,3.49,1828.00
+Maharashtra,Chandrapur,Rice,Summer,0.08,0.22,2650.00
+Maharashtra,Chandrapur,Rice,Total,1.99,3.71,1863.00
+Maharashtra,Chandrapur,Wheat,Rabi,0.16,0.19,1168.00
+Maharashtra,Chandrapur,Wheat,Total,0.16,0.19,1168.00
+Maharashtra,Chandrapur,Maize,Rabi,0.01,0.00,469.00
+Maharashtra,Chandrapur,Maize,Summer,0.00,0.00,680.00
+Maharashtra,Chandrapur,Maize,Total,0.01,0.00,483.00
+Maharashtra,Chandrapur,Jowar,Kharif,0.01,0.01,655.00
+Maharashtra,Chandrapur,Jowar,Rabi,0.04,0.03,600.00
+Maharashtra,Chandrapur,Jowar,Summer,0.00,0.00,832.00
+Maharashtra,Chandrapur,Jowar,Total,0.06,0.04,626.00
+Maharashtra,Chandrapur,Small Millets,Kharif,0.01,0.00,409.00
+Maharashtra,Chandrapur,Small Millets,Total,0.01,0.00,409.00
+Maharashtra,Chandrapur,Shree Anna /Nutri Cereals,Kharif,0.02,0.01,560.00
+Maharashtra,Chandrapur,Shree Anna /Nutri Cereals,Rabi,0.04,0.03,600.00
+Maharashtra,Chandrapur,Shree Anna /Nutri Cereals,Summer,0.00,0.00,832.00
+Maharashtra,Chandrapur,Shree Anna /Nutri Cereals,Total,0.07,0.04,598.00
+Maharashtra,Chandrapur,Nutri/Coarse Cereals,Kharif,0.02,0.01,560.00
+Maharashtra,Chandrapur,Nutri/Coarse Cereals,Rabi,0.05,0.03,584.00
+Maharashtra,Chandrapur,Nutri/Coarse Cereals,Summer,0.00,0.00,815.00
+Maharashtra,Chandrapur,Nutri/Coarse Cereals,Total,0.08,0.05,588.00
+Maharashtra,Chandrapur,Cereals,Kharif,1.93,3.50,1813.00
+Maharashtra,Chandrapur,Cereals,Rabi,0.21,0.22,1029.00
+Maharashtra,Chandrapur,Cereals,Summer,0.09,0.22,2566.00
+Maharashtra,Chandrapur,Cereals,Total,2.23,3.94,1767.00
+Maharashtra,Chandrapur,Tur,Kharif,0.32,0.37,1130.00
+Maharashtra,Chandrapur,Tur,Total,0.32,0.37,1130.00
+Maharashtra,Chandrapur,Gram,Rabi,0.66,0.33,494.00
+Maharashtra,Chandrapur,Gram,Total,0.66,0.33,494.00
+Maharashtra,Chandrapur,Urad,Kharif,0.00,0.00,409.00
+Maharashtra,Chandrapur,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Chandrapur,Urad,Total,0.00,0.00,430.00
+Maharashtra,Chandrapur,Moong,Kharif,0.00,0.00,450.00
+Maharashtra,Chandrapur,Moong,Summer,0.01,0.00,184.00
+Maharashtra,Chandrapur,Moong,Total,0.01,0.00,196.00
+Maharashtra,Chandrapur,Other Pulses,Kharif,0.01,0.00,450.00
+Maharashtra,Chandrapur,Other Pulses,Rabi,0.28,0.18,650.00
+Maharashtra,Chandrapur,Other Pulses,Total,0.29,0.19,643.00
+Maharashtra,Chandrapur,Total Pulses,Total,1.29,0.88,686.00
+Maharashtra,Chandrapur,Total Food Grains,Kharif,2.27,3.87,1708.00
+Maharashtra,Chandrapur,Total Food Grains,Rabi,1.16,0.73,631.00
+Maharashtra,Chandrapur,Total Food Grains,Summer,0.09,0.23,2413.00
+Maharashtra,Chandrapur,Total Food Grains,Total,3.52,4.83,1372.00
+Maharashtra,Chhatrapati Sambhajinagar,Wheat,Rabi,0.88,2.72,3105.00
+Maharashtra,Chhatrapati Sambhajinagar,Wheat,Total,0.88,2.72,3105.00
+Maharashtra,Chhatrapati Sambhajinagar,Maize,Kharif,2.06,4.45,2158.00
+Maharashtra,Chhatrapati Sambhajinagar,Maize,Rabi,0.51,1.40,2718.00
+Maharashtra,Chhatrapati Sambhajinagar,Maize,Summer,0.10,0.30,2850.00
+Maharashtra,Chhatrapati Sambhajinagar,Maize,Total,2.68,6.15,2292.00
+Maharashtra,Chhatrapati Sambhajinagar,Jowar,Rabi,0.33,0.35,1066.00
+Maharashtra,Chhatrapati Sambhajinagar,Jowar,Summer,0.00,0.00,775.00
+Maharashtra,Chhatrapati Sambhajinagar,Jowar,Total,0.33,0.35,1063.00
+Maharashtra,Chhatrapati Sambhajinagar,Bajra,Kharif,0.14,0.16,1136.00
+Maharashtra,Chhatrapati Sambhajinagar,Bajra,Summer,0.07,0.06,910.00
+Maharashtra,Chhatrapati Sambhajinagar,Bajra,Total,0.21,0.22,1061.00
+Maharashtra,Chhatrapati Sambhajinagar,Small Millets,Kharif,0.02,0.01,386.00
+Maharashtra,Chhatrapati Sambhajinagar,Small Millets,Total,0.02,0.01,386.00
+Maharashtra,Chhatrapati Sambhajinagar,Shree Anna /Nutri Cereals,Kharif,0.16,0.17,1034.00
+Maharashtra,Chhatrapati Sambhajinagar,Shree Anna /Nutri Cereals,Rabi,0.33,0.35,1066.00
+Maharashtra,Chhatrapati Sambhajinagar,Shree Anna /Nutri Cereals,Summer,0.07,0.07,903.00
+Maharashtra,Chhatrapati Sambhajinagar,Shree Anna /Nutri Cereals,Total,0.56,0.58,1036.00
+Maharashtra,Chhatrapati Sambhajinagar,Nutri/Coarse Cereals,Kharif,2.23,4.62,2076.00
+Maharashtra,Chhatrapati Sambhajinagar,Nutri/Coarse Cereals,Rabi,0.84,1.75,2075.00
+Maharashtra,Chhatrapati Sambhajinagar,Nutri/Coarse Cereals,Summer,0.18,0.36,2046.00
+Maharashtra,Chhatrapati Sambhajinagar,Nutri/Coarse Cereals,Total,3.25,6.73,2074.00
+Maharashtra,Chhatrapati Sambhajinagar,Cereals,Kharif,2.23,4.62,2076.00
+Maharashtra,Chhatrapati Sambhajinagar,Cereals,Rabi,1.72,4.47,2600.00
+Maharashtra,Chhatrapati Sambhajinagar,Cereals,Summer,0.18,0.36,2046.00
+Maharashtra,Chhatrapati Sambhajinagar,Cereals,Total,4.12,9.45,2293.00
+Maharashtra,Chhatrapati Sambhajinagar,Tur,Kharif,0.36,0.31,847.00
+Maharashtra,Chhatrapati Sambhajinagar,Tur,Total,0.36,0.31,847.00
+Maharashtra,Chhatrapati Sambhajinagar,Gram,Rabi,0.71,0.63,881.00
+Maharashtra,Chhatrapati Sambhajinagar,Gram,Total,0.71,0.63,881.00
+Maharashtra,Chhatrapati Sambhajinagar,Urad,Kharif,0.03,0.02,628.00
+Maharashtra,Chhatrapati Sambhajinagar,Urad,Summer,0.00,0.00,410.00
+Maharashtra,Chhatrapati Sambhajinagar,Urad,Total,0.03,0.02,628.00
+Maharashtra,Chhatrapati Sambhajinagar,Moong,Kharif,0.12,0.06,515.00
+Maharashtra,Chhatrapati Sambhajinagar,Moong,Summer,0.00,0.00,450.00
+Maharashtra,Chhatrapati Sambhajinagar,Moong,Total,0.12,0.06,515.00
+Maharashtra,Chhatrapati Sambhajinagar,Other Pulses,Kharif,0.01,0.00,254.00
+Maharashtra,Chhatrapati Sambhajinagar,Other Pulses,Rabi,0.00,0.00,255.00
+Maharashtra,Chhatrapati Sambhajinagar,Other Pulses,Total,0.01,0.00,254.00
+Maharashtra,Chhatrapati Sambhajinagar,Total Pulses,Total,1.23,1.02,825.00
+Maharashtra,Chhatrapati Sambhajinagar,Total Food Grains,Kharif,2.75,5.01,1825.00
+Maharashtra,Chhatrapati Sambhajinagar,Total Food Grains,Rabi,2.43,5.09,2096.00
+Maharashtra,Chhatrapati Sambhajinagar,Total Food Grains,Summer,0.18,0.36,2046.00
+Maharashtra,Chhatrapati Sambhajinagar,Total Food Grains,Total,5.35,10.47,1955.00
+Maharashtra,Dharashiv,Rice,Kharif,0.00,0.00,625.00
+Maharashtra,Dharashiv,Rice,Total,0.00,0.00,625.00
+Maharashtra,Dharashiv,Wheat,Rabi,0.24,0.33,1377.00
+Maharashtra,Dharashiv,Wheat,Total,0.24,0.33,1377.00
+Maharashtra,Dharashiv,Maize,Kharif,0.09,0.14,1578.00
+Maharashtra,Dharashiv,Maize,Rabi,0.05,0.06,1144.00
+Maharashtra,Dharashiv,Maize,Summer,0.05,0.05,1067.00
+Maharashtra,Dharashiv,Maize,Total,0.19,0.25,1326.00
+Maharashtra,Dharashiv,Jowar,Kharif,0.01,0.01,865.00
+Maharashtra,Dharashiv,Jowar,Rabi,1.73,2.27,1313.00
+Maharashtra,Dharashiv,Jowar,Summer,0.00,0.00,832.00
+Maharashtra,Dharashiv,Jowar,Total,1.74,2.28,1309.00
+Maharashtra,Dharashiv,Bajra,Kharif,0.01,0.01,550.00
+Maharashtra,Dharashiv,Bajra,Summer,0.00,0.00,910.00
+Maharashtra,Dharashiv,Bajra,Total,0.01,0.01,551.00
+Maharashtra,Dharashiv,Small Millets,Kharif,0.02,0.01,386.00
+Maharashtra,Dharashiv,Small Millets,Total,0.02,0.01,386.00
+Maharashtra,Dharashiv,Shree Anna /Nutri Cereals,Kharif,0.05,0.03,536.00
+Maharashtra,Dharashiv,Shree Anna /Nutri Cereals,Rabi,1.73,2.27,1313.00
+Maharashtra,Dharashiv,Shree Anna /Nutri Cereals,Summer,0.00,0.00,832.00
+Maharashtra,Dharashiv,Shree Anna /Nutri Cereals,Total,1.78,2.30,1291.00
+Maharashtra,Dharashiv,Nutri/Coarse Cereals,Kharif,0.13,0.16,1211.00
+Maharashtra,Dharashiv,Nutri/Coarse Cereals,Rabi,1.78,2.33,1308.00
+Maharashtra,Dharashiv,Nutri/Coarse Cereals,Summer,0.05,0.05,1050.00
+Maharashtra,Dharashiv,Nutri/Coarse Cereals,Total,1.97,2.55,1294.00
+Maharashtra,Dharashiv,Cereals,Kharif,0.14,0.16,1206.00
+Maharashtra,Dharashiv,Cereals,Rabi,2.02,2.66,1316.00
+Maharashtra,Dharashiv,Cereals,Summer,0.05,0.05,1050.00
+Maharashtra,Dharashiv,Cereals,Total,2.20,2.87,1303.00
+Maharashtra,Dharashiv,Tur,Kharif,0.43,0.38,885.00
+Maharashtra,Dharashiv,Tur,Total,0.43,0.38,885.00
+Maharashtra,Dharashiv,Gram,Rabi,1.94,2.36,1216.00
+Maharashtra,Dharashiv,Gram,Total,1.94,2.36,1216.00
+Maharashtra,Dharashiv,Urad,Kharif,0.51,0.38,748.00
+Maharashtra,Dharashiv,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Dharashiv,Urad,Total,0.51,0.38,748.00
+Maharashtra,Dharashiv,Moong,Kharif,0.11,0.08,704.00
+Maharashtra,Dharashiv,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Dharashiv,Moong,Total,0.11,0.08,697.00
+Maharashtra,Dharashiv,Other Pulses,Kharif,0.01,0.00,420.00
+Maharashtra,Dharashiv,Other Pulses,Rabi,0.13,0.05,410.00
+Maharashtra,Dharashiv,Other Pulses,Total,0.14,0.06,411.00
+Maharashtra,Dharashiv,Total Pulses,Total,3.15,3.27,1039.00
+Maharashtra,Dharashiv,Total Food Grains,Kharif,1.20,1.01,843.00
+Maharashtra,Dharashiv,Total Food Grains,Rabi,4.09,5.07,1239.00
+Maharashtra,Dharashiv,Total Food Grains,Summer,0.05,0.05,1013.00
+Maharashtra,Dharashiv,Total Food Grains,Total,5.35,6.14,1148.00
+Maharashtra,Dhule,Rice,Kharif,0.05,0.07,1525.00
+Maharashtra,Dhule,Rice,Total,0.05,0.07,1525.00
+Maharashtra,Dhule,Wheat,Rabi,0.43,1.02,2382.00
+Maharashtra,Dhule,Wheat,Total,0.43,1.02,2382.00
+Maharashtra,Dhule,Maize,Kharif,0.73,0.51,691.00
+Maharashtra,Dhule,Maize,Rabi,0.19,0.54,2902.00
+Maharashtra,Dhule,Maize,Summer,0.02,0.06,3260.00
+Maharashtra,Dhule,Maize,Total,0.94,1.11,1181.00
+Maharashtra,Dhule,Jowar,Kharif,0.04,0.05,1142.00
+Maharashtra,Dhule,Jowar,Rabi,0.13,0.25,1879.00
+Maharashtra,Dhule,Jowar,Total,0.17,0.29,1697.00
+Maharashtra,Dhule,Bajra,Kharif,0.40,0.43,1075.00
+Maharashtra,Dhule,Bajra,Summer,0.03,0.02,910.00
+Maharashtra,Dhule,Bajra,Total,0.43,0.45,1065.00
+Maharashtra,Dhule,Ragi,Kharif,0.03,0.02,928.00
+Maharashtra,Dhule,Ragi,Total,0.03,0.02,928.00
+Maharashtra,Dhule,Small Millets,Kharif,0.02,0.02,990.00
+Maharashtra,Dhule,Small Millets,Total,0.02,0.02,990.00
+Maharashtra,Dhule,Shree Anna /Nutri Cereals,Kharif,0.48,0.52,1070.00
+Maharashtra,Dhule,Shree Anna /Nutri Cereals,Rabi,0.13,0.25,1879.00
+Maharashtra,Dhule,Shree Anna /Nutri Cereals,Summer,0.03,0.02,910.00
+Maharashtra,Dhule,Shree Anna /Nutri Cereals,Total,0.64,0.79,1229.00
+Maharashtra,Dhule,Nutri/Coarse Cereals,Kharif,1.22,1.03,842.00
+Maharashtra,Dhule,Nutri/Coarse Cereals,Rabi,0.32,0.79,2480.00
+Maharashtra,Dhule,Nutri/Coarse Cereals,Summer,0.05,0.09,1894.00
+Maharashtra,Dhule,Nutri/Coarse Cereals,Total,1.58,1.90,1200.00
+Maharashtra,Dhule,Cereals,Kharif,1.26,1.10,866.00
+Maharashtra,Dhule,Cereals,Rabi,0.74,1.80,2424.00
+Maharashtra,Dhule,Cereals,Summer,0.05,0.09,1894.00
+Maharashtra,Dhule,Cereals,Total,2.05,2.99,1453.00
+Maharashtra,Dhule,Tur,Kharif,0.04,0.03,708.00
+Maharashtra,Dhule,Tur,Total,0.04,0.03,708.00
+Maharashtra,Dhule,Gram,Rabi,0.37,0.53,1416.00
+Maharashtra,Dhule,Gram,Total,0.37,0.53,1416.00
+Maharashtra,Dhule,Urad,Kharif,0.03,0.01,423.00
+Maharashtra,Dhule,Urad,Total,0.03,0.01,423.00
+Maharashtra,Dhule,Moong,Kharif,0.06,0.03,422.00
+Maharashtra,Dhule,Moong,Summer,0.01,0.00,184.00
+Maharashtra,Dhule,Moong,Total,0.07,0.03,404.00
+Maharashtra,Dhule,Other Pulses,Kharif,0.01,0.01,700.00
+Maharashtra,Dhule,Other Pulses,Rabi,0.01,0.00,492.00
+Maharashtra,Dhule,Other Pulses,Total,0.02,0.01,628.00
+Maharashtra,Dhule,Total Pulses,Total,0.52,0.60,1152.00
+Maharashtra,Dhule,Total Food Grains,Kharif,1.41,1.17,831.00
+Maharashtra,Dhule,Total Food Grains,Rabi,1.12,2.33,2078.00
+Maharashtra,Dhule,Total Food Grains,Summer,0.05,0.09,1719.00
+Maharashtra,Dhule,Total Food Grains,Total,2.58,3.59,1392.00
+Maharashtra,Gadchiroli,Rice,Kharif,1.90,3.99,2101.00
+Maharashtra,Gadchiroli,Rice,Summer,0.11,0.26,2489.00
+Maharashtra,Gadchiroli,Rice,Total,2.00,4.25,2122.00
+Maharashtra,Gadchiroli,Wheat,Rabi,0.00,0.00,885.00
+Maharashtra,Gadchiroli,Wheat,Total,0.00,0.00,885.00
+Maharashtra,Gadchiroli,Maize,Kharif,0.00,0.03,7062.00
+Maharashtra,Gadchiroli,Maize,Rabi,0.08,0.43,5159.00
+Maharashtra,Gadchiroli,Maize,Summer,0.01,0.02,1550.00
+Maharashtra,Gadchiroli,Maize,Total,0.10,0.48,4751.00
+Maharashtra,Gadchiroli,Jowar,Rabi,0.03,0.02,695.00
+Maharashtra,Gadchiroli,Jowar,Total,0.03,0.02,695.00
+Maharashtra,Gadchiroli,Small Millets,Kharif,0.00,0.00,322.00
+Maharashtra,Gadchiroli,Small Millets,Total,0.00,0.00,322.00
+Maharashtra,Gadchiroli,Shree Anna /Nutri Cereals,Kharif,0.00,0.00,322.00
+Maharashtra,Gadchiroli,Shree Anna /Nutri Cereals,Rabi,0.03,0.02,695.00
+Maharashtra,Gadchiroli,Shree Anna /Nutri Cereals,Total,0.03,0.02,690.00
+Maharashtra,Gadchiroli,Nutri/Coarse Cereals,Kharif,0.00,0.03,6538.00
+Maharashtra,Gadchiroli,Nutri/Coarse Cereals,Rabi,0.11,0.45,4097.00
+Maharashtra,Gadchiroli,Nutri/Coarse Cereals,Summer,0.01,0.02,1550.00
+Maharashtra,Gadchiroli,Nutri/Coarse Cereals,Total,0.13,0.50,3909.00
+Maharashtra,Gadchiroli,Cereals,Kharif,1.90,4.02,2112.00
+Maharashtra,Gadchiroli,Cereals,Rabi,0.12,0.46,3959.00
+Maharashtra,Gadchiroli,Cereals,Summer,0.12,0.28,2382.00
+Maharashtra,Gadchiroli,Cereals,Total,2.14,4.76,2226.00
+Maharashtra,Gadchiroli,Tur,Kharif,0.06,0.05,869.00
+Maharashtra,Gadchiroli,Tur,Total,0.06,0.05,869.00
+Maharashtra,Gadchiroli,Gram,Rabi,0.05,0.09,1783.00
+Maharashtra,Gadchiroli,Gram,Total,0.05,0.09,1783.00
+Maharashtra,Gadchiroli,Urad,Kharif,0.00,0.00,313.00
+Maharashtra,Gadchiroli,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Gadchiroli,Urad,Total,0.00,0.00,321.00
+Maharashtra,Gadchiroli,Moong,Kharif,0.00,0.00,321.00
+Maharashtra,Gadchiroli,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Gadchiroli,Moong,Total,0.00,0.00,196.00
+Maharashtra,Gadchiroli,Other Pulses,Kharif,0.00,0.00,444.00
+Maharashtra,Gadchiroli,Other Pulses,Rabi,0.16,0.04,250.00
+Maharashtra,Gadchiroli,Other Pulses,Total,0.16,0.04,251.00
+Maharashtra,Gadchiroli,Total Pulses,Total,0.27,0.18,679.00
+Maharashtra,Gadchiroli,Total Food Grains,Kharif,1.96,4.07,2073.00
+Maharashtra,Gadchiroli,Total Food Grains,Rabi,0.33,0.59,1809.00
+Maharashtra,Gadchiroli,Total Food Grains,Summer,0.12,0.28,2360.00
+Maharashtra,Gadchiroli,Total Food Grains,Total,2.41,4.94,2051.00
+Maharashtra,Gondia,Rice,Kharif,1.93,4.55,2353.00
+Maharashtra,Gondia,Rice,Summer,0.72,1.95,2712.00
+Maharashtra,Gondia,Rice,Total,2.65,6.50,2450.00
+Maharashtra,Gondia,Wheat,Rabi,0.01,0.01,729.00
+Maharashtra,Gondia,Wheat,Total,0.01,0.01,729.00
+Maharashtra,Gondia,Maize,Kharif,0.00,0.00,5899.00
+Maharashtra,Gondia,Maize,Rabi,0.03,0.10,3342.00
+Maharashtra,Gondia,Maize,Summer,0.01,0.03,4650.00
+Maharashtra,Gondia,Maize,Total,0.04,0.13,3560.00
+Maharashtra,Gondia,Jowar,Rabi,0.00,0.00,359.00
+Maharashtra,Gondia,Jowar,Total,0.00,0.00,359.00
+Maharashtra,Gondia,Shree Anna /Nutri Cereals,Rabi,0.00,0.00,359.00
+Maharashtra,Gondia,Shree Anna /Nutri Cereals,Total,0.00,0.00,359.00
+Maharashtra,Gondia,Nutri/Coarse Cereals,Kharif,0.00,0.00,5899.00
+Maharashtra,Gondia,Nutri/Coarse Cereals,Rabi,0.04,0.11,2971.00
+Maharashtra,Gondia,Nutri/Coarse Cereals,Summer,0.01,0.03,4650.00
+Maharashtra,Gondia,Nutri/Coarse Cereals,Total,0.04,0.13,3222.00
+Maharashtra,Gondia,Cereals,Kharif,1.93,4.55,2353.00
+Maharashtra,Gondia,Cereals,Rabi,0.05,0.12,2329.00
+Maharashtra,Gondia,Cereals,Summer,0.72,1.98,2728.00
+Maharashtra,Gondia,Cereals,Total,2.71,6.65,2453.00
+Maharashtra,Gondia,Tur,Kharif,0.06,0.03,481.00
+Maharashtra,Gondia,Tur,Total,0.06,0.03,481.00
+Maharashtra,Gondia,Gram,Rabi,0.06,0.04,655.00
+Maharashtra,Gondia,Gram,Total,0.06,0.04,655.00
+Maharashtra,Gondia,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Gondia,Urad,Total,0.00,0.00,539.00
+Maharashtra,Gondia,Moong,Kharif,0.00,0.00,296.00
+Maharashtra,Gondia,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Gondia,Moong,Total,0.00,0.00,211.00
+Maharashtra,Gondia,Other Pulses,Kharif,0.00,0.00,546.00
+Maharashtra,Gondia,Other Pulses,Rabi,0.11,0.02,206.00
+Maharashtra,Gondia,Other Pulses,Total,0.11,0.02,208.00
+Maharashtra,Gondia,Total Pulses,Total,0.22,0.09,395.00
+Maharashtra,Gondia,Total Food Grains,Kharif,1.99,4.58,2300.00
+Maharashtra,Gondia,Total Food Grains,Rabi,0.21,0.18,821.00
+Maharashtra,Gondia,Total Food Grains,Summer,0.73,1.98,2727.00
+Maharashtra,Gondia,Total Food Grains,Total,2.93,6.73,2298.00
+Maharashtra,Hingoli,Wheat,Rabi,0.41,0.64,1560.00
+Maharashtra,Hingoli,Wheat,Total,0.41,0.64,1560.00
+Maharashtra,Hingoli,Maize,Kharif,0.00,0.00,704.00
+Maharashtra,Hingoli,Maize,Rabi,0.01,0.01,1138.00
+Maharashtra,Hingoli,Maize,Summer,0.01,0.01,978.00
+Maharashtra,Hingoli,Maize,Total,0.03,0.03,1004.00
+Maharashtra,Hingoli,Jowar,Kharif,0.02,0.01,646.00
+Maharashtra,Hingoli,Jowar,Rabi,0.17,0.18,1020.00
+Maharashtra,Hingoli,Jowar,Summer,0.02,0.02,832.00
+Maharashtra,Hingoli,Jowar,Total,0.22,0.21,963.00
+Maharashtra,Hingoli,Bajra,Kharif,0.00,0.00,379.00
+Maharashtra,Hingoli,Bajra,Summer,0.00,0.00,910.00
+Maharashtra,Hingoli,Bajra,Total,0.00,0.00,866.00
+Maharashtra,Hingoli,Small Millets,Kharif,0.01,0.01,818.00
+Maharashtra,Hingoli,Small Millets,Total,0.01,0.01,818.00
+Maharashtra,Hingoli,Shree Anna /Nutri Cereals,Kharif,0.04,0.03,711.00
+Maharashtra,Hingoli,Shree Anna /Nutri Cereals,Rabi,0.17,0.18,1020.00
+Maharashtra,Hingoli,Shree Anna /Nutri Cereals,Summer,0.02,0.02,832.00
+Maharashtra,Hingoli,Shree Anna /Nutri Cereals,Total,0.23,0.22,955.00
+Maharashtra,Hingoli,Nutri/Coarse Cereals,Kharif,0.04,0.03,710.00
+Maharashtra,Hingoli,Nutri/Coarse Cereals,Rabi,0.19,0.19,1028.00
+Maharashtra,Hingoli,Nutri/Coarse Cereals,Summer,0.03,0.03,873.00
+Maharashtra,Hingoli,Nutri/Coarse Cereals,Total,0.26,0.25,960.00
+Maharashtra,Hingoli,Cereals,Kharif,0.04,0.03,710.00
+Maharashtra,Hingoli,Cereals,Rabi,0.59,0.83,1392.00
+Maharashtra,Hingoli,Cereals,Summer,0.03,0.03,873.00
+Maharashtra,Hingoli,Cereals,Total,0.66,0.88,1328.00
+Maharashtra,Hingoli,Tur,Kharif,0.31,0.32,1031.00
+Maharashtra,Hingoli,Tur,Total,0.31,0.32,1031.00
+Maharashtra,Hingoli,Gram,Rabi,1.61,1.72,1063.00
+Maharashtra,Hingoli,Gram,Total,1.61,1.72,1063.00
+Maharashtra,Hingoli,Urad,Kharif,0.04,0.03,667.00
+Maharashtra,Hingoli,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Hingoli,Urad,Total,0.04,0.03,663.00
+Maharashtra,Hingoli,Moong,Kharif,0.06,0.04,639.00
+Maharashtra,Hingoli,Moong,Summer,0.01,0.00,184.00
+Maharashtra,Hingoli,Moong,Total,0.07,0.04,571.00
+Maharashtra,Hingoli,Other Pulses,Kharif,0.00,0.00,266.00
+Maharashtra,Hingoli,Other Pulses,Rabi,0.01,0.00,434.00
+Maharashtra,Hingoli,Other Pulses,Total,0.01,0.00,423.00
+Maharashtra,Hingoli,Total Pulses,Total,2.04,2.11,1032.00
+Maharashtra,Hingoli,Total Food Grains,Kharif,0.45,0.42,919.00
+Maharashtra,Hingoli,Total Food Grains,Rabi,2.21,2.55,1150.00
+Maharashtra,Hingoli,Total Food Grains,Summer,0.04,0.03,693.00
+Maharashtra,Hingoli,Total Food Grains,Total,2.71,2.99,1104.00
+Maharashtra,Jalgaon,Wheat,Rabi,0.56,1.38,2464.00
+Maharashtra,Jalgaon,Wheat,Total,0.56,1.38,2464.00
+Maharashtra,Jalgaon,Maize,Kharif,1.30,4.06,3113.00
+Maharashtra,Jalgaon,Maize,Rabi,0.98,3.07,3146.00
+Maharashtra,Jalgaon,Maize,Summer,0.15,0.53,3648.00
+Maharashtra,Jalgaon,Maize,Total,2.43,7.66,3158.00
+Maharashtra,Jalgaon,Jowar,Kharif,0.20,0.30,1512.00
+Maharashtra,Jalgaon,Jowar,Rabi,0.74,1.26,1701.00
+Maharashtra,Jalgaon,Jowar,Summer,0.02,0.01,832.00
+Maharashtra,Jalgaon,Jowar,Total,0.96,1.58,1646.00
+Maharashtra,Jalgaon,Bajra,Kharif,0.08,0.10,1198.00
+Maharashtra,Jalgaon,Bajra,Summer,0.06,0.05,779.00
+Maharashtra,Jalgaon,Bajra,Total,0.15,0.15,1013.00
+Maharashtra,Jalgaon,Small Millets,Kharif,0.02,0.02,935.00
+Maharashtra,Jalgaon,Small Millets,Total,0.02,0.02,935.00
+Maharashtra,Jalgaon,Shree Anna /Nutri Cereals,Kharif,0.30,0.42,1389.00
+Maharashtra,Jalgaon,Shree Anna /Nutri Cereals,Rabi,0.74,1.26,1701.00
+Maharashtra,Jalgaon,Shree Anna /Nutri Cereals,Summer,0.08,0.06,790.00
+Maharashtra,Jalgaon,Shree Anna /Nutri Cereals,Total,1.12,1.74,1551.00
+Maharashtra,Jalgaon,Nutri/Coarse Cereals,Kharif,1.60,4.47,2790.00
+Maharashtra,Jalgaon,Nutri/Coarse Cereals,Rabi,1.72,4.33,2522.00
+Maharashtra,Jalgaon,Nutri/Coarse Cereals,Summer,0.23,0.60,2621.00
+Maharashtra,Jalgaon,Nutri/Coarse Cereals,Total,3.55,9.40,2650.00
+Maharashtra,Jalgaon,Cereals,Kharif,1.60,4.47,2790.00
+Maharashtra,Jalgaon,Cereals,Rabi,2.28,5.71,2508.00
+Maharashtra,Jalgaon,Cereals,Summer,0.23,0.60,2621.00
+Maharashtra,Jalgaon,Cereals,Total,4.11,10.78,2624.00
+Maharashtra,Jalgaon,Tur,Kharif,0.15,0.12,792.00
+Maharashtra,Jalgaon,Tur,Total,0.15,0.12,792.00
+Maharashtra,Jalgaon,Gram,Rabi,0.81,0.97,1208.00
+Maharashtra,Jalgaon,Gram,Total,0.81,0.97,1208.00
+Maharashtra,Jalgaon,Urad,Kharif,0.15,0.07,483.00
+Maharashtra,Jalgaon,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Jalgaon,Urad,Total,0.15,0.07,483.00
+Maharashtra,Jalgaon,Moong,Kharif,0.15,0.07,501.00
+Maharashtra,Jalgaon,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Jalgaon,Moong,Total,0.15,0.07,494.00
+Maharashtra,Jalgaon,Other Pulses,Kharif,0.01,0.00,511.00
+Maharashtra,Jalgaon,Other Pulses,Rabi,0.00,0.00,758.00
+Maharashtra,Jalgaon,Other Pulses,Total,0.01,0.00,567.00
+Maharashtra,Jalgaon,Total Pulses,Total,1.26,1.24,985.00
+Maharashtra,Jalgaon,Total Food Grains,Kharif,2.05,4.74,2310.00
+Maharashtra,Jalgaon,Total Food Grains,Rabi,3.09,6.69,2167.00
+Maharashtra,Jalgaon,Total Food Grains,Summer,0.23,0.60,2586.00
+Maharashtra,Jalgaon,Total Food Grains,Total,5.37,12.02,2240.00
+Maharashtra,Jalna,Wheat,Rabi,0.58,1.09,1868.00
+Maharashtra,Jalna,Wheat,Total,0.58,1.09,1868.00
+Maharashtra,Jalna,Maize,Kharif,0.32,0.89,2780.00
+Maharashtra,Jalna,Maize,Rabi,0.14,0.47,3236.00
+Maharashtra,Jalna,Maize,Summer,0.04,0.06,1700.00
+Maharashtra,Jalna,Maize,Total,0.50,1.42,2835.00
+Maharashtra,Jalna,Jowar,Kharif,0.00,0.00,1075.00
+Maharashtra,Jalna,Jowar,Rabi,0.86,0.96,1111.00
+Maharashtra,Jalna,Jowar,Summer,0.00,0.00,775.00
+Maharashtra,Jalna,Jowar,Total,0.87,0.96,1110.00
+Maharashtra,Jalna,Bajra,Kharif,0.08,0.07,919.00
+Maharashtra,Jalna,Bajra,Summer,0.04,0.04,850.00
+Maharashtra,Jalna,Bajra,Total,0.12,0.11,895.00
+Maharashtra,Jalna,Small Millets,Kharif,0.02,0.01,664.00
+Maharashtra,Jalna,Small Millets,Total,0.02,0.01,664.00
+Maharashtra,Jalna,Shree Anna /Nutri Cereals,Kharif,0.09,0.08,878.00
+Maharashtra,Jalna,Shree Anna /Nutri Cereals,Rabi,0.86,0.96,1111.00
+Maharashtra,Jalna,Shree Anna /Nutri Cereals,Summer,0.04,0.04,846.00
+Maharashtra,Jalna,Shree Anna /Nutri Cereals,Total,1.00,1.08,1078.00
+Maharashtra,Jalna,Nutri/Coarse Cereals,Kharif,0.42,0.98,2346.00
+Maharashtra,Jalna,Nutri/Coarse Cereals,Rabi,1.01,1.43,1417.00
+Maharashtra,Jalna,Nutri/Coarse Cereals,Summer,0.08,0.10,1227.00
+Maharashtra,Jalna,Nutri/Coarse Cereals,Total,1.50,2.50,1665.00
+Maharashtra,Jalna,Cereals,Kharif,0.42,0.98,2346.00
+Maharashtra,Jalna,Cereals,Rabi,1.59,2.52,1583.00
+Maharashtra,Jalna,Cereals,Summer,0.08,0.10,1227.00
+Maharashtra,Jalna,Cereals,Total,2.09,3.59,1722.00
+Maharashtra,Jalna,Tur,Kharif,0.51,0.45,892.00
+Maharashtra,Jalna,Tur,Total,0.51,0.45,892.00
+Maharashtra,Jalna,Gram,Rabi,1.04,1.33,1278.00
+Maharashtra,Jalna,Gram,Total,1.04,1.33,1278.00
+Maharashtra,Jalna,Urad,Kharif,0.09,0.05,540.00
+Maharashtra,Jalna,Urad,Summer,0.00,0.00,410.00
+Maharashtra,Jalna,Urad,Total,0.09,0.05,540.00
+Maharashtra,Jalna,Moong,Kharif,0.15,0.08,531.00
+Maharashtra,Jalna,Moong,Summer,0.00,0.00,450.00
+Maharashtra,Jalna,Moong,Total,0.15,0.08,531.00
+Maharashtra,Jalna,Other Pulses,Kharif,0.01,0.00,600.00
+Maharashtra,Jalna,Other Pulses,Rabi,0.00,0.00,604.00
+Maharashtra,Jalna,Other Pulses,Total,0.01,0.00,600.00
+Maharashtra,Jalna,Total Pulses,Total,1.80,1.92,1066.00
+Maharashtra,Jalna,Total Food Grains,Kharif,1.17,1.56,1332.00
+Maharashtra,Jalna,Total Food Grains,Rabi,2.63,3.85,1462.00
+Maharashtra,Jalna,Total Food Grains,Summer,0.08,0.10,1224.00
+Maharashtra,Jalna,Total Food Grains,Total,3.88,5.51,1418.00
+Maharashtra,Kolhapur,Rice,Kharif,0.89,3.31,3727.00
+Maharashtra,Kolhapur,Rice,Summer,0.00,0.01,3100.00
+Maharashtra,Kolhapur,Rice,Total,0.89,3.32,3726.00
+Maharashtra,Kolhapur,Wheat,Rabi,0.01,0.02,1646.00
+Maharashtra,Kolhapur,Wheat,Total,0.01,0.02,1646.00
+Maharashtra,Kolhapur,Maize,Kharif,0.00,0.01,3129.00
+Maharashtra,Kolhapur,Maize,Rabi,0.02,0.05,3377.00
+Maharashtra,Kolhapur,Maize,Summer,0.01,0.02,2500.00
+Maharashtra,Kolhapur,Maize,Total,0.03,0.08,3071.00
+Maharashtra,Kolhapur,Jowar,Kharif,0.01,0.01,1638.00
+Maharashtra,Kolhapur,Jowar,Rabi,0.12,0.25,2064.00
+Maharashtra,Kolhapur,Jowar,Total,0.13,0.27,2036.00
+Maharashtra,Kolhapur,Ragi,Kharif,0.17,0.44,2541.00
+Maharashtra,Kolhapur,Ragi,Total,0.17,0.44,2541.00
+Maharashtra,Kolhapur,Small Millets,Kharif,0.01,0.00,519.00
+Maharashtra,Kolhapur,Small Millets,Total,0.01,0.00,519.00
+Maharashtra,Kolhapur,Shree Anna /Nutri Cereals,Kharif,0.19,0.46,2428.00
+Maharashtra,Kolhapur,Shree Anna /Nutri Cereals,Rabi,0.12,0.25,2064.00
+Maharashtra,Kolhapur,Shree Anna /Nutri Cereals,Total,0.31,0.72,2285.00
+Maharashtra,Kolhapur,Nutri/Coarse Cereals,Kharif,0.19,0.47,2437.00
+Maharashtra,Kolhapur,Nutri/Coarse Cereals,Rabi,0.14,0.31,2217.00
+Maharashtra,Kolhapur,Nutri/Coarse Cereals,Summer,0.01,0.02,2500.00
+Maharashtra,Kolhapur,Nutri/Coarse Cereals,Total,0.34,0.80,2349.00
+Maharashtra,Kolhapur,Cereals,Kharif,1.08,3.78,3497.00
+Maharashtra,Kolhapur,Cereals,Rabi,0.15,0.33,2175.00
+Maharashtra,Kolhapur,Cereals,Summer,0.01,0.03,2633.00
+Maharashtra,Kolhapur,Cereals,Total,1.24,4.13,3330.00
+Maharashtra,Kolhapur,Tur,Kharif,0.00,0.00,568.00
+Maharashtra,Kolhapur,Tur,Total,0.00,0.00,568.00
+Maharashtra,Kolhapur,Gram,Rabi,0.04,0.03,856.00
+Maharashtra,Kolhapur,Gram,Total,0.04,0.03,856.00
+Maharashtra,Kolhapur,Urad,Kharif,0.01,0.01,772.00
+Maharashtra,Kolhapur,Urad,Summer,0.00,0.00,500.00
+Maharashtra,Kolhapur,Urad,Total,0.01,0.01,714.00
+Maharashtra,Kolhapur,Moong,Kharif,0.01,0.01,1049.00
+Maharashtra,Kolhapur,Moong,Summer,0.00,0.00,480.00
+Maharashtra,Kolhapur,Moong,Total,0.01,0.01,982.00
+Maharashtra,Kolhapur,Other Pulses,Kharif,0.01,0.00,500.00
+Maharashtra,Kolhapur,Other Pulses,Rabi,0.01,0.00,435.00
+Maharashtra,Kolhapur,Other Pulses,Total,0.02,0.01,466.00
+Maharashtra,Kolhapur,Total Pulses,Total,0.09,0.06,743.00
+Maharashtra,Kolhapur,Total Food Grains,Kharif,1.11,3.80,3420.00
+Maharashtra,Kolhapur,Total Food Grains,Rabi,0.20,0.36,1819.00
+Maharashtra,Kolhapur,Total Food Grains,Summer,0.02,0.03,2085.00
+Maharashtra,Kolhapur,Total Food Grains,Total,1.33,4.20,3163.00
+Maharashtra,Latur,Rice,Kharif,0.00,0.00,287.00
+Maharashtra,Latur,Rice,Total,0.00,0.00,287.00
+Maharashtra,Latur,Wheat,Rabi,0.13,0.23,1727.00
+Maharashtra,Latur,Wheat,Total,0.13,0.23,1727.00
+Maharashtra,Latur,Maize,Kharif,0.03,0.02,635.00
+Maharashtra,Latur,Maize,Rabi,0.03,0.02,813.00
+Maharashtra,Latur,Maize,Summer,0.00,0.01,1282.00
+Maharashtra,Latur,Maize,Total,0.06,0.05,761.00
+Maharashtra,Latur,Jowar,Kharif,0.05,0.04,895.00
+Maharashtra,Latur,Jowar,Rabi,0.37,0.34,904.00
+Maharashtra,Latur,Jowar,Summer,0.01,0.01,832.00
+Maharashtra,Latur,Jowar,Total,0.42,0.38,902.00
+Maharashtra,Latur,Bajra,Kharif,0.00,0.00,250.00
+Maharashtra,Latur,Bajra,Total,0.00,0.00,250.00
+Maharashtra,Latur,Small Millets,Kharif,0.01,0.00,243.00
+Maharashtra,Latur,Small Millets,Total,0.01,0.00,243.00
+Maharashtra,Latur,Shree Anna /Nutri Cereals,Kharif,0.06,0.04,787.00
+Maharashtra,Latur,Shree Anna /Nutri Cereals,Rabi,0.37,0.34,904.00
+Maharashtra,Latur,Shree Anna /Nutri Cereals,Summer,0.01,0.01,832.00
+Maharashtra,Latur,Shree Anna /Nutri Cereals,Total,0.43,0.39,888.00
+Maharashtra,Latur,Nutri/Coarse Cereals,Kharif,0.08,0.06,735.00
+Maharashtra,Latur,Nutri/Coarse Cereals,Rabi,0.40,0.36,898.00
+Maharashtra,Latur,Nutri/Coarse Cereals,Summer,0.01,0.01,1019.00
+Maharashtra,Latur,Nutri/Coarse Cereals,Total,0.49,0.43,873.00
+Maharashtra,Latur,Cereals,Kharif,0.09,0.06,726.00
+Maharashtra,Latur,Cereals,Rabi,0.53,0.58,1104.00
+Maharashtra,Latur,Cereals,Summer,0.01,0.01,1019.00
+Maharashtra,Latur,Cereals,Total,0.63,0.66,1050.00
+Maharashtra,Latur,Tur,Kharif,0.73,1.18,1615.00
+Maharashtra,Latur,Tur,Total,0.73,1.18,1615.00
+Maharashtra,Latur,Gram,Rabi,3.05,2.14,700.00
+Maharashtra,Latur,Gram,Total,3.05,2.14,700.00
+Maharashtra,Latur,Urad,Kharif,0.05,0.05,944.00
+Maharashtra,Latur,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Latur,Urad,Total,0.05,0.05,944.00
+Maharashtra,Latur,Moong,Kharif,0.07,0.07,1078.00
+Maharashtra,Latur,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Latur,Moong,Total,0.07,0.07,1058.00
+Maharashtra,Latur,Other Pulses,Kharif,0.00,0.00,470.00
+Maharashtra,Latur,Other Pulses,Rabi,0.01,0.00,464.00
+Maharashtra,Latur,Other Pulses,Total,0.01,0.00,465.00
+Maharashtra,Latur,Total Pulses,Total,3.91,3.45,881.00
+Maharashtra,Latur,Total Food Grains,Kharif,0.94,1.37,1455.00
+Maharashtra,Latur,Total Food Grains,Rabi,3.59,2.72,759.00
+Maharashtra,Latur,Total Food Grains,Summer,0.01,0.01,909.00
+Maharashtra,Latur,Total Food Grains,Total,4.54,4.11,904.00
+Maharashtra,Nagpur,Rice,Kharif,0.97,1.91,1961.00
+Maharashtra,Nagpur,Rice,Summer,0.01,0.03,2408.00
+Maharashtra,Nagpur,Rice,Total,0.99,1.94,1967.00
+Maharashtra,Nagpur,Wheat,Rabi,0.99,1.54,1555.00
+Maharashtra,Nagpur,Wheat,Total,0.99,1.54,1555.00
+Maharashtra,Nagpur,Maize,Kharif,0.01,0.04,3063.00
+Maharashtra,Nagpur,Maize,Rabi,0.00,0.00,1230.00
+Maharashtra,Nagpur,Maize,Summer,0.00,0.00,861.00
+Maharashtra,Nagpur,Maize,Total,0.02,0.05,2593.00
+Maharashtra,Nagpur,Jowar,Kharif,0.01,0.00,400.00
+Maharashtra,Nagpur,Jowar,Rabi,0.00,0.00,464.00
+Maharashtra,Nagpur,Jowar,Summer,0.00,0.00,832.00
+Maharashtra,Nagpur,Jowar,Total,0.01,0.00,413.00
+Maharashtra,Nagpur,Small Millets,Kharif,0.00,0.00,400.00
+Maharashtra,Nagpur,Small Millets,Total,0.00,0.00,400.00
+Maharashtra,Nagpur,Shree Anna /Nutri Cereals,Kharif,0.01,0.00,400.00
+Maharashtra,Nagpur,Shree Anna /Nutri Cereals,Rabi,0.00,0.00,464.00
+Maharashtra,Nagpur,Shree Anna /Nutri Cereals,Summer,0.00,0.00,832.00
+Maharashtra,Nagpur,Shree Anna /Nutri Cereals,Total,0.01,0.00,411.00
+Maharashtra,Nagpur,Nutri/Coarse Cereals,Kharif,0.02,0.05,2008.00
+Maharashtra,Nagpur,Nutri/Coarse Cereals,Rabi,0.00,0.00,1119.00
+Maharashtra,Nagpur,Nutri/Coarse Cereals,Summer,0.00,0.00,858.00
+Maharashtra,Nagpur,Nutri/Coarse Cereals,Total,0.03,0.05,1834.00
+Maharashtra,Nagpur,Cereals,Kharif,1.00,1.95,1962.00
+Maharashtra,Nagpur,Cereals,Rabi,0.99,1.54,1554.00
+Maharashtra,Nagpur,Cereals,Summer,0.02,0.04,2151.00
+Maharashtra,Nagpur,Cereals,Total,2.00,3.53,1762.00
+Maharashtra,Nagpur,Tur,Kharif,0.57,1.53,2707.00
+Maharashtra,Nagpur,Tur,Total,0.57,1.53,2707.00
+Maharashtra,Nagpur,Gram,Rabi,0.96,1.18,1230.00
+Maharashtra,Nagpur,Gram,Total,0.96,1.18,1230.00
+Maharashtra,Nagpur,Urad,Kharif,0.00,0.00,182.00
+Maharashtra,Nagpur,Urad,Total,0.00,0.00,182.00
+Maharashtra,Nagpur,Moong,Kharif,0.00,0.00,200.00
+Maharashtra,Nagpur,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Nagpur,Moong,Total,0.00,0.00,192.00
+Maharashtra,Nagpur,Other Pulses,Kharif,0.00,0.00,562.00
+Maharashtra,Nagpur,Other Pulses,Rabi,0.01,0.00,534.00
+Maharashtra,Nagpur,Other Pulses,Total,0.01,0.00,535.00
+Maharashtra,Nagpur,Total Pulses,Total,1.53,2.71,1771.00
+Maharashtra,Nagpur,Total Food Grains,Kharif,1.56,3.48,2230.00
+Maharashtra,Nagpur,Total Food Grains,Rabi,1.95,2.72,1392.00
+Maharashtra,Nagpur,Total Food Grains,Summer,0.02,0.04,2041.00
+Maharashtra,Nagpur,Total Food Grains,Total,3.53,6.24,1766.00
+Maharashtra,Nanded,Rice,Kharif,0.01,0.01,1298.00
+Maharashtra,Nanded,Rice,Summer,0.00,0.01,2622.00
+Maharashtra,Nanded,Rice,Total,0.01,0.02,1716.00
+Maharashtra,Nanded,Wheat,Rabi,0.41,0.30,741.00
+Maharashtra,Nanded,Wheat,Total,0.41,0.30,741.00
+Maharashtra,Nanded,Maize,Kharif,0.01,0.01,737.00
+Maharashtra,Nanded,Maize,Rabi,0.09,0.14,1481.00
+Maharashtra,Nanded,Maize,Summer,0.04,0.05,1181.00
+Maharashtra,Nanded,Maize,Total,0.14,0.19,1340.00
+Maharashtra,Nanded,Jowar,Kharif,0.09,0.06,621.00
+Maharashtra,Nanded,Jowar,Rabi,0.41,0.51,1242.00
+Maharashtra,Nanded,Jowar,Summer,0.13,0.10,832.00
+Maharashtra,Nanded,Jowar,Total,0.63,0.67,1071.00
+Maharashtra,Nanded,Small Millets,Kharif,0.00,0.00,297.00
+Maharashtra,Nanded,Small Millets,Total,0.00,0.00,297.00
+Maharashtra,Nanded,Shree Anna /Nutri Cereals,Kharif,0.09,0.06,611.00
+Maharashtra,Nanded,Shree Anna /Nutri Cereals,Rabi,0.41,0.51,1242.00
+Maharashtra,Nanded,Shree Anna /Nutri Cereals,Summer,0.13,0.10,832.00
+Maharashtra,Nanded,Shree Anna /Nutri Cereals,Total,0.63,0.67,1068.00
+Maharashtra,Nanded,Nutri/Coarse Cereals,Kharif,0.10,0.06,624.00
+Maharashtra,Nanded,Nutri/Coarse Cereals,Rabi,0.50,0.65,1285.00
+Maharashtra,Nanded,Nutri/Coarse Cereals,Summer,0.17,0.15,918.00
+Maharashtra,Nanded,Nutri/Coarse Cereals,Total,0.77,0.86,1118.00
+Maharashtra,Nanded,Cereals,Kharif,0.11,0.07,675.00
+Maharashtra,Nanded,Cereals,Rabi,0.91,0.95,1041.00
+Maharashtra,Nanded,Cereals,Summer,0.17,0.16,956.00
+Maharashtra,Nanded,Cereals,Total,1.19,1.19,995.00
+Maharashtra,Nanded,Tur,Kharif,0.63,0.35,560.00
+Maharashtra,Nanded,Tur,Total,0.63,0.35,560.00
+Maharashtra,Nanded,Gram,Rabi,2.58,1.91,739.00
+Maharashtra,Nanded,Gram,Total,2.58,1.91,739.00
+Maharashtra,Nanded,Urad,Kharif,0.15,0.09,611.00
+Maharashtra,Nanded,Urad,Total,0.15,0.09,611.00
+Maharashtra,Nanded,Moong,Kharif,0.15,0.09,621.00
+Maharashtra,Nanded,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Nanded,Moong,Total,0.15,0.09,618.00
+Maharashtra,Nanded,Other Pulses,Kharif,0.00,0.00,477.00
+Maharashtra,Nanded,Other Pulses,Rabi,0.01,0.00,531.00
+Maharashtra,Nanded,Other Pulses,Total,0.01,0.00,528.00
+Maharashtra,Nanded,Total Pulses,Total,3.52,2.45,696.00
+Maharashtra,Nanded,Total Food Grains,Kharif,1.03,0.61,588.00
+Maharashtra,Nanded,Total Food Grains,Rabi,3.50,2.86,817.00
+Maharashtra,Nanded,Total Food Grains,Summer,0.17,0.16,951.00
+Maharashtra,Nanded,Total Food Grains,Total,4.71,3.64,772.00
+Maharashtra,Nandurbar,Rice,Kharif,0.24,0.35,1454.00
+Maharashtra,Nandurbar,Rice,Total,0.24,0.35,1454.00
+Maharashtra,Nandurbar,Wheat,Rabi,0.29,0.71,2413.00
+Maharashtra,Nandurbar,Wheat,Total,0.29,0.71,2413.00
+Maharashtra,Nandurbar,Maize,Kharif,0.37,1.04,2779.00
+Maharashtra,Nandurbar,Maize,Rabi,0.09,0.23,2410.00
+Maharashtra,Nandurbar,Maize,Summer,0.01,0.02,1902.00
+Maharashtra,Nandurbar,Maize,Total,0.48,1.28,2686.00
+Maharashtra,Nandurbar,Jowar,Kharif,0.24,0.33,1410.00
+Maharashtra,Nandurbar,Jowar,Rabi,0.06,0.07,1246.00
+Maharashtra,Nandurbar,Jowar,Total,0.30,0.41,1377.00
+Maharashtra,Nandurbar,Bajra,Kharif,0.02,0.03,1254.00
+Maharashtra,Nandurbar,Bajra,Summer,0.01,0.01,910.00
+Maharashtra,Nandurbar,Bajra,Total,0.03,0.04,1151.00
+Maharashtra,Nandurbar,Ragi,Kharif,0.00,0.00,769.00
+Maharashtra,Nandurbar,Ragi,Total,0.00,0.00,769.00
+Maharashtra,Nandurbar,Small Millets,Kharif,0.07,0.04,572.00
+Maharashtra,Nandurbar,Small Millets,Total,0.07,0.04,572.00
+Maharashtra,Nandurbar,Shree Anna /Nutri Cereals,Kharif,0.33,0.40,1228.00
+Maharashtra,Nandurbar,Shree Anna /Nutri Cereals,Rabi,0.06,0.07,1246.00
+Maharashtra,Nandurbar,Shree Anna /Nutri Cereals,Summer,0.01,0.01,910.00
+Maharashtra,Nandurbar,Shree Anna /Nutri Cereals,Total,0.40,0.48,1222.00
+Maharashtra,Nandurbar,Nutri/Coarse Cereals,Kharif,0.70,1.44,2055.00
+Maharashtra,Nandurbar,Nutri/Coarse Cereals,Rabi,0.15,0.30,1961.00
+Maharashtra,Nandurbar,Nutri/Coarse Cereals,Summer,0.02,0.03,1418.00
+Maharashtra,Nandurbar,Nutri/Coarse Cereals,Total,0.87,1.77,2023.00
+Maharashtra,Nandurbar,Cereals,Kharif,0.94,1.79,1900.00
+Maharashtra,Nandurbar,Cereals,Rabi,0.45,1.01,2258.00
+Maharashtra,Nandurbar,Cereals,Summer,0.02,0.03,1418.00
+Maharashtra,Nandurbar,Cereals,Total,1.41,2.83,2007.00
+Maharashtra,Nandurbar,Tur,Kharif,0.11,0.05,423.00
+Maharashtra,Nandurbar,Tur,Total,0.11,0.05,423.00
+Maharashtra,Nandurbar,Gram,Rabi,0.27,0.26,995.00
+Maharashtra,Nandurbar,Gram,Total,0.27,0.26,995.00
+Maharashtra,Nandurbar,Urad,Kharif,0.07,0.02,308.00
+Maharashtra,Nandurbar,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Nandurbar,Urad,Total,0.07,0.02,310.00
+Maharashtra,Nandurbar,Moong,Kharif,0.03,0.01,265.00
+Maharashtra,Nandurbar,Moong,Summer,0.02,0.00,184.00
+Maharashtra,Nandurbar,Moong,Total,0.04,0.01,232.00
+Maharashtra,Nandurbar,Other Pulses,Kharif,0.00,0.00,367.00
+Maharashtra,Nandurbar,Other Pulses,Rabi,0.02,0.01,542.00
+Maharashtra,Nandurbar,Other Pulses,Total,0.03,0.01,520.00
+Maharashtra,Nandurbar,Total Pulses,Total,0.52,0.36,686.00
+Maharashtra,Nandurbar,Total Food Grains,Kharif,1.16,1.87,1614.00
+Maharashtra,Nandurbar,Total Food Grains,Rabi,0.74,1.29,1748.00
+Maharashtra,Nandurbar,Total Food Grains,Summer,0.04,0.03,838.00
+Maharashtra,Nandurbar,Total Food Grains,Total,1.93,3.19,1649.00
+Maharashtra,Nashik,Rice,Kharif,0.94,1.86,1971.00
+Maharashtra,Nashik,Rice,Summer,0.00,0.00,2400.00
+Maharashtra,Nashik,Rice,Total,0.94,1.86,1971.00
+Maharashtra,Nashik,Wheat,Rabi,0.40,1.01,2517.00
+Maharashtra,Nashik,Wheat,Total,0.40,1.01,2517.00
+Maharashtra,Nashik,Maize,Kharif,2.79,11.88,4257.00
+Maharashtra,Nashik,Maize,Rabi,0.11,0.38,3432.00
+Maharashtra,Nashik,Maize,Summer,0.03,0.07,2329.00
+Maharashtra,Nashik,Maize,Total,2.93,12.33,4207.00
+Maharashtra,Nashik,Jowar,Kharif,0.01,0.01,1373.00
+Maharashtra,Nashik,Jowar,Rabi,0.04,0.04,959.00
+Maharashtra,Nashik,Jowar,Summer,0.00,0.00,832.00
+Maharashtra,Nashik,Jowar,Total,0.05,0.05,1002.00
+Maharashtra,Nashik,Bajra,Kharif,0.57,0.98,1728.00
+Maharashtra,Nashik,Bajra,Summer,0.01,0.01,910.00
+Maharashtra,Nashik,Bajra,Total,0.57,0.99,1718.00
+Maharashtra,Nashik,Ragi,Kharif,0.16,0.14,847.00
+Maharashtra,Nashik,Ragi,Total,0.16,0.14,847.00
+Maharashtra,Nashik,Small Millets,Kharif,0.12,0.07,543.00
+Maharashtra,Nashik,Small Millets,Total,0.12,0.07,543.00
+Maharashtra,Nashik,Shree Anna /Nutri Cereals,Kharif,0.86,1.19,1392.00
+Maharashtra,Nashik,Shree Anna /Nutri Cereals,Rabi,0.04,0.04,959.00
+Maharashtra,Nashik,Shree Anna /Nutri Cereals,Summer,0.01,0.01,891.00
+Maharashtra,Nashik,Shree Anna /Nutri Cereals,Total,0.91,1.24,1365.00
+Maharashtra,Nashik,Nutri/Coarse Cereals,Kharif,3.65,13.07,3585.00
+Maharashtra,Nashik,Nutri/Coarse Cereals,Rabi,0.16,0.43,2728.00
+Maharashtra,Nashik,Nutri/Coarse Cereals,Summer,0.04,0.07,1958.00
+Maharashtra,Nashik,Nutri/Coarse Cereals,Total,3.84,13.57,3534.00
+Maharashtra,Nashik,Cereals,Kharif,4.59,14.93,3253.00
+Maharashtra,Nashik,Cereals,Rabi,0.56,1.43,2576.00
+Maharashtra,Nashik,Cereals,Summer,0.04,0.07,1959.00
+Maharashtra,Nashik,Cereals,Total,5.18,16.44,3171.00
+Maharashtra,Nashik,Tur,Kharif,0.05,0.03,630.00
+Maharashtra,Nashik,Tur,Total,0.05,0.03,630.00
+Maharashtra,Nashik,Gram,Rabi,0.27,0.19,686.00
+Maharashtra,Nashik,Gram,Total,0.27,0.19,686.00
+Maharashtra,Nashik,Urad,Kharif,0.06,0.04,639.00
+Maharashtra,Nashik,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Nashik,Urad,Total,0.06,0.04,639.00
+Maharashtra,Nashik,Moong,Kharif,0.21,0.16,791.00
+Maharashtra,Nashik,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Nashik,Moong,Total,0.21,0.16,791.00
+Maharashtra,Nashik,Other Pulses,Kharif,0.01,0.01,474.00
+Maharashtra,Nashik,Other Pulses,Rabi,0.03,0.02,533.00
+Maharashtra,Nashik,Other Pulses,Total,0.05,0.02,515.00
+Maharashtra,Nashik,Total Pulses,Total,0.63,0.44,699.00
+Maharashtra,Nashik,Total Food Grains,Kharif,4.92,15.17,3085.00
+Maharashtra,Nashik,Total Food Grains,Rabi,0.86,1.64,1900.00
+Maharashtra,Nashik,Total Food Grains,Summer,0.04,0.07,1955.00
+Maharashtra,Nashik,Total Food Grains,Total,5.82,16.88,2902.00
+Maharashtra,Palghar,Rice,Kharif,0.79,1.91,2437.00
+Maharashtra,Palghar,Rice,Summer,0.01,0.03,2794.00
+Maharashtra,Palghar,Rice,Total,0.80,1.94,2441.00
+Maharashtra,Palghar,Wheat,Rabi,0.00,0.00,861.00
+Maharashtra,Palghar,Wheat,Total,0.00,0.00,861.00
+Maharashtra,Palghar,Bajra,Kharif,0.00,0.00,1728.00
+Maharashtra,Palghar,Bajra,Total,0.00,0.00,1728.00
+Maharashtra,Palghar,Ragi,Kharif,0.16,0.14,896.00
+Maharashtra,Palghar,Ragi,Total,0.16,0.14,896.00
+Maharashtra,Palghar,Small Millets,Kharif,0.04,0.02,540.00
+Maharashtra,Palghar,Small Millets,Total,0.04,0.02,540.00
+Maharashtra,Palghar,Shree Anna /Nutri Cereals,Kharif,0.20,0.16,819.00
+Maharashtra,Palghar,Shree Anna /Nutri Cereals,Total,0.20,0.16,819.00
+Maharashtra,Palghar,Nutri/Coarse Cereals,Kharif,0.20,0.16,819.00
+Maharashtra,Palghar,Nutri/Coarse Cereals,Total,0.20,0.16,819.00
+Maharashtra,Palghar,Cereals,Kharif,0.98,2.08,2110.00
+Maharashtra,Palghar,Cereals,Rabi,0.00,0.00,861.00
+Maharashtra,Palghar,Cereals,Summer,0.01,0.03,2794.00
+Maharashtra,Palghar,Cereals,Total,0.99,2.10,2116.00
+Maharashtra,Palghar,Tur,Kharif,0.02,0.01,388.00
+Maharashtra,Palghar,Tur,Total,0.02,0.01,388.00
+Maharashtra,Palghar,Gram,Rabi,0.03,0.02,675.00
+Maharashtra,Palghar,Gram,Total,0.03,0.02,675.00
+Maharashtra,Palghar,Urad,Kharif,0.03,0.02,712.00
+Maharashtra,Palghar,Urad,Total,0.03,0.02,712.00
+Maharashtra,Palghar,Moong,Kharif,0.00,0.00,402.00
+Maharashtra,Palghar,Moong,Total,0.00,0.00,402.00
+Maharashtra,Palghar,Other Pulses,Kharif,0.00,0.00,539.00
+Maharashtra,Palghar,Other Pulses,Rabi,0.04,0.03,695.00
+Maharashtra,Palghar,Other Pulses,Total,0.04,0.03,683.00
+Maharashtra,Palghar,Total Pulses,Total,0.12,0.07,631.00
+Maharashtra,Palghar,Total Food Grains,Kharif,1.04,2.11,2033.00
+Maharashtra,Palghar,Total Food Grains,Rabi,0.07,0.05,687.00
+Maharashtra,Palghar,Total Food Grains,Summer,0.01,0.03,2794.00
+Maharashtra,Palghar,Total Food Grains,Total,1.11,2.18,1959.00
+Maharashtra,Parbhani,Wheat,Rabi,0.31,0.39,1258.00
+Maharashtra,Parbhani,Wheat,Total,0.31,0.39,1258.00
+Maharashtra,Parbhani,Maize,Kharif,0.01,0.01,765.00
+Maharashtra,Parbhani,Maize,Rabi,0.02,0.02,1138.00
+Maharashtra,Parbhani,Maize,Summer,0.01,0.01,1026.00
+Maharashtra,Parbhani,Maize,Total,0.03,0.04,1023.00
+Maharashtra,Parbhani,Jowar,Kharif,0.01,0.01,699.00
+Maharashtra,Parbhani,Jowar,Rabi,0.96,1.10,1136.00
+Maharashtra,Parbhani,Jowar,Summer,0.00,0.00,832.00
+Maharashtra,Parbhani,Jowar,Total,0.98,1.11,1130.00
+Maharashtra,Parbhani,Bajra,Kharif,0.00,0.00,460.00
+Maharashtra,Parbhani,Bajra,Summer,0.00,0.00,910.00
+Maharashtra,Parbhani,Bajra,Total,0.01,0.01,664.00
+Maharashtra,Parbhani,Small Millets,Kharif,0.00,0.00,303.00
+Maharashtra,Parbhani,Small Millets,Total,0.00,0.00,303.00
+Maharashtra,Parbhani,Shree Anna /Nutri Cereals,Kharif,0.02,0.01,598.00
+Maharashtra,Parbhani,Shree Anna /Nutri Cereals,Rabi,0.96,1.10,1136.00
+Maharashtra,Parbhani,Shree Anna /Nutri Cereals,Summer,0.01,0.01,872.00
+Maharashtra,Parbhani,Shree Anna /Nutri Cereals,Total,0.99,1.11,1125.00
+Maharashtra,Parbhani,Nutri/Coarse Cereals,Kharif,0.03,0.02,650.00
+Maharashtra,Parbhani,Nutri/Coarse Cereals,Rabi,0.98,1.12,1136.00
+Maharashtra,Parbhani,Nutri/Coarse Cereals,Summer,0.02,0.02,955.00
+Maharashtra,Parbhani,Nutri/Coarse Cereals,Total,1.02,1.15,1121.00
+Maharashtra,Parbhani,Cereals,Kharif,0.03,0.02,650.00
+Maharashtra,Parbhani,Cereals,Rabi,1.29,1.50,1165.00
+Maharashtra,Parbhani,Cereals,Summer,0.02,0.02,955.00
+Maharashtra,Parbhani,Cereals,Total,1.33,1.54,1153.00
+Maharashtra,Parbhani,Tur,Kharif,0.39,0.45,1141.00
+Maharashtra,Parbhani,Tur,Total,0.39,0.45,1141.00
+Maharashtra,Parbhani,Gram,Rabi,1.69,1.87,1110.00
+Maharashtra,Parbhani,Gram,Total,1.69,1.87,1110.00
+Maharashtra,Parbhani,Urad,Kharif,0.02,0.02,766.00
+Maharashtra,Parbhani,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Parbhani,Urad,Total,0.02,0.02,765.00
+Maharashtra,Parbhani,Moong,Kharif,0.06,0.06,913.00
+Maharashtra,Parbhani,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Parbhani,Moong,Total,0.06,0.06,907.00
+Maharashtra,Parbhani,Other Pulses,Kharif,0.00,0.00,169.00
+Maharashtra,Parbhani,Other Pulses,Rabi,0.00,0.00,481.00
+Maharashtra,Parbhani,Other Pulses,Total,0.00,0.00,408.00
+Maharashtra,Parbhani,Total Pulses,Total,2.17,2.40,1105.00
+Maharashtra,Parbhani,Total Food Grains,Kharif,0.51,0.54,1068.00
+Maharashtra,Parbhani,Total Food Grains,Rabi,2.98,3.38,1133.00
+Maharashtra,Parbhani,Total Food Grains,Summer,0.02,0.02,932.00
+Maharashtra,Parbhani,Total Food Grains,Total,3.50,3.93,1123.00
+Maharashtra,Pune,Rice,Kharif,0.61,1.83,2983.00
+Maharashtra,Pune,Rice,Total,0.61,1.83,2983.00
+Maharashtra,Pune,Wheat,Rabi,0.42,0.93,2200.00
+Maharashtra,Pune,Wheat,Total,0.42,0.93,2200.00
+Maharashtra,Pune,Maize,Kharif,0.37,0.93,2539.00
+Maharashtra,Pune,Maize,Rabi,0.26,0.97,3698.00
+Maharashtra,Pune,Maize,Summer,0.07,0.12,1748.00
+Maharashtra,Pune,Maize,Total,0.70,2.02,2900.00
+Maharashtra,Pune,Jowar,Kharif,0.00,0.00,658.00
+Maharashtra,Pune,Jowar,Rabi,0.88,1.00,1142.00
+Maharashtra,Pune,Jowar,Total,0.88,1.00,1141.00
+Maharashtra,Pune,Bajra,Kharif,0.44,0.72,1629.00
+Maharashtra,Pune,Bajra,Summer,0.05,0.04,910.00
+Maharashtra,Pune,Bajra,Total,0.49,0.76,1559.00
+Maharashtra,Pune,Ragi,Kharif,0.02,0.02,1099.00
+Maharashtra,Pune,Ragi,Total,0.02,0.02,1099.00
+Maharashtra,Pune,Small Millets,Kharif,0.01,0.01,583.00
+Maharashtra,Pune,Small Millets,Total,0.01,0.01,583.00
+Maharashtra,Pune,Shree Anna /Nutri Cereals,Kharif,0.47,0.74,1590.00
+Maharashtra,Pune,Shree Anna /Nutri Cereals,Rabi,0.88,1.00,1142.00
+Maharashtra,Pune,Shree Anna /Nutri Cereals,Summer,0.05,0.04,910.00
+Maharashtra,Pune,Shree Anna /Nutri Cereals,Total,1.39,1.79,1284.00
+Maharashtra,Pune,Nutri/Coarse Cereals,Kharif,0.84,1.68,2008.00
+Maharashtra,Pune,Nutri/Coarse Cereals,Rabi,1.14,1.97,1727.00
+Maharashtra,Pune,Nutri/Coarse Cereals,Summer,0.11,0.16,1396.00
+Maharashtra,Pune,Nutri/Coarse Cereals,Total,2.09,3.81,1821.00
+Maharashtra,Pune,Cereals,Kharif,1.45,3.51,2422.00
+Maharashtra,Pune,Cereals,Rabi,1.56,2.90,1855.00
+Maharashtra,Pune,Cereals,Summer,0.11,0.16,1396.00
+Maharashtra,Pune,Cereals,Total,3.13,6.57,2101.00
+Maharashtra,Pune,Tur,Kharif,0.02,0.01,748.00
+Maharashtra,Pune,Tur,Total,0.02,0.01,748.00
+Maharashtra,Pune,Gram,Rabi,0.28,0.29,1056.00
+Maharashtra,Pune,Gram,Total,0.28,0.29,1056.00
+Maharashtra,Pune,Urad,Kharif,0.02,0.01,431.00
+Maharashtra,Pune,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Pune,Urad,Total,0.03,0.01,435.00
+Maharashtra,Pune,Moong,Kharif,0.13,0.07,535.00
+Maharashtra,Pune,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Pune,Moong,Total,0.13,0.07,534.00
+Maharashtra,Pune,Other Pulses,Kharif,0.09,0.04,461.00
+Maharashtra,Pune,Other Pulses,Rabi,0.06,0.03,431.00
+Maharashtra,Pune,Other Pulses,Total,0.15,0.07,449.00
+Maharashtra,Pune,Total Pulses,Total,0.60,0.45,756.00
+Maharashtra,Pune,Total Food Grains,Kharif,1.71,3.64,2133.00
+Maharashtra,Pune,Total Food Grains,Rabi,1.90,3.22,1694.00
+Maharashtra,Pune,Total Food Grains,Summer,0.11,0.16,1384.00
+Maharashtra,Pune,Total Food Grains,Total,3.72,7.02,1886.00
+Maharashtra,Raigad,Rice,Kharif,0.79,1.93,2431.00
+Maharashtra,Raigad,Rice,Summer,0.01,0.03,3469.00
+Maharashtra,Raigad,Rice,Total,0.80,1.96,2441.00
+Maharashtra,Raigad,Ragi,Kharif,0.02,0.02,1193.00
+Maharashtra,Raigad,Ragi,Total,0.02,0.02,1193.00
+Maharashtra,Raigad,Small Millets,Kharif,0.00,0.00,1049.00
+Maharashtra,Raigad,Small Millets,Total,0.00,0.00,1049.00
+Maharashtra,Raigad,Shree Anna /Nutri Cereals,Kharif,0.02,0.02,1175.00
+Maharashtra,Raigad,Shree Anna /Nutri Cereals,Total,0.02,0.02,1175.00
+Maharashtra,Raigad,Nutri/Coarse Cereals,Kharif,0.02,0.02,1175.00
+Maharashtra,Raigad,Nutri/Coarse Cereals,Total,0.02,0.02,1175.00
+Maharashtra,Raigad,Cereals,Kharif,0.81,1.95,2400.00
+Maharashtra,Raigad,Cereals,Summer,0.01,0.03,3469.00
+Maharashtra,Raigad,Cereals,Total,0.82,1.98,2410.00
+Maharashtra,Raigad,Tur,Kharif,0.00,0.00,258.00
+Maharashtra,Raigad,Tur,Total,0.00,0.00,258.00
+Maharashtra,Raigad,Gram,Rabi,0.01,0.01,852.00
+Maharashtra,Raigad,Gram,Total,0.01,0.01,852.00
+Maharashtra,Raigad,Other Pulses,Rabi,0.12,0.07,575.00
+Maharashtra,Raigad,Other Pulses,Total,0.12,0.07,575.00
+Maharashtra,Raigad,Total Pulses,Total,0.14,0.08,592.00
+Maharashtra,Raigad,Total Food Grains,Kharif,0.82,1.95,2388.00
+Maharashtra,Raigad,Total Food Grains,Rabi,0.13,0.08,604.00
+Maharashtra,Raigad,Total Food Grains,Summer,0.01,0.03,3469.00
+Maharashtra,Raigad,Total Food Grains,Total,0.96,2.06,2153.00
+Maharashtra,Ratnagiri,Rice,Kharif,0.41,1.09,2664.00
+Maharashtra,Ratnagiri,Rice,Summer,0.00,0.00,2833.00
+Maharashtra,Ratnagiri,Rice,Total,0.41,1.09,2664.00
+Maharashtra,Ratnagiri,Maize,Rabi,0.00,0.00,2503.00
+Maharashtra,Ratnagiri,Maize,Total,0.00,0.00,2503.00
+Maharashtra,Ratnagiri,Ragi,Kharif,0.05,0.08,1639.00
+Maharashtra,Ratnagiri,Ragi,Total,0.05,0.08,1639.00
+Maharashtra,Ratnagiri,Small Millets,Kharif,0.00,0.00,531.00
+Maharashtra,Ratnagiri,Small Millets,Total,0.00,0.00,531.00
+Maharashtra,Ratnagiri,Shree Anna /Nutri Cereals,Kharif,0.05,0.08,1627.00
+Maharashtra,Ratnagiri,Shree Anna /Nutri Cereals,Total,0.05,0.08,1627.00
+Maharashtra,Ratnagiri,Nutri/Coarse Cereals,Kharif,0.05,0.08,1627.00
+Maharashtra,Ratnagiri,Nutri/Coarse Cereals,Rabi,0.00,0.00,2503.00
+Maharashtra,Ratnagiri,Nutri/Coarse Cereals,Total,0.05,0.08,1637.00
+Maharashtra,Ratnagiri,Cereals,Kharif,0.46,1.17,2552.00
+Maharashtra,Ratnagiri,Cereals,Rabi,0.00,0.00,2503.00
+Maharashtra,Ratnagiri,Cereals,Summer,0.00,0.00,2833.00
+Maharashtra,Ratnagiri,Cereals,Total,0.46,1.17,2552.00
+Maharashtra,Ratnagiri,Tur,Kharif,0.00,0.00,647.00
+Maharashtra,Ratnagiri,Tur,Total,0.00,0.00,647.00
+Maharashtra,Ratnagiri,Other Pulses,Kharif,0.00,0.00,517.00
+Maharashtra,Ratnagiri,Other Pulses,Rabi,0.03,0.03,772.00
+Maharashtra,Ratnagiri,Other Pulses,Total,0.04,0.03,769.00
+Maharashtra,Ratnagiri,Total Pulses,Total,0.04,0.03,769.00
+Maharashtra,Ratnagiri,Total Food Grains,Kharif,0.46,1.17,2549.00
+Maharashtra,Ratnagiri,Total Food Grains,Rabi,0.04,0.03,802.00
+Maharashtra,Ratnagiri,Total Food Grains,Summer,0.00,0.00,2833.00
+Maharashtra,Ratnagiri,Total Food Grains,Total,0.49,1.20,2423.00
+Maharashtra,Sangli,Rice,Kharif,0.12,0.28,2267.00
+Maharashtra,Sangli,Rice,Total,0.12,0.28,2267.00
+Maharashtra,Sangli,Wheat,Rabi,0.16,0.39,2395.00
+Maharashtra,Sangli,Wheat,Total,0.16,0.39,2395.00
+Maharashtra,Sangli,Maize,Kharif,0.48,1.59,3311.00
+Maharashtra,Sangli,Maize,Rabi,0.20,0.39,1948.00
+Maharashtra,Sangli,Maize,Summer,0.02,0.03,2137.00
+Maharashtra,Sangli,Maize,Total,0.70,2.02,2894.00
+Maharashtra,Sangli,Jowar,Kharif,0.17,0.21,1210.00
+Maharashtra,Sangli,Jowar,Rabi,1.19,1.17,982.00
+Maharashtra,Sangli,Jowar,Total,1.37,1.38,1011.00
+Maharashtra,Sangli,Bajra,Kharif,0.47,0.56,1180.00
+Maharashtra,Sangli,Bajra,Total,0.47,0.56,1180.00
+Maharashtra,Sangli,Small Millets,Kharif,0.02,0.00,101.00
+Maharashtra,Sangli,Small Millets,Total,0.02,0.00,101.00
+Maharashtra,Sangli,Shree Anna /Nutri Cereals,Kharif,0.66,0.77,1163.00
+Maharashtra,Sangli,Shree Anna /Nutri Cereals,Rabi,1.19,1.17,982.00
+Maharashtra,Sangli,Shree Anna /Nutri Cereals,Total,1.85,1.94,1046.00
+Maharashtra,Sangli,Nutri/Coarse Cereals,Kharif,1.14,2.36,2069.00
+Maharashtra,Sangli,Nutri/Coarse Cereals,Rabi,1.39,1.56,1121.00
+Maharashtra,Sangli,Nutri/Coarse Cereals,Summer,0.02,0.03,2137.00
+Maharashtra,Sangli,Nutri/Coarse Cereals,Total,2.55,3.96,1551.00
+Maharashtra,Sangli,Cereals,Kharif,1.26,2.64,2088.00
+Maharashtra,Sangli,Cereals,Rabi,1.56,1.95,1253.00
+Maharashtra,Sangli,Cereals,Summer,0.02,0.03,2137.00
+Maharashtra,Sangli,Cereals,Total,2.84,4.62,1630.00
+Maharashtra,Sangli,Tur,Kharif,0.11,0.07,667.00
+Maharashtra,Sangli,Tur,Total,0.11,0.07,667.00
+Maharashtra,Sangli,Gram,Rabi,0.20,0.21,1061.00
+Maharashtra,Sangli,Gram,Total,0.20,0.21,1061.00
+Maharashtra,Sangli,Urad,Kharif,0.19,0.15,780.00
+Maharashtra,Sangli,Urad,Total,0.19,0.15,780.00
+Maharashtra,Sangli,Moong,Kharif,0.05,0.04,692.00
+Maharashtra,Sangli,Moong,Total,0.05,0.04,692.00
+Maharashtra,Sangli,Other Pulses,Kharif,0.04,0.02,520.00
+Maharashtra,Sangli,Other Pulses,Rabi,0.00,0.00,387.00
+Maharashtra,Sangli,Other Pulses,Total,0.05,0.02,511.00
+Maharashtra,Sangli,Total Pulses,Total,0.61,0.50,824.00
+Maharashtra,Sangli,Total Food Grains,Kharif,1.67,2.92,1755.00
+Maharashtra,Sangli,Total Food Grains,Rabi,1.76,2.16,1230.00
+Maharashtra,Sangli,Total Food Grains,Summer,0.02,0.03,2137.00
+Maharashtra,Sangli,Total Food Grains,Total,3.44,5.12,1488.00
+Maharashtra,Satara,Rice,Kharif,0.44,0.72,1644.00
+Maharashtra,Satara,Rice,Total,0.44,0.72,1644.00
+Maharashtra,Satara,Wheat,Rabi,0.39,0.68,1733.00
+Maharashtra,Satara,Wheat,Total,0.39,0.68,1733.00
+Maharashtra,Satara,Maize,Kharif,0.21,0.93,4469.00
+Maharashtra,Satara,Maize,Rabi,0.16,0.15,927.00
+Maharashtra,Satara,Maize,Summer,0.01,0.03,2500.00
+Maharashtra,Satara,Maize,Total,0.38,1.11,2918.00
+Maharashtra,Satara,Jowar,Kharif,0.07,0.06,855.00
+Maharashtra,Satara,Jowar,Rabi,1.30,1.41,1081.00
+Maharashtra,Satara,Jowar,Total,1.37,1.47,1069.00
+Maharashtra,Satara,Bajra,Kharif,0.42,0.45,1081.00
+Maharashtra,Satara,Bajra,Summer,0.00,0.00,910.00
+Maharashtra,Satara,Bajra,Total,0.42,0.45,1081.00
+Maharashtra,Satara,Ragi,Kharif,0.04,0.03,912.00
+Maharashtra,Satara,Ragi,Total,0.04,0.03,912.00
+Maharashtra,Satara,Small Millets,Kharif,0.00,0.00,508.00
+Maharashtra,Satara,Small Millets,Total,0.00,0.00,508.00
+Maharashtra,Satara,Shree Anna /Nutri Cereals,Kharif,0.53,0.55,1035.00
+Maharashtra,Satara,Shree Anna /Nutri Cereals,Rabi,1.30,1.41,1081.00
+Maharashtra,Satara,Shree Anna /Nutri Cereals,Summer,0.00,0.00,910.00
+Maharashtra,Satara,Shree Anna /Nutri Cereals,Total,1.83,1.95,1068.00
+Maharashtra,Satara,Nutri/Coarse Cereals,Kharif,0.74,1.48,2008.00
+Maharashtra,Satara,Nutri/Coarse Cereals,Rabi,1.46,1.55,1064.00
+Maharashtra,Satara,Nutri/Coarse Cereals,Summer,0.01,0.03,2461.00
+Maharashtra,Satara,Nutri/Coarse Cereals,Total,2.21,3.07,1387.00
+Maharashtra,Satara,Cereals,Kharif,1.17,2.19,1873.00
+Maharashtra,Satara,Cereals,Rabi,1.85,2.23,1206.00
+Maharashtra,Satara,Cereals,Summer,0.01,0.03,2461.00
+Maharashtra,Satara,Cereals,Total,3.04,4.46,1468.00
+Maharashtra,Satara,Tur,Kharif,0.00,0.00,611.00
+Maharashtra,Satara,Tur,Total,0.00,0.00,611.00
+Maharashtra,Satara,Gram,Rabi,0.30,0.20,645.00
+Maharashtra,Satara,Gram,Total,0.30,0.20,645.00
+Maharashtra,Satara,Urad,Kharif,0.04,0.03,678.00
+Maharashtra,Satara,Urad,Total,0.04,0.03,678.00
+Maharashtra,Satara,Moong,Kharif,0.12,0.08,656.00
+Maharashtra,Satara,Moong,Total,0.12,0.08,656.00
+Maharashtra,Satara,Other Pulses,Kharif,0.45,0.62,1400.00
+Maharashtra,Satara,Other Pulses,Rabi,0.02,0.01,550.00
+Maharashtra,Satara,Other Pulses,Total,0.46,0.63,1368.00
+Maharashtra,Satara,Total Pulses,Total,0.93,0.94,1008.00
+Maharashtra,Satara,Total Food Grains,Kharif,1.78,2.92,1644.00
+Maharashtra,Satara,Total Food Grains,Rabi,2.17,2.44,1122.00
+Maharashtra,Satara,Total Food Grains,Summer,0.01,0.03,2461.00
+Maharashtra,Satara,Total Food Grains,Total,3.97,5.39,1361.00
+Maharashtra,Sindhudurg,Rice,Kharif,0.57,1.59,2794.00
+Maharashtra,Sindhudurg,Rice,Summer,0.01,0.04,2840.00
+Maharashtra,Sindhudurg,Rice,Total,0.58,1.63,2795.00
+Maharashtra,Sindhudurg,Maize,Rabi,0.00,0.01,2840.00
+Maharashtra,Sindhudurg,Maize,Summer,0.00,0.00,2329.00
+Maharashtra,Sindhudurg,Maize,Total,0.00,0.01,2680.00
+Maharashtra,Sindhudurg,Ragi,Kharif,0.01,0.03,2348.00
+Maharashtra,Sindhudurg,Ragi,Total,0.01,0.03,2348.00
+Maharashtra,Sindhudurg,Small Millets,Kharif,0.00,0.00,833.00
+Maharashtra,Sindhudurg,Small Millets,Total,0.00,0.00,833.00
+Maharashtra,Sindhudurg,Shree Anna /Nutri Cereals,Kharif,0.01,0.03,2242.00
+Maharashtra,Sindhudurg,Shree Anna /Nutri Cereals,Total,0.01,0.03,2242.00
+Maharashtra,Sindhudurg,Nutri/Coarse Cereals,Kharif,0.01,0.03,2242.00
+Maharashtra,Sindhudurg,Nutri/Coarse Cereals,Rabi,0.00,0.01,2840.00
+Maharashtra,Sindhudurg,Nutri/Coarse Cereals,Summer,0.00,0.00,2329.00
+Maharashtra,Sindhudurg,Nutri/Coarse Cereals,Total,0.02,0.04,2356.00
+Maharashtra,Sindhudurg,Cereals,Kharif,0.58,1.62,2781.00
+Maharashtra,Sindhudurg,Cereals,Rabi,0.00,0.01,2840.00
+Maharashtra,Sindhudurg,Cereals,Summer,0.01,0.04,2784.00
+Maharashtra,Sindhudurg,Cereals,Total,0.60,1.67,2781.00
+Maharashtra,Sindhudurg,Other Pulses,Kharif,0.00,0.00,660.00
+Maharashtra,Sindhudurg,Other Pulses,Rabi,0.05,0.03,621.00
+Maharashtra,Sindhudurg,Other Pulses,Total,0.05,0.03,621.00
+Maharashtra,Sindhudurg,Total Pulses,Total,0.05,0.03,621.00
+Maharashtra,Sindhudurg,Total Food Grains,Kharif,0.58,1.62,2779.00
+Maharashtra,Sindhudurg,Total Food Grains,Rabi,0.06,0.04,754.00
+Maharashtra,Sindhudurg,Total Food Grains,Summer,0.01,0.04,2784.00
+Maharashtra,Sindhudurg,Total Food Grains,Total,0.65,1.70,2608.00
+Maharashtra,Solapur,Wheat,Rabi,0.43,0.84,1936.00
+Maharashtra,Solapur,Wheat,Total,0.43,0.84,1936.00
+Maharashtra,Solapur,Maize,Kharif,0.86,2.60,3006.00
+Maharashtra,Solapur,Maize,Rabi,0.57,1.41,2464.00
+Maharashtra,Solapur,Maize,Summer,0.10,0.16,1607.00
+Maharashtra,Solapur,Maize,Total,1.54,4.17,2712.00
+Maharashtra,Solapur,Jowar,Kharif,0.00,0.00,465.00
+Maharashtra,Solapur,Jowar,Rabi,2.54,2.13,836.00
+Maharashtra,Solapur,Jowar,Total,2.54,2.13,836.00
+Maharashtra,Solapur,Bajra,Kharif,0.25,0.17,678.00
+Maharashtra,Solapur,Bajra,Summer,0.00,0.00,910.00
+Maharashtra,Solapur,Bajra,Total,0.25,0.17,680.00
+Maharashtra,Solapur,Small Millets,Kharif,0.00,0.00,251.00
+Maharashtra,Solapur,Small Millets,Total,0.00,0.00,251.00
+Maharashtra,Solapur,Shree Anna /Nutri Cereals,Kharif,0.26,0.17,674.00
+Maharashtra,Solapur,Shree Anna /Nutri Cereals,Rabi,2.54,2.13,836.00
+Maharashtra,Solapur,Shree Anna /Nutri Cereals,Summer,0.00,0.00,910.00
+Maharashtra,Solapur,Shree Anna /Nutri Cereals,Total,2.80,2.30,822.00
+Maharashtra,Solapur,Nutri/Coarse Cereals,Kharif,1.12,2.77,2473.00
+Maharashtra,Solapur,Nutri/Coarse Cereals,Rabi,3.11,3.53,1135.00
+Maharashtra,Solapur,Nutri/Coarse Cereals,Summer,0.10,0.16,1594.00
+Maharashtra,Solapur,Nutri/Coarse Cereals,Total,4.34,6.47,1492.00
+Maharashtra,Solapur,Cereals,Kharif,1.12,2.77,2473.00
+Maharashtra,Solapur,Cereals,Rabi,3.55,4.38,1233.00
+Maharashtra,Solapur,Cereals,Summer,0.10,0.16,1594.00
+Maharashtra,Solapur,Cereals,Total,4.77,7.31,1532.00
+Maharashtra,Solapur,Tur,Kharif,0.99,0.70,711.00
+Maharashtra,Solapur,Tur,Total,0.99,0.70,711.00
+Maharashtra,Solapur,Gram,Rabi,0.57,0.43,763.00
+Maharashtra,Solapur,Gram,Total,0.57,0.43,763.00
+Maharashtra,Solapur,Urad,Kharif,1.05,0.95,902.00
+Maharashtra,Solapur,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Solapur,Urad,Total,1.05,0.95,901.00
+Maharashtra,Solapur,Moong,Kharif,0.14,0.08,569.00
+Maharashtra,Solapur,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Solapur,Moong,Total,0.14,0.08,568.00
+Maharashtra,Solapur,Other Pulses,Kharif,0.00,0.00,292.00
+Maharashtra,Solapur,Other Pulses,Rabi,0.00,0.00,370.00
+Maharashtra,Solapur,Other Pulses,Total,0.01,0.00,311.00
+Maharashtra,Solapur,Total Pulses,Total,2.75,2.16,787.00
+Maharashtra,Solapur,Total Food Grains,Kharif,3.30,4.50,1363.00
+Maharashtra,Solapur,Total Food Grains,Rabi,4.11,4.81,1168.00
+Maharashtra,Solapur,Total Food Grains,Summer,0.10,0.17,1582.00
+Maharashtra,Solapur,Total Food Grains,Total,7.52,9.47,1259.00
+Maharashtra,Thane,Rice,Kharif,0.55,0.93,1703.00
+Maharashtra,Thane,Rice,Summer,0.00,0.00,2350.00
+Maharashtra,Thane,Rice,Total,0.55,0.93,1703.00
+Maharashtra,Thane,Maize,Rabi,0.00,0.00,3732.00
+Maharashtra,Thane,Maize,Total,0.00,0.00,3732.00
+Maharashtra,Thane,Jowar,Rabi,0.00,0.00,920.00
+Maharashtra,Thane,Jowar,Summer,0.00,0.00,832.00
+Maharashtra,Thane,Jowar,Total,0.00,0.00,912.00
+Maharashtra,Thane,Ragi,Kharif,0.03,0.03,868.00
+Maharashtra,Thane,Ragi,Total,0.03,0.03,868.00
+Maharashtra,Thane,Small Millets,Kharif,0.01,0.01,949.00
+Maharashtra,Thane,Small Millets,Total,0.01,0.01,949.00
+Maharashtra,Thane,Shree Anna /Nutri Cereals,Kharif,0.04,0.04,890.00
+Maharashtra,Thane,Shree Anna /Nutri Cereals,Rabi,0.00,0.00,920.00
+Maharashtra,Thane,Shree Anna /Nutri Cereals,Summer,0.00,0.00,832.00
+Maharashtra,Thane,Shree Anna /Nutri Cereals,Total,0.04,0.04,891.00
+Maharashtra,Thane,Nutri/Coarse Cereals,Kharif,0.04,0.04,890.00
+Maharashtra,Thane,Nutri/Coarse Cereals,Rabi,0.00,0.00,2705.00
+Maharashtra,Thane,Nutri/Coarse Cereals,Summer,0.00,0.00,832.00
+Maharashtra,Thane,Nutri/Coarse Cereals,Total,0.04,0.04,936.00
+Maharashtra,Thane,Cereals,Kharif,0.59,0.97,1645.00
+Maharashtra,Thane,Cereals,Rabi,0.00,0.00,2705.00
+Maharashtra,Thane,Cereals,Summer,0.00,0.00,2227.00
+Maharashtra,Thane,Cereals,Total,0.59,0.97,1648.00
+Maharashtra,Thane,Tur,Kharif,0.01,0.00,349.00
+Maharashtra,Thane,Tur,Total,0.01,0.00,349.00
+Maharashtra,Thane,Gram,Rabi,0.02,0.02,850.00
+Maharashtra,Thane,Gram,Total,0.02,0.02,850.00
+Maharashtra,Thane,Urad,Kharif,0.00,0.00,590.00
+Maharashtra,Thane,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Thane,Urad,Total,0.00,0.00,588.00
+Maharashtra,Thane,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Thane,Moong,Total,0.00,0.00,184.00
+Maharashtra,Thane,Other Pulses,Kharif,0.00,0.00,720.00
+Maharashtra,Thane,Other Pulses,Rabi,0.03,0.02,720.00
+Maharashtra,Thane,Other Pulses,Total,0.03,0.02,720.00
+Maharashtra,Thane,Total Pulses,Total,0.07,0.05,703.00
+Maharashtra,Thane,Total Food Grains,Kharif,0.60,0.97,1620.00
+Maharashtra,Thane,Total Food Grains,Rabi,0.05,0.04,810.00
+Maharashtra,Thane,Total Food Grains,Summer,0.00,0.00,1567.00
+Maharashtra,Thane,Total Food Grains,Total,0.66,1.02,1553.00
+Maharashtra,Wardha,Wheat,Rabi,0.31,0.63,2030.00
+Maharashtra,Wardha,Wheat,Total,0.31,0.63,2030.00
+Maharashtra,Wardha,Maize,Kharif,0.00,0.00,2898.00
+Maharashtra,Wardha,Maize,Rabi,0.00,0.00,1099.00
+Maharashtra,Wardha,Maize,Summer,0.00,0.00,674.00
+Maharashtra,Wardha,Maize,Total,0.00,0.00,1305.00
+Maharashtra,Wardha,Jowar,Kharif,0.00,0.00,136.00
+Maharashtra,Wardha,Jowar,Rabi,0.01,0.01,601.00
+Maharashtra,Wardha,Jowar,Summer,0.00,0.00,832.00
+Maharashtra,Wardha,Jowar,Total,0.02,0.01,507.00
+Maharashtra,Wardha,Shree Anna /Nutri Cereals,Kharif,0.00,0.00,136.00
+Maharashtra,Wardha,Shree Anna /Nutri Cereals,Rabi,0.01,0.01,601.00
+Maharashtra,Wardha,Shree Anna /Nutri Cereals,Summer,0.00,0.00,832.00
+Maharashtra,Wardha,Shree Anna /Nutri Cereals,Total,0.02,0.01,507.00
+Maharashtra,Wardha,Nutri/Coarse Cereals,Kharif,0.00,0.00,414.00
+Maharashtra,Wardha,Nutri/Coarse Cereals,Rabi,0.01,0.01,618.00
+Maharashtra,Wardha,Nutri/Coarse Cereals,Summer,0.00,0.00,729.00
+Maharashtra,Wardha,Nutri/Coarse Cereals,Total,0.02,0.01,581.00
+Maharashtra,Wardha,Cereals,Kharif,0.00,0.00,414.00
+Maharashtra,Wardha,Cereals,Rabi,0.32,0.64,1969.00
+Maharashtra,Wardha,Cereals,Summer,0.00,0.00,729.00
+Maharashtra,Wardha,Cereals,Total,0.33,0.64,1944.00
+Maharashtra,Wardha,Tur,Kharif,0.60,1.03,1719.00
+Maharashtra,Wardha,Tur,Total,0.60,1.03,1719.00
+Maharashtra,Wardha,Gram,Rabi,0.91,1.12,1237.00
+Maharashtra,Wardha,Gram,Total,0.91,1.12,1237.00
+Maharashtra,Wardha,Urad,Kharif,0.00,0.00,363.00
+Maharashtra,Wardha,Urad,Total,0.00,0.00,363.00
+Maharashtra,Wardha,Moong,Kharif,0.00,0.00,350.00
+Maharashtra,Wardha,Moong,Summer,0.00,0.00,184.00
+Maharashtra,Wardha,Moong,Total,0.01,0.00,193.00
+Maharashtra,Wardha,Other Pulses,Rabi,0.00,0.00,534.00
+Maharashtra,Wardha,Other Pulses,Total,0.00,0.00,534.00
+Maharashtra,Wardha,Total Pulses,Total,1.51,2.15,1423.00
+Maharashtra,Wardha,Total Food Grains,Kharif,0.60,1.03,1709.00
+Maharashtra,Wardha,Total Food Grains,Rabi,1.23,1.76,1429.00
+Maharashtra,Wardha,Total Food Grains,Summer,0.01,0.00,305.00
+Maharashtra,Wardha,Total Food Grains,Total,1.84,2.79,1517.00
+Maharashtra,Washim,Wheat,Rabi,0.39,0.84,2143.00
+Maharashtra,Washim,Wheat,Total,0.39,0.84,2143.00
+Maharashtra,Washim,Maize,Rabi,0.00,0.00,966.00
+Maharashtra,Washim,Maize,Summer,0.00,0.00,1312.00
+Maharashtra,Washim,Maize,Total,0.00,0.01,1235.00
+Maharashtra,Washim,Jowar,Kharif,0.00,0.00,1070.00
+Maharashtra,Washim,Jowar,Rabi,0.01,0.01,861.00
+Maharashtra,Washim,Jowar,Summer,0.02,0.01,832.00
+Maharashtra,Washim,Jowar,Total,0.03,0.02,855.00
+Maharashtra,Washim,Bajra,Summer,0.00,0.00,910.00
+Maharashtra,Washim,Bajra,Total,0.00,0.00,910.00
+Maharashtra,Washim,Small Millets,Kharif,0.04,0.01,339.00
+Maharashtra,Washim,Small Millets,Total,0.04,0.01,339.00
+Maharashtra,Washim,Shree Anna /Nutri Cereals,Kharif,0.04,0.01,365.00
+Maharashtra,Washim,Shree Anna /Nutri Cereals,Rabi,0.01,0.01,861.00
+Maharashtra,Washim,Shree Anna /Nutri Cereals,Summer,0.02,0.02,844.00
+Maharashtra,Washim,Shree Anna /Nutri Cereals,Total,0.07,0.04,563.00
+Maharashtra,Washim,Nutri/Coarse Cereals,Kharif,0.04,0.01,365.00
+Maharashtra,Washim,Nutri/Coarse Cereals,Rabi,0.01,0.01,870.00
+Maharashtra,Washim,Nutri/Coarse Cereals,Summer,0.02,0.02,913.00
+Maharashtra,Washim,Nutri/Coarse Cereals,Total,0.07,0.04,602.00
+Maharashtra,Washim,Cereals,Kharif,0.04,0.01,365.00
+Maharashtra,Washim,Cereals,Rabi,0.40,0.84,2112.00
+Maharashtra,Washim,Cereals,Summer,0.02,0.02,913.00
+Maharashtra,Washim,Cereals,Total,0.46,0.88,1904.00
+Maharashtra,Washim,Tur,Kharif,0.66,0.76,1159.00
+Maharashtra,Washim,Tur,Total,0.66,0.76,1159.00
+Maharashtra,Washim,Gram,Rabi,0.91,0.92,1014.00
+Maharashtra,Washim,Gram,Total,0.91,0.92,1014.00
+Maharashtra,Washim,Urad,Kharif,0.02,0.02,1084.00
+Maharashtra,Washim,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Washim,Urad,Total,0.02,0.02,1045.00
+Maharashtra,Washim,Moong,Kharif,0.01,0.02,1206.00
+Maharashtra,Washim,Moong,Summer,0.04,0.01,184.00
+Maharashtra,Washim,Moong,Total,0.06,0.02,424.00
+Maharashtra,Washim,Other Pulses,Kharif,0.00,0.00,458.00
+Maharashtra,Washim,Other Pulses,Rabi,0.00,0.00,610.00
+Maharashtra,Washim,Other Pulses,Total,0.00,0.00,572.00
+Maharashtra,Washim,Total Pulses,Total,1.65,1.73,1051.00
+Maharashtra,Washim,Total Food Grains,Kharif,0.73,0.81,1114.00
+Maharashtra,Washim,Total Food Grains,Rabi,1.31,1.77,1348.00
+Maharashtra,Washim,Total Food Grains,Summer,0.07,0.03,427.00
+Maharashtra,Washim,Total Food Grains,Total,2.11,2.61,1237.00
+Maharashtra,Yavatmal,Wheat,Rabi,0.59,0.68,1162.00
+Maharashtra,Yavatmal,Wheat,Total,0.59,0.68,1162.00
+Maharashtra,Yavatmal,Maize,Rabi,0.01,0.01,1078.00
+Maharashtra,Yavatmal,Maize,Summer,0.01,0.00,529.00
+Maharashtra,Yavatmal,Maize,Total,0.01,0.01,830.00
+Maharashtra,Yavatmal,Jowar,Kharif,0.03,0.02,666.00
+Maharashtra,Yavatmal,Jowar,Rabi,0.04,0.03,800.00
+Maharashtra,Yavatmal,Jowar,Summer,0.07,0.06,900.00
+Maharashtra,Yavatmal,Jowar,Total,0.14,0.11,817.00
+Maharashtra,Yavatmal,Bajra,Kharif,0.00,0.00,370.00
+Maharashtra,Yavatmal,Bajra,Summer,0.00,0.00,910.00
+Maharashtra,Yavatmal,Bajra,Total,0.00,0.00,860.00
+Maharashtra,Yavatmal,Small Millets,Kharif,0.00,0.00,313.00
+Maharashtra,Yavatmal,Small Millets,Total,0.00,0.00,313.00
+Maharashtra,Yavatmal,Shree Anna /Nutri Cereals,Kharif,0.03,0.02,647.00
+Maharashtra,Yavatmal,Shree Anna /Nutri Cereals,Rabi,0.04,0.03,800.00
+Maharashtra,Yavatmal,Shree Anna /Nutri Cereals,Summer,0.07,0.06,900.00
+Maharashtra,Yavatmal,Shree Anna /Nutri Cereals,Total,0.14,0.11,812.00
+Maharashtra,Yavatmal,Nutri/Coarse Cereals,Kharif,0.03,0.02,647.00
+Maharashtra,Yavatmal,Nutri/Coarse Cereals,Rabi,0.05,0.04,846.00
+Maharashtra,Yavatmal,Nutri/Coarse Cereals,Summer,0.07,0.06,867.00
+Maharashtra,Yavatmal,Nutri/Coarse Cereals,Total,0.16,0.13,813.00
+Maharashtra,Yavatmal,Cereals,Kharif,0.03,0.02,647.00
+Maharashtra,Yavatmal,Cereals,Rabi,0.63,0.72,1138.00
+Maharashtra,Yavatmal,Cereals,Summer,0.07,0.06,867.00
+Maharashtra,Yavatmal,Cereals,Total,0.74,0.81,1089.00
+Maharashtra,Yavatmal,Tur,Kharif,1.11,1.27,1138.00
+Maharashtra,Yavatmal,Tur,Total,1.11,1.27,1138.00
+Maharashtra,Yavatmal,Gram,Rabi,1.40,1.74,1242.00
+Maharashtra,Yavatmal,Gram,Total,1.40,1.74,1242.00
+Maharashtra,Yavatmal,Urad,Kharif,0.02,0.01,575.00
+Maharashtra,Yavatmal,Urad,Summer,0.00,0.00,539.00
+Maharashtra,Yavatmal,Urad,Total,0.02,0.01,575.00
+Maharashtra,Yavatmal,Moong,Kharif,0.03,0.02,693.00
+Maharashtra,Yavatmal,Moong,Summer,0.03,0.00,184.00
+Maharashtra,Yavatmal,Moong,Total,0.06,0.03,462.00
+Maharashtra,Yavatmal,Other Pulses,Kharif,0.00,0.00,442.00
+Maharashtra,Yavatmal,Other Pulses,Rabi,0.00,0.00,470.00
+Maharashtra,Yavatmal,Other Pulses,Total,0.00,0.00,463.00
+Maharashtra,Yavatmal,Total Pulses,Total,2.60,3.05,1173.00
+Maharashtra,Yavatmal,Total Food Grains,Kharif,1.20,1.32,1101.00
+Maharashtra,Yavatmal,Total Food Grains,Rabi,2.04,2.46,1208.00
+Maharashtra,Yavatmal,Total Food Grains,Summer,0.10,0.07,689.00
+Maharashtra,Yavatmal,Total Food Grains,Total,3.34,3.86,1154.00

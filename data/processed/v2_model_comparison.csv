@@ -1,0 +1,21 @@
+experiment,model,MAE,RMSE,R2
+Model A (Agri Only) - Val,DummyRegressor,6356.22,20180.98,-0.0697
+Model A (Agri Only) - Test,DummyRegressor,6333.36,21817.37,-0.066
+Model A (Agri Only) - Val,RidgeRegression,1710.56,6180.72,0.8997
+Model A (Agri Only) - Test,RidgeRegression,1534.91,5773.46,0.9253
+Model A (Agri Only) - Val,RandomForest,4146.42,14195.83,0.4707
+Model A (Agri Only) - Test,RandomForest,4242.33,15343.9,0.4727
+Model A (Agri Only) - Val,GradientBoosting,3545.79,12326.46,0.6009
+Model A (Agri Only) - Test,GradientBoosting,3208.94,12105.15,0.6718
+Model A (Agri Only) - Val,HistGradientBoosting,5020.5,16881.69,0.2515
+Model A (Agri Only) - Test,HistGradientBoosting,5033.24,18163.76,0.2611
+Model B (Agri + Weather) - Val,DummyRegressor,6356.22,20180.98,-0.0697
+Model B (Agri + Weather) - Test,DummyRegressor,6333.36,21817.37,-0.066
+Model B (Agri + Weather) - Val,RidgeRegression,1710.56,6180.72,0.8997
+Model B (Agri + Weather) - Test,RidgeRegression,1534.91,5773.46,0.9253
+Model B (Agri + Weather) - Val,RandomForest,4146.42,14195.83,0.4707
+Model B (Agri + Weather) - Test,RandomForest,4242.33,15343.9,0.4727
+Model B (Agri + Weather) - Val,GradientBoosting,3545.79,12326.46,0.6009
+Model B (Agri + Weather) - Test,GradientBoosting,3208.94,12105.15,0.6718
+Model B (Agri + Weather) - Val,HistGradientBoosting,5020.5,16881.69,0.2515
+Model B (Agri + Weather) - Test,HistGradientBoosting,5033.24,18163.76,0.2611

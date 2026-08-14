@@ -77,13 +77,21 @@ export const premiumPredictions = pgTable("premium_predictions", {
 
 export const policies = pgTable("policies", {
   id: serial("id").primaryKey(),
-  policyCode: varchar("policy_code", { length: 20 }).notNull().unique(), // e.g. PLY-20260
+  policyCode: varchar("policy_code", { length: 30 }).notNull().unique(), // e.g. UW-2026-84433
   farmId: integer("farm_id").references(() => farms.id).notNull(),
   premiumPredictionId: integer("premium_prediction_id").references(() => premiumPredictions.id),
   coverageAmount: numeric("coverage_amount", { precision: 12, scale: 2 }).notNull(),
-  status: policyStatusEnum("status").default("pending").notNull(),
+  status: varchar("status", { length: 40 }).default("UNDER_REVIEW").notNull(), // DRAFT | UNDER_REVIEW | NEEDS_INFORMATION | APPROVED | REJECTED
   startDate: timestamp("start_date").notNull(),
   endDate: timestamp("end_date").notNull(),
+  reviewedBy: varchar("reviewed_by", { length: 120 }),
+  reviewedAt: timestamp("reviewed_at"),
+  decisionReason: text("decision_reason"),
+  underwriterNotes: text("underwriter_notes"),
+  informationRequest: text("information_request"),
+  rejectionReason: text("rejection_reason"),
+  assessmentSnapshot: jsonb("assessment_snapshot"),
+  auditTrail: jsonb("audit_trail"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

@@ -1,0 +1,6 @@
+model,MAE,RMSE,R2,Test_MAE,Test_RMSE,Test_R2
+DummyRegressor (Baseline),1050.13,1885.8,-0.0158,1144.79,2001.78,-0.0104
+Ridge Regression,286.42,465.84,0.938,419.13,659.59,0.8903
+Random Forest,290.49,469.16,0.9371,436.87,706.04,0.8743
+Gradient Boosting,295.26,481.89,0.9337,438.29,716.85,0.8704
+HistGradientBoosting,288.75,469.2,0.9371,431.74,710.55,0.8727

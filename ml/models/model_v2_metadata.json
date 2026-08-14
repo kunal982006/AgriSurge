@@ -1,0 +1,134 @@
+{
+  "model_version": "2.0.0",
+  "model_type": "Ridge Regression",
+  "trained_at": "2026-08-14T18:20:27.408483+00:00",
+  "target": "yield_kg_ha",
+  "categorical_features": [
+    "district",
+    "crop",
+    "season",
+    "state"
+  ],
+  "v1_numerical_features": [
+    "area_1000ha",
+    "prev_yield_kg_ha",
+    "prev2_yield_kg_ha",
+    "prev_area_1000ha",
+    "hist5y_mean_yield"
+  ],
+  "v2_weather_features": [
+    "v2_annual_rainfall",
+    "v2_kharif_rainfall",
+    "v2_rabi_rainfall",
+    "v2_rainy_days",
+    "v2_dry_days",
+    "v2_max_daily_rainfall",
+    "v2_max_consecutive_rainy_days",
+    "v2_max_consecutive_dry_days",
+    "v2_kharif_rf_7d_preharvest",
+    "v2_kharif_rf_30d_preharvest",
+    "v2_kharif_rf_90d_preharvest",
+    "v2_rabi_rf_7d_preharvest",
+    "v2_rabi_rf_30d_preharvest",
+    "v2_rabi_rf_90d_preharvest"
+  ],
+  "total_features": 23,
+  "train_rows": 11886,
+  "val_rows": 1027,
+  "test_rows": 256,
+  "test_year": 2017,
+  "weather_coverage_pct": 5.9,
+  "val_metrics": {
+    "model": "Ridge Regression",
+    "MAE": 444.27,
+    "RMSE": 677.25,
+    "R2": 0.8846
+  },
+  "test_metrics": {
+    "model": "Ridge Regression",
+    "MAE": 308.93,
+    "RMSE": 566.44,
+    "R2": 0.9181
+  },
+  "top_features": [
+    {
+      "feature": "prev_yield_kg_ha",
+      "importance": 0.44690616903215974,
+      "std": 0.017464946304703174
+    },
+    {
+      "feature": "hist5y_mean_yield",
+      "importance": 0.1807010888137565,
+      "std": 0.007974981365475151
+    },
+    {
+      "feature": "prev2_yield_kg_ha",
+      "importance": 0.042806305002937896,
+      "std": 0.0032974635762249124
+    },
+    {
+      "feature": "prev_area_1000ha",
+      "importance": 0.014056893240417756,
+      "std": 0.00165985274345427
+    },
+    {
+      "feature": "area_1000ha",
+      "importance": 0.013652113484598761,
+      "std": 0.0015840499802543026
+    },
+    {
+      "feature": "season",
+      "importance": 0.00036771701613482757,
+      "std": 0.0007777072531049824
+    },
+    {
+      "feature": "district",
+      "importance": 0.00013401337615174259,
+      "std": 8.97242519918519e-05
+    },
+    {
+      "feature": "v2_max_consecutive_rainy_days",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "state",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "v2_annual_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "v2_kharif_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "v2_rabi_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "v2_rainy_days",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "v2_dry_days",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "v2_max_daily_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    }
+  ],
+  "v1_test_r2": 0.8903,
+  "v2_test_r2": 0.9181,
+  "geographic_level": "district",
+  "weather_note": "IMD features populated for 2015-2017 only (5.9% of rows); NaN elsewhere handled natively."
+}

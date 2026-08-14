@@ -1,69 +1,122 @@
 {
-  "model_version": "1.0.0",
-  "model_type": "PureNumpyDecisionTree",
-  "trained_at": "2026-08-13T10:50:35.779184+00:00",
-  "dataset_name": "dataset.csv",
-  "target_column": "crop_failure",
-  "numerical_features": [
-    "rainfall_mm",
-    "temperature_c",
-    "humidity_pct",
-    "soil_moisture_pct",
-    "ndvi",
-    "latitude",
-    "longitude"
-  ],
+  "model_version": "2.0.0",
+  "model_type": "Ridge Regression",
+  "trained_at": "2026-08-14T18:02:06.392712+00:00",
+  "target": "yield_kg_ha",
   "categorical_features": [
+    "district",
     "crop",
-    "soil_type",
-    "irrigation_type"
+    "season",
+    "state"
   ],
-  "evaluation_metrics": {
-    "accuracy": 0.9318181818181818,
-    "precision": 0.8888888888888888,
-    "recall": 0.9411764705882353,
-    "f1": 0.9142857142857143
+  "numerical_features": [
+    "area_1000ha",
+    "prev_yield_kg_ha",
+    "prev2_yield_kg_ha",
+    "prev_area_1000ha",
+    "hist5y_mean_yield",
+    "annual_rainfall",
+    "kharif_rainfall",
+    "rabi_rainfall",
+    "rainy_days",
+    "dry_days",
+    "max_daily_rainfall",
+    "max_consecutive_rainy_days",
+    "max_consecutive_dry_days"
+  ],
+  "imd_features_used": true,
+  "train_rows": 10052,
+  "val_rows": 1834,
+  "test_rows": 1283,
+  "val_metrics": {
+    "model": "Ridge Regression",
+    "MAE": 286.42,
+    "RMSE": 465.84,
+    "R2": 0.938
+  },
+  "test_metrics": {
+    "model": "Ridge Regression",
+    "MAE": 419.13,
+    "RMSE": 659.59,
+    "R2": 0.8903
   },
   "top_features": [
     {
-      "feature": "ndvi",
-      "importance": 0.6787912736741708
+      "feature": "prev_yield_kg_ha",
+      "importance": 0.5384820344732166,
+      "std": 0.00963343885041644
     },
     {
-      "feature": "temperature_c",
-      "importance": 0.12623939445066062
+      "feature": "hist5y_mean_yield",
+      "importance": 0.1617749036261038,
+      "std": 0.004376342214777415
     },
     {
-      "feature": "soil_moisture_pct",
-      "importance": 0.12401738888824568
+      "feature": "prev2_yield_kg_ha",
+      "importance": 0.04538613248418175,
+      "std": 0.0018349921909846696
     },
     {
-      "feature": "humidity_pct",
-      "importance": 0.04469939914560589
+      "feature": "prev_area_1000ha",
+      "importance": 0.01441999778843055,
+      "std": 0.0005437692926811745
     },
     {
-      "feature": "rainfall_mm",
-      "importance": 0.017860657350915174
+      "feature": "area_1000ha",
+      "importance": 0.011943267917812417,
+      "std": 0.00046081886033244026
     },
     {
-      "feature": "crop_Soybean",
-      "importance": 0.007036016532178703
+      "feature": "season",
+      "importance": 0.004291447021432549,
+      "std": 0.00043041514214339267
     },
     {
-      "feature": "soil_type_Clay",
-      "importance": 0.001355869958223166
+      "feature": "crop",
+      "importance": 0.0021800320186214804,
+      "std": 0.00040496823003944584
     },
     {
-      "feature": "crop_Cotton",
-      "importance": 0.0
+      "feature": "district",
+      "importance": 3.452525210084767e-05,
+      "std": 3.88263144772612e-05
     },
     {
-      "feature": "latitude",
-      "importance": 0.0
+      "feature": "state",
+      "importance": 0.0,
+      "std": 0.0
     },
     {
-      "feature": "crop_Rice",
-      "importance": 0.0
+      "feature": "annual_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "kharif_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "rabi_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "rainy_days",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "dry_days",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "max_daily_rainfall",
+      "importance": 0.0,
+      "std": 0.0
     }
-  ]
+  ],
+  "geographic_level": "district",
+  "year_range": "1967-2017"
 }

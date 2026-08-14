@@ -6,6 +6,16 @@ export type FarmLocation = {
   areaSqMeters?: number;
   areaHectares?: number;
   areaAcres?: number;
+  country?: string;
+  state?: string;
+  district?: string;
+  taluka?: string;
+  village?: string;
+  villageLatitude?: number;
+  villageLongitude?: number;
+  isValid?: boolean;
+  validationReason?: string;
+  validationStatus?: "VALID" | "INVALID" | "VALIDATION_UNAVAILABLE";
 };
 
 export type GeocodingResult = {

@@ -1,37 +1,39 @@
-import { PremiumBreakdown, PricingRuleThreshold, RiskTier } from "./types";
-import { DEFAULT_BASE_PREMIUM, DEFAULT_PRICING_RULES } from "./pricingRules";
+import { PremiumBreakdown, RiskTier } from "./types";
+import { calculateAgriSurgePremium, PricingCalculationDetails } from "./pricingConfig";
 
 /**
- * Pricing engine.
- *
- * IMPORTANT — separation of concerns:
- * The ML service answers "what is the estimated agricultural/crop failure risk?"
- * This module answers "given that risk score, what premium should be recommended?"
- * The multiplier below is a configured underwriting rule, not a model output,
- * and any recommendation produced here should be reviewed by an authorized
- * underwriting team before a policy is issued.
+ * AgriSurge Pricing Engine (v2.0).
+ * 
+ * Orchestrates deterministic risk-based premium recommendations from Steps 1–4 inputs.
+ * Separates ML risk assessment from underwriting pricing recommendations.
  */
-export function resolveRiskTier(
-  riskScore: number,
-  rules: PricingRuleThreshold[] = DEFAULT_PRICING_RULES
-): PricingRuleThreshold {
-  const match = rules.find((r) => riskScore >= r.minScore && riskScore < r.maxScore);
-  return match ?? rules[rules.length - 1];
-}
-
 export function calculatePremium(
-  riskScore: number,
-  basePremium: number = DEFAULT_BASE_PREMIUM,
-  rules: PricingRuleThreshold[] = DEFAULT_PRICING_RULES
+  riskScore: number, // 0 - 100 or 0 - 1 ratio
+  basePremiumOverride?: number,
+  params?: {
+    areaAcres?: number;
+    crop?: string;
+    irrigationType?: string;
+    soilType?: string;
+  }
 ): PremiumBreakdown {
-  const rule = resolveRiskTier(riskScore, rules);
-  const recommendedPremium = Math.round(basePremium * rule.multiplier);
+  // Normalize risk score to 0 - 100 scale
+  const normScore = riskScore <= 1.0 ? Math.round(riskScore * 100) : Math.round(riskScore);
+
+  const calc: PricingCalculationDetails = calculateAgriSurgePremium({
+    areaAcres: params?.areaAcres ?? 5.0,
+    crop: params?.crop ?? "RICE",
+    riskScore: normScore,
+    irrigationType: params?.irrigationType,
+    soilType: params?.soilType,
+  });
 
   return {
-    basePremium,
-    riskScore,
-    riskTier: rule.tier as RiskTier,
-    multiplier: rule.multiplier,
-    recommendedPremium,
+    basePremium: calc.baseExposure,
+    riskScore: calc.riskScore,
+    riskTier: calc.riskLevel.toLowerCase() as RiskTier,
+    multiplier: calc.riskMultiplier,
+    recommendedPremium: calc.recommendedPremium,
+    details: calc,
   };
 }
