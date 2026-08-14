@@ -4,9 +4,7 @@ import { calculatePremium } from "@/lib/pricing/pricingEngine";
 import { RiskPredictionInput } from "@/lib/ml/types";
 
 // POST /api/risk/analyze
-// Orchestrates: ML risk prediction -> pricing engine. Kept as two distinct
-// steps/response sections so the client never conflates a model output
-// with a pricing decision.
+// Orchestrates: Real V2 ML risk prediction -> deterministic pricing engine.
 export async function POST(req: NextRequest) {
   let body: Partial<RiskPredictionInput> & { basePremium?: number };
 
@@ -32,7 +30,12 @@ export async function POST(req: NextRequest) {
 
   try {
     const prediction = await predictRisk(body as RiskPredictionInput);
-    const pricing = calculatePremium(prediction.riskScore, body.basePremium);
+    const pricing = calculatePremium(prediction.riskScore, body.basePremium, {
+      areaAcres: body.areaAcres,
+      crop: body.crop,
+      irrigationType: body.irrigationType,
+      soilType: body.soilType,
+    });
 
     return NextResponse.json({ prediction, pricing });
   } catch (err) {

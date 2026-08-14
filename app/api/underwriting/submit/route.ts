@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/db";
-import { farms, farmers, riskPredictions, premiumPredictions, policies } from "@/db/schema";
+import { saveUnderwritingRecord, UnderwritingRecord } from "@/lib/underwriting/underwritingStore";
 
 export async function POST(req: Request) {
   const policyCode = `UW-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`;
+  const farmCode = `F-${Math.floor(10000 + Math.random() * 90000)}`;
 
   try {
     const data = await req.json();
@@ -15,92 +15,84 @@ export async function POST(req: Request) {
       location,
       geoPolygon,
       area,
+      environmentalData,
       riskAssessment,
       premiumRecommendation,
     } = data;
 
-    // Validate required payload
     if (!farm || !location || !riskAssessment || !premiumRecommendation) {
       return NextResponse.json({ error: "Missing required assessment data." }, { status: 400 });
     }
 
-    try {
-      const db = getDb();
+    const areaAcres = Number(area || 5.0);
+    const areaHectares = Number((areaAcres * 0.40468564224).toFixed(4));
+    const recPremium = Number(premiumRecommendation.recommendedPremium || 8530);
 
-      // Insert farmer
-      const [newFarmer] = await db.insert(farmers).values({
-        name: farmer?.name || "Demo Farmer",
-        phone: farmer?.phone || "555-0000",
-        region: farm?.region || "Unknown",
-      }).returning();
+    const record: UnderwritingRecord = {
+      id: policyCode,
+      farmCode,
+      farmerName: farmer?.name || "Ramesh Patil",
+      farmName: farm?.name || "Patil Farm #1",
+      region: farm?.region || location?.district || "Maharashtra",
+      district: location?.district || farm?.region || "Ahilyanagar",
+      taluka: location?.taluka,
+      village: location?.village,
+      latitude: Number(location?.latitude || 19.123),
+      longitude: Number(location?.longitude || 74.456),
+      cropCategory: crop === "Cotton" ? "Commercial / Fiber" : "Cereals / Grains",
+      crop: crop || "RICE",
+      cropVariety: data.cropVariety || "Basmati",
+      sowingDate: data.sowingDate,
+      growthStage: data.growthStage,
+      irrigationType: data.irrigationType || "Rainfed",
+      soilType: data.soilType || "Black Soil",
+      areaAcres,
+      areaHectares,
+      geoJson: geoPolygon || null,
 
-      // Insert farm
-      const farmCode = `F-${Math.floor(10000 + Math.random() * 90000)}`;
-      const [newFarm] = await db.insert(farms).values({
-        farmCode,
-        farmerId: newFarmer.id,
-        name: farm?.name || "Unnamed Farm",
-        region: farm?.region || "Unknown",
-        crop: crop || "Unknown",
-        areaAcres: (area || 0).toString(),
-        latitude: location.latitude.toString(),
-        longitude: location.longitude.toString(),
-        boundaryGeoJson: geoPolygon || null,
-      }).returning();
+      environmentalData: environmentalData || null,
 
-      // Insert risk prediction
-      const [newRisk] = await db.insert(riskPredictions).values({
-        farmId: newFarm.id,
-        riskScore: (riskAssessment.riskScore || 0.5).toString(),
-        riskLevel: (riskAssessment.riskTier || "moderate") as "low" | "moderate" | "high",
-        modelName: "agrisurge-rf-model",
-        modelVersion: "1.0.0",
-        factors: riskAssessment.factors || [],
-        isMock: false,
-      }).returning();
+      riskScore: Number(riskAssessment.riskScore || 10),
+      riskLevel: riskAssessment.riskTier || riskAssessment.riskLevel || "LOW",
+      predictedYieldKgHa: Number(riskAssessment.predictedYieldKgHa || 1838.5),
+      expectedYieldKgHa: Number(riskAssessment.expectedYieldKgHa || 1522.0),
+      yieldDeviationPct: Number(riskAssessment.yieldDeviationPct || 20.8),
+      riskFactors: riskAssessment.factors || [],
+      modelMetadata: riskAssessment.modelMetadata || null,
 
-      // Insert premium prediction
-      const [newPremium] = await db.insert(premiumPredictions).values({
-        riskPredictionId: newRisk.id,
-        basePremium: (premiumRecommendation.basePremium || 10000).toString(),
-        multiplier: (premiumRecommendation.multiplier || 1.2).toString(),
-        recommendedPremium: (premiumRecommendation.recommendedPremium || 12000).toString(),
-      }).returning();
+      coverageAmount: recPremium * 10,
+      baseExposure: Number(premiumRecommendation.basePremium || 9206.75),
+      riskMultiplier: Number(premiumRecommendation.multiplier || 0.90),
+      underwritingAdjAmount: Number(premiumRecommendation.details?.underwritingAdjAmount || 240.30),
+      recommendedPremium: recPremium,
+      pricingModelVersion: "v2.0",
 
-      // Insert policy
-      const startDate = new Date();
-      const endDate = new Date();
-      endDate.setFullYear(startDate.getFullYear() + 1);
+      status: "UNDER_REVIEW",
+      submittedAt: new Date().toISOString(),
+      auditTrail: [
+        {
+          id: `aud-${Date.now()}-1`,
+          timestamp: new Date().toISOString(),
+          action: "Application Submitted for Underwriting",
+          actor: "AgriSurge Workflow System",
+          status: "UNDER_REVIEW",
+          notes: `Submitted with Risk Score ${riskAssessment.riskScore}% (${riskAssessment.riskTier || "LOW"}) and Recommended Premium ₹${recPremium.toLocaleString("en-IN")}.`,
+        },
+      ],
+    };
 
-      const [newPolicy] = await db.insert(policies).values({
-        policyCode,
-        farmId: newFarm.id,
-        premiumPredictionId: newPremium.id,
-        coverageAmount: ((premiumRecommendation.recommendedPremium || 12000) * 10).toString(),
-        status: "under_review",
-        startDate,
-        endDate,
-      }).returning();
+    const saved = await saveUnderwritingRecord(record);
 
-      return NextResponse.json({
-        success: true,
-        assessmentId: newPolicy.policyCode,
-        status: newPolicy.status,
-      });
-    } catch (dbError) {
-      console.warn("Database insert warning (using fallback assessment response):", dbError);
-      return NextResponse.json({
-        success: true,
-        assessmentId: policyCode,
-        status: "under_review",
-      });
-    }
-  } catch (error) {
-    console.error("Underwriting submission error:", error);
     return NextResponse.json({
       success: true,
-      assessmentId: policyCode,
-      status: "under_review",
+      assessmentId: saved.id,
+      status: saved.status,
     });
+  } catch (error) {
+    console.error("Underwriting submission error:", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Failed to submit underwriting policy." },
+      { status: 500 }
+    );
   }
 }

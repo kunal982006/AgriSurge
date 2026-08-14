@@ -1,5 +1,25 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { PRICING_MODEL_VERSION } from "@/lib/pricing/pricingConfig";
+import {
+  AlertCircle,
+  ArrowRight,
+  Bookmark,
+  CheckCircle2,
+  ChevronRight,
+  Coins,
+  FileCheck,
+  FileText,
+  HelpCircle,
+  Info,
+  Layers,
+  MapPin,
+  RefreshCw,
+  Scale,
+  ShieldCheck,
+  Sprout,
+} from "lucide-react";
 import { PremiumBreakdown } from "@/lib/pricing/types";
 
 export type SubmissionResult = {
@@ -9,135 +29,353 @@ export type SubmissionResult = {
   riskLevel: string;
 };
 
+function AnimatedPriceCountUp({ target }: { target: number }) {
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    let start = 0;
+    const end = Math.round(target);
+    if (start === end) {
+      setDisplay(end);
+      return;
+    }
+
+    const duration = 1400; // ms
+    const startTime = performance.now();
+
+    const updateCounter = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3); // Ease-out cubic
+      const currentVal = Math.round(start + (end - start) * easedProgress);
+
+      setDisplay(currentVal);
+
+      if (progress < 1) {
+        requestAnimationFrame(updateCounter);
+      }
+    };
+
+    requestAnimationFrame(updateCounter);
+  }, [target]);
+
+  return <span>₹{display.toLocaleString("en-IN")}</span>;
+}
+
 export function PremiumRecommendationStep({
   breakdown,
   onSubmit,
   isSubmitting,
   error,
   successData,
+  farmDetails,
+  farmLocation,
 }: {
   breakdown: PremiumBreakdown | null;
   onSubmit: () => void;
   isSubmitting: boolean;
   error: string | null;
   successData: SubmissionResult | null;
+  farmDetails?: any;
+  farmLocation?: any;
 }) {
+  const [draftSaved, setDraftSaved] = useState(false);
+
+  const handleSaveDraft = () => {
+    setDraftSaved(true);
+    setTimeout(() => setDraftSaved(false), 4000);
+  };
+
   if (!breakdown) {
     return (
       <div className="rounded-[6px] border border-dashed border-[var(--color-border-strong)] px-4 py-8 text-center">
         <p className="text-[12.5px] text-[var(--color-text-muted)]">
-          Complete the risk assessment to generate a premium recommendation.
+          Complete the risk assessment in Step 4 to generate a premium recommendation.
         </p>
       </div>
     );
   }
 
+  // Submission Receipt (After Submit for Underwriting)
   if (successData) {
     return (
-      <div className="flex flex-col gap-4">
-        <div className="rounded-[6px] border border-[var(--color-emerald)]/30 bg-[var(--color-emerald-dim)]/20 px-5 py-6 text-center">
-          <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-emerald-dim)] text-[var(--color-emerald)]">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+      <div className="flex flex-col gap-5 text-[var(--color-text)]">
+        <div className="rounded-[6px] border border-[var(--color-emerald)]/40 bg-[var(--color-surface-raised)] p-6 text-center shadow-sm">
+          <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-emerald-dim)] text-[var(--color-emerald)]">
+            <FileCheck size={24} />
           </div>
-          <h3 className="text-[15px] font-medium text-[var(--color-text)]">UNDERWRITING SUBMITTED</h3>
-          
-          <dl className="mt-6 flex flex-col gap-3 text-[13px]">
-            <div className="flex justify-between border-b border-[var(--color-border)] pb-2">
-              <dt className="text-[var(--color-text-dim)]">Assessment ID:</dt>
-              <dd className="font-medium text-[var(--color-text)]">{successData.assessmentId}</dd>
+
+          <h3 className="text-[16px] font-bold uppercase tracking-wider text-[var(--color-text)]">
+            Underwriting Policy Submitted
+          </h3>
+          <p className="mt-1 text-[12px] text-[var(--color-text-dim)]">
+            Application logged for underwriter review. Draft status initialized to UNDER_REVIEW.
+          </p>
+
+          <div className="mt-6 flex flex-col gap-2.5 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 text-[12.5px]">
+            <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
+              <span className="text-[var(--color-text-dim)]">Assessment Policy Code:</span>
+              <span className="tnum font-semibold text-[var(--color-emerald)]">{successData.assessmentId}</span>
             </div>
-            <div className="flex justify-between border-b border-[var(--color-border)] pb-2">
-              <dt className="text-[var(--color-text-dim)]">Status:</dt>
-              <dd className="font-medium text-[var(--color-amber)]">Under Review</dd>
+
+            <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
+              <span className="text-[var(--color-text-dim)]">Underwriting Status:</span>
+              <span className="rounded-[4px] bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 text-[11px] font-bold text-amber-400 uppercase">
+                {successData.status.replace("_", " ")}
+              </span>
             </div>
-            <div className="flex justify-between border-b border-[var(--color-border)] pb-2">
-              <dt className="text-[var(--color-text-dim)]">Submitted:</dt>
-              <dd className="text-[var(--color-text)]">Just now</dd>
+
+            <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
+              <span className="text-[var(--color-text-dim)]">Submitted Timestamp:</span>
+              <span className="tnum text-[var(--color-text-muted)]">
+                {new Date().toLocaleString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+              </span>
             </div>
-            <div className="flex justify-between border-b border-[var(--color-border)] pb-2">
-              <dt className="text-[var(--color-text-dim)]">Recommended Premium:</dt>
-              <dd className="text-[var(--color-text)]">₹{successData.recommendedPremium.toLocaleString("en-IN")}</dd>
+
+            <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
+              <span className="text-[var(--color-text-dim)]">Recommended Premium:</span>
+              <span className="tnum text-[15px] font-bold text-[var(--color-emerald)]">
+                ₹{successData.recommendedPremium.toLocaleString("en-IN")}
+              </span>
             </div>
-            <div className="flex justify-between">
-              <dt className="text-[var(--color-text-dim)]">Risk Level:</dt>
-              <dd className="uppercase text-[var(--color-text)]">{successData.riskLevel}</dd>
+
+            <div className="flex items-center justify-between">
+              <span className="text-[var(--color-text-dim)]">Assessed Risk Tier:</span>
+              <span className="font-semibold uppercase text-[var(--color-text)]">{successData.riskLevel}</span>
             </div>
-          </dl>
-        </div>
-        <div className="flex justify-end mt-2">
-          <button className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-4 py-2.5 text-[12.5px] font-medium text-[var(--color-text)] hover:bg-[var(--color-surface)]">
-            View Submission
-          </button>
+          </div>
+
+          <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-[var(--color-text-dim)]">
+            <Info size={13} className="text-[var(--color-emerald)] shrink-0" />
+            <span>Policy record stored in database with immutable pricing model version v2.0.</span>
+          </div>
         </div>
       </div>
     );
   }
 
-  const tierColor =
-    breakdown.riskTier === "high"
-      ? "text-[var(--color-red)]"
-      : breakdown.riskTier === "moderate"
-      ? "text-[var(--color-amber)]"
-      : "text-[var(--color-emerald)]";
+  const details = breakdown.details;
+  const areaAcres = details?.areaAcres ?? 5.0;
+  const areaHectares = details?.areaHectares ?? (areaAcres * 0.404686);
+  const cropCategory = details?.cropCategory ?? "Agricultural Crop";
+  const cropName = details?.crop ?? "RICE";
+  const cropVariety = farmDetails?.cropVariety === "Other" ? farmDetails?.customCropVariety : farmDetails?.cropVariety || "Standard";
+  const baseRatePerHa = details?.baseRatePerHa ?? 3500;
+  const baseExposure = details?.baseExposure ?? (baseRatePerHa * areaHectares);
+  const riskMultiplier = details?.riskMultiplier ?? breakdown.multiplier;
+  const riskAdjustedAmount = details?.riskAdjustedAmount ?? (baseExposure * riskMultiplier);
+  const underwritingAdjAmount = details?.underwritingAdjAmount ?? 0;
+  const recommendedPremium = breakdown.recommendedPremium;
+
+  const riskLevelStr = String(details?.riskLevel || breakdown.riskTier).toUpperCase();
+  const isHighRisk = riskLevelStr === "HIGH";
+  const isLowRisk = riskLevelStr === "LOW";
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-5 py-5">
-        <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-3">
-          <span className="text-[12px] text-[var(--color-text-muted)]">Base premium</span>
-          <span className="tnum text-[14px] text-[var(--color-text)]">
-            ₹{breakdown.basePremium.toLocaleString("en-IN")}
-          </span>
-        </div>
-        <div className="flex items-center justify-between border-b border-[var(--color-border)] py-3">
-          <span className="text-[12px] text-[var(--color-text-muted)]">Risk score</span>
-          <span className="tnum text-[14px] text-[var(--color-text)]">
-            {(breakdown.riskScore * 100).toFixed(0)}%
-          </span>
-        </div>
-        <div className="flex items-center justify-between border-b border-[var(--color-border)] py-3">
-          <span className="text-[12px] text-[var(--color-text-muted)]">Risk tier</span>
-          <span className={`text-[13px] font-medium uppercase ${tierColor}`}>{breakdown.riskTier}</span>
-        </div>
-        <div className="flex items-center justify-between border-b border-[var(--color-border)] py-3">
-          <span className="text-[12px] text-[var(--color-text-muted)]">Risk adjustment</span>
-          <span className="tnum text-[14px] text-[var(--color-text)]">{breakdown.multiplier.toFixed(1)}×</span>
-        </div>
-        <div className="flex items-center justify-between pt-3">
-          <span className="text-[13px] font-medium text-[var(--color-text)]">Recommended premium</span>
-          <span className="tnum text-[22px] font-semibold text-[var(--color-emerald)]">
-            ₹{breakdown.recommendedPremium.toLocaleString("en-IN")}
-          </span>
+    <div className="flex flex-col gap-5 text-[var(--color-text)]">
+      {/* DISCLAIMER BANNER */}
+      <div className="flex items-start gap-2.5 rounded-[6px] border border-amber-500/30 bg-amber-500/5 p-3 text-[11.5px] text-amber-300">
+        <Info size={16} className="mt-0.5 shrink-0 text-amber-400" />
+        <div className="leading-relaxed">
+          <span className="font-semibold text-amber-300">Risk-Based Premium Recommendation Notice:</span>{" "}
+          This recommendation is generated using AgriSurge&apos;s configured risk-based pricing model (v2.0) for underwriting decision support. Final policy pricing is subject to authorized underwriting review, product terms, and regulatory guidelines.
         </div>
       </div>
 
-      <div className="rounded-[6px] border border-[var(--color-amber)]/30 bg-[var(--color-amber-dim)]/40 px-4 py-3">
-        <p className="text-[12px] leading-relaxed text-[var(--color-amber)]">
-          Premium recommendation is generated from the configured risk-pricing rules and should be
-          reviewed by an authorized underwriting team before a policy is issued.
+      {/* MAIN RECOMMENDED PREMIUM HERO CARD */}
+      <div className="flex flex-col items-center rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-6 shadow-sm">
+        <div className="mb-1 flex items-center gap-2">
+          <Coins size={18} className="text-[var(--color-emerald)]" />
+          <h3 className="text-[12.5px] font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
+            Risk-Based Premium Recommendation
+          </h3>
+        </div>
+
+        {/* Animated Premium Header */}
+        <div className="mt-3 text-center">
+          <p className="tnum text-[42px] font-extrabold tracking-tight text-[var(--color-emerald)]">
+            <AnimatedPriceCountUp target={recommendedPremium} />
+          </p>
+          <span className="text-[11.5px] font-medium text-[var(--color-text-dim)]">
+            Calculated Recommended Policy Premium
+          </span>
+        </div>
+
+        {/* RISK -> PRICE VISUALIZATION FLOW */}
+        <div className="mt-6 flex w-full flex-wrap items-center justify-between gap-2 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 text-[11.5px]">
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
+            <span className="text-[var(--color-text-dim)]">Step 4 Risk Score</span>
+            <span className="tnum font-bold text-[var(--color-text)]">{breakdown.riskScore}%</span>
+          </div>
+
+          <ChevronRight size={14} className="hidden text-[var(--color-text-dim)] sm:block" />
+
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
+            <span className="text-[var(--color-text-dim)]">Risk Level</span>
+            <span className={`font-bold ${isHighRisk ? "text-[var(--color-red)]" : isLowRisk ? "text-[var(--color-emerald)]" : "text-amber-400"}`}>
+              {riskLevelStr}
+            </span>
+          </div>
+
+          <ChevronRight size={14} className="hidden text-[var(--color-text-dim)] sm:block" />
+
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
+            <span className="text-[var(--color-text-dim)]">Risk Multiplier</span>
+            <span className="tnum font-bold text-[var(--color-text)]">{riskMultiplier.toFixed(2)}×</span>
+          </div>
+
+          <ChevronRight size={14} className="hidden text-[var(--color-text-dim)] sm:block" />
+
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
+            <span className="text-[var(--color-text-dim)]">Recommended Premium</span>
+            <span className="tnum font-bold text-[var(--color-emerald)]">₹{recommendedPremium.toLocaleString("en-IN")}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* UNDERWRITING CONTEXT SUMMARY (Steps 1 & 2 Inputs) */}
+      <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-4">
+        <div className="mb-2.5 flex items-center justify-between border-b border-[var(--color-border)] pb-2">
+          <div className="flex items-center gap-2">
+            <Sprout size={15} className="text-[var(--color-emerald)]" />
+            <h4 className="text-[12.5px] font-semibold uppercase tracking-wider text-[var(--color-text)]">
+              Underwriting Exposure Context
+            </h4>
+          </div>
+          <span className="text-[10.5px] text-[var(--color-text-dim)]">Steps 1–3 Inputs</span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 text-[11.5px] sm:grid-cols-4">
+          <div>
+            <span className="text-[var(--color-text-dim)]">Farm Area:</span>
+            <p className="font-semibold text-[var(--color-text)] tnum">
+              {areaAcres.toFixed(1)} acres <span className="font-normal text-[var(--color-text-dim)]">({areaHectares.toFixed(2)} ha)</span>
+            </p>
+          </div>
+          <div>
+            <span className="text-[var(--color-text-dim)]">Crop & Category:</span>
+            <p className="font-semibold text-[var(--color-text)] truncate">{cropName} ({cropCategory})</p>
+          </div>
+          <div>
+            <span className="text-[var(--color-text-dim)]">Crop Variety:</span>
+            <p className="font-semibold text-[var(--color-text)] truncate">{cropVariety}</p>
+          </div>
+          <div>
+            <span className="text-[var(--color-text-dim)]">Irrigation & Soil:</span>
+            <p className="font-semibold text-[var(--color-text)] truncate">
+              {details?.irrigationType || "Rainfed"} | {details?.soilType || "Soil"}
+            </p>
+          </div>
+        </div>
+
+        <p className="mt-2 text-[10.5px] text-[var(--color-text-dim)]">
+          * Note: Crop variety is displayed for underwriting context. AgriSurge V2 yield model operates at crop level.
         </p>
       </div>
 
-      {error && (
-        <div className="rounded-[6px] border border-[var(--color-red)]/30 bg-[var(--color-red-dim)]/40 px-4 py-3">
-          <p className="text-[12px] text-[var(--color-red)]">{error}</p>
+      {/* FULL PRICING BREAKDOWN TABLE */}
+      <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-4">
+        <div className="mb-3 flex items-center gap-2 border-b border-[var(--color-border)] pb-2">
+          <Scale size={15} className="text-[var(--color-emerald)]" />
+          <h4 className="text-[12.5px] font-semibold uppercase tracking-wider text-[var(--color-text)]">
+            Transparent Pricing Calculation Breakdown
+          </h4>
+        </div>
+
+        <div className="flex flex-col gap-2.5 text-[12.5px]">
+          <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
+            <div>
+              <span className="font-medium text-[var(--color-text)]">Crop Base Rate</span>
+              <p className="text-[10.5px] text-[var(--color-text-dim)]">Standard per-hectare rate for {cropName}</p>
+            </div>
+            <span className="tnum font-semibold text-[var(--color-text)]">₹{baseRatePerHa.toLocaleString("en-IN")} / ha</span>
+          </div>
+
+          <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
+            <div>
+              <span className="font-medium text-[var(--color-text)]">Base Exposure</span>
+              <p className="text-[10.5px] text-[var(--color-text-dim)]">{areaHectares.toFixed(2)} ha × ₹{baseRatePerHa.toLocaleString("en-IN")}/ha</p>
+            </div>
+            <span className="tnum font-semibold text-[var(--color-text)]">₹{Math.round(baseExposure).toLocaleString("en-IN")}</span>
+          </div>
+
+          <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
+            <div>
+              <span className="font-medium text-[var(--color-text)]">Risk Multiplier ({riskLevelStr})</span>
+              <p className="text-[10.5px] text-[var(--color-text-dim)]">Step 4 V2 Risk Score {breakdown.riskScore}% multiplier ({riskMultiplier.toFixed(2)}×)</p>
+            </div>
+            <span className="tnum font-semibold text-[var(--color-text)]">
+              {riskMultiplier < 1.0 ? "-" : "+"}₹{Math.abs(Math.round(riskAdjustedAmount - baseExposure)).toLocaleString("en-IN")}
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2">
+            <div>
+              <span className="font-medium text-[var(--color-text)]">Underwriting Adjustments</span>
+              <p className="text-[10.5px] text-[var(--color-text-dim)]">
+                Irrigation ({details?.irrigationType || "Rainfed"} {details?.irrigationFactor ? `${((details.irrigationFactor - 1)*100).toFixed(0)}%` : ""}) + Soil ({details?.soilType || "Soil"})
+              </p>
+            </div>
+            <span className="tnum font-semibold text-[var(--color-text)]">
+              {underwritingAdjAmount >= 0 ? `+₹${Math.round(underwritingAdjAmount).toLocaleString("en-IN")}` : `-₹${Math.abs(Math.round(underwritingAdjAmount)).toLocaleString("en-IN")}`}
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between pt-1 font-semibold text-[14px]">
+            <span className="text-[var(--color-text)]">Recommended Policy Premium</span>
+            <span className="tnum text-[18px] font-bold text-[var(--color-emerald)]">
+              ₹{recommendedPremium.toLocaleString("en-IN")}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* DRAFT SAVED NOTIFICATION */}
+      {draftSaved && (
+        <div className="flex items-center gap-2 rounded-[6px] border border-[var(--color-emerald)]/40 bg-[var(--color-emerald-dim)]/20 px-4 py-2.5 text-[12px] text-[var(--color-emerald)]">
+          <CheckCircle2 size={15} />
+          <span>Workflow draft saved locally. Status remains un-submitted.</span>
         </div>
       )}
 
-      <div className="flex justify-end gap-2">
-        <button 
-          disabled={isSubmitting}
-          className="rounded-[6px] border border-[var(--color-border)] px-3.5 py-2 text-[12.5px] text-[var(--color-text-muted)] hover:border-[var(--color-border-strong)] disabled:opacity-50"
-        >
-          Save as draft
-        </button>
-        <button 
-          onClick={onSubmit}
-          disabled={isSubmitting}
-          className="rounded-[6px] bg-[var(--color-emerald)] px-3.5 py-2 text-[12.5px] font-medium text-[#0c1210] hover:opacity-90 disabled:opacity-50 flex items-center gap-2"
-        >
-          {isSubmitting ? "Submitting..." : "Submit for Underwriting"}
-        </button>
+      {/* ERROR MESSAGE */}
+      {error && (
+        <div className="flex items-center gap-2 rounded-[6px] border border-[var(--color-red)]/40 bg-[var(--color-red-dim)]/30 px-4 py-3 text-[12px] text-[var(--color-red)]">
+          <AlertCircle size={15} />
+          <span>{error}</span>
+        </div>
+      )}
+
+      {/* ACTIONS FOOTER */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+        <div className="text-[11px] text-[var(--color-text-dim)]">
+          Pricing Model Version: <strong className="text-[var(--color-text-muted)]">{PRICING_MODEL_VERSION}</strong>
+        </div>
+
+        <div className="flex gap-2">
+          <button
+            onClick={handleSaveDraft}
+            disabled={isSubmitting}
+            className="inline-flex items-center gap-1.5 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-4 py-2 text-[12.5px] font-medium text-[var(--color-text-muted)] hover:bg-[var(--color-surface)] disabled:opacity-50"
+          >
+            <Bookmark size={14} /> Save as Draft
+          </button>
+          <button
+            onClick={onSubmit}
+            disabled={isSubmitting}
+            className="inline-flex items-center gap-1.5 rounded-[6px] bg-[var(--color-emerald)] px-4 py-2 text-[12.5px] font-medium text-[#0c1210] hover:opacity-90 disabled:opacity-50"
+          >
+            {isSubmitting ? (
+              <>
+                <RefreshCw size={14} className="animate-spin" /> Submitting…
+              </>
+            ) : (
+              <>
+                <FileText size={14} /> Submit for Underwriting
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

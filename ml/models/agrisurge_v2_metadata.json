@@ -1,0 +1,145 @@
+{
+  "model_version": "2.0.0",
+  "model_type": "RidgeRegression",
+  "trained_at": "2026-08-14T18:27:53.210265+00:00",
+  "target": "yield_kg_ha",
+  "categorical_features": [
+    "district",
+    "crop",
+    "season",
+    "state"
+  ],
+  "agricultural_features": [
+    "area_1000ha",
+    "prev_yield_kg_ha",
+    "prev2_yield_kg_ha",
+    "prev_area_1000ha",
+    "hist5y_mean_yield"
+  ],
+  "weather_features": [
+    "annual_rainfall",
+    "kharif_rainfall",
+    "rabi_rainfall",
+    "rainy_days",
+    "dry_days",
+    "max_daily_rainfall",
+    "max_consecutive_rainy_days",
+    "max_consecutive_dry_days",
+    "kharif_rf_7d_preharvest",
+    "kharif_rf_30d_preharvest",
+    "kharif_rf_90d_preharvest",
+    "rabi_rf_7d_preharvest",
+    "rabi_rf_30d_preharvest",
+    "rabi_rf_90d_preharvest"
+  ],
+  "total_features": 23,
+  "train_rows": 12358,
+  "val_rows": 1663,
+  "test_rows": 1024,
+  "test_years": "2020-2022",
+  "weather_coverage_pct": 17.9,
+  "v1_baseline_test": {
+    "model": "Ridge Regression",
+    "MAE": 419.13,
+    "RMSE": 659.59,
+    "R2": 0.8903
+  },
+  "v2_model_a_agri_only": {
+    "experiment": "Model A (Agri Only) - Test",
+    "model": "RidgeRegression",
+    "MAE": 1534.91,
+    "RMSE": 5773.46,
+    "R2": 0.9253
+  },
+  "v2_model_b_weather": {
+    "experiment": "Model B (Agri + Weather) - Test",
+    "model": "RidgeRegression",
+    "MAE": 1534.91,
+    "RMSE": 5773.46,
+    "R2": 0.9253
+  },
+  "weather_improvement": {
+    "mae_reduction_kg_ha": 0.0,
+    "r2_gain": 0.0,
+    "weather_improved": false
+  },
+  "top_features": [
+    {
+      "feature": "prev_yield_kg_ha",
+      "importance": 0.6092404647547676,
+      "std": 0.02360169516171463
+    },
+    {
+      "feature": "hist5y_mean_yield",
+      "importance": 0.396039407825513,
+      "std": 0.018344730288367903
+    },
+    {
+      "feature": "prev2_yield_kg_ha",
+      "importance": 0.0072131954838983384,
+      "std": 0.0005612490279890405
+    },
+    {
+      "feature": "prev_area_1000ha",
+      "importance": 0.00039831289957483753,
+      "std": 0.00019150102637111233
+    },
+    {
+      "feature": "area_1000ha",
+      "importance": 0.00022408150618100642,
+      "std": 0.0002339594094914607
+    },
+    {
+      "feature": "state",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "annual_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "max_consecutive_rainy_days",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "max_consecutive_dry_days",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "kharif_rf_7d_preharvest",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "kharif_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "rabi_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "rainy_days",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "dry_days",
+      "importance": 0.0,
+      "std": 0.0
+    },
+    {
+      "feature": "max_daily_rainfall",
+      "importance": 0.0,
+      "std": 0.0
+    }
+  ],
+  "geographic_level": "district",
+  "model_file": "ml/models\\agrisurge_v2_model.joblib"
+}

@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { Search, MapPin, Upload } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Search, MapPin, AlertCircle, HelpCircle } from "lucide-react";
 import { MapView } from "@/components/map/MapView";
-import { geocodingProvider } from "@/lib/geocoding/nominatimProvider";
 import { FarmLocation } from "@/lib/geocoding/types";
 import turfArea from "@turf/area";
 import turfCentroid from "@turf/centroid";
+
+interface VillageItem {
+  code: string;
+  nameEnglish: string;
+  nameLocal: string;
+}
 
 export function LocationStep({
   onSelect,
@@ -14,83 +19,267 @@ export function LocationStep({
   onSelect: (parcel: FarmLocation | null) => void;
 }) {
   const [parcel, setParcel] = useState<FarmLocation | null>(null);
-  
-  // Search state
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searching, setSearching] = useState(false);
-  const [searchError, setSearchError] = useState<string | null>(null);
 
-  // Lat/Lng state
-  const [latInput, setLatInput] = useState("");
-  const [lngInput, setLngInput] = useState("");
-  const [coordError, setCoordError] = useState<string | null>(null);
+  // Hierarchical lists & states
+  const [districts, setDistricts] = useState<string[]>([]);
+  const [talukas, setTalukas] = useState<string[]>([]);
+  const [villages, setVillages] = useState<VillageItem[]>([]);
+
+  // Selected values
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedTaluka, setSelectedTaluka] = useState("");
+  const [selectedVillage, setSelectedVillage] = useState<VillageItem | null>(null);
+
+  // Village search/input states
+  const [villageSearchVal, setVillageSearchVal] = useState("");
+  const [showVillageDropdown, setShowVillageDropdown] = useState(false);
+  const [fetchingVillages, setFetchingVillages] = useState(false);
+
+  // Geocoding / status states
+  const [geocoding, setGeocoding] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Land validation states
+  const [validatingLand, setValidatingLand] = useState(false);
+  const [validationMessage, setValidationMessage] = useState<string | null>(null);
+  const [validationSuccessMessage, setValidationSuccessMessage] = useState<string | null>(null);
 
   // Map state
-  const [mapCenter, setMapCenter] = useState<[number, number]>([19.9975, 73.7898]); // Default to Nashik area
-  const [mapZoom, setMapZoom] = useState(6);
+  const [mapCenter, setMapCenter] = useState<[number, number]>([19.7515, 75.7139]); // Centered on Maharashtra
+  const [mapZoom, setMapZoom] = useState(7);
   const [drawClearTrigger, setDrawClearTrigger] = useState(0);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) return;
-    
-    setSearching(true);
-    setSearchError(null);
+  const villageRef = useRef<HTMLDivElement>(null);
+
+  // Fetch districts on mount
+  useEffect(() => {
+    async function fetchDistricts() {
+      try {
+        const res = await fetch("/api/locations?type=districts");
+        if (res.ok) {
+          const data = await res.json();
+          setDistricts(data.districts || []);
+        }
+      } catch (err) {
+        console.error("Error loading districts:", err);
+        setErrorMsg("Failed to load districts from dataset.");
+      }
+    }
+    fetchDistricts();
+  }, []);
+
+  // Fetch talukas when district changes
+  useEffect(() => {
+    if (!selectedDistrict) {
+      setTalukas([]);
+      return;
+    }
+    async function fetchTalukas() {
+      try {
+        const res = await fetch(`/api/locations?type=talukas&district=${encodeURIComponent(selectedDistrict)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setTalukas(data.talukas || []);
+        }
+      } catch (err) {
+        console.error("Error loading talukas:", err);
+      }
+    }
+    fetchTalukas();
+  }, [selectedDistrict]);
+
+  // Fetch/filter villages as user types
+  useEffect(() => {
+    if (!selectedDistrict || !selectedTaluka) {
+      setVillages([]);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setFetchingVillages(true);
+      try {
+        const res = await fetch(
+          `/api/locations?type=villages&district=${encodeURIComponent(selectedDistrict)}&taluka=${encodeURIComponent(
+            selectedTaluka
+          )}&query=${encodeURIComponent(villageSearchVal)}`
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setVillages(data.villages || []);
+        }
+      } catch (err) {
+        console.error("Error fetching villages:", err);
+      } finally {
+        setFetchingVillages(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [selectedDistrict, selectedTaluka, villageSearchVal]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (villageRef.current && !villageRef.current.contains(event.target as Node)) {
+        setShowVillageDropdown(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    setSelectedDistrict(val);
+    setSelectedTaluka("");
+    setSelectedVillage(null);
+    setVillageSearchVal("");
+    setParcel(null);
+    onSelect(null);
+    setErrorMsg(null);
+  };
+
+  const handleTalukaChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    setSelectedTaluka(val);
+    setSelectedVillage(null);
+    setVillageSearchVal("");
+    setParcel(null);
+    onSelect(null);
+    setErrorMsg(null);
+  };
+
+  const handleVillageSelect = async (village: VillageItem) => {
+    setSelectedVillage(village);
+    setVillageSearchVal(`${village.nameEnglish} (${village.nameLocal})`);
+    setShowVillageDropdown(false);
+    setErrorMsg(null);
+    setGeocoding(true);
+
+    const query = `${village.nameEnglish}, ${selectedTaluka}, ${selectedDistrict}, Maharashtra, India`;
+
     try {
-      const results = await geocodingProvider.search(searchQuery);
-      if (results && results.length > 0) {
-        const topResult = results[0];
-        setMapCenter([topResult.latitude, topResult.longitude]);
-        setMapZoom(13);
+      const res = await fetch(`/api/locations?type=geocode&query=${encodeURIComponent(query)}`);
+      if (res.ok) {
+        const result = await res.json();
+        setMapCenter([result.latitude, result.longitude]);
+        setMapZoom(result.isFallback ? 13 : 15); // zoom out slightly if fallback to see taluka area
+
         const newLocation: FarmLocation = {
-          latitude: topResult.latitude,
-          longitude: topResult.longitude,
-          displayName: topResult.displayName,
+          latitude: result.latitude,
+          longitude: result.longitude,
+          displayName: `${village.nameEnglish}, ${selectedTaluka}, ${selectedDistrict}`,
+          country: "India",
+          state: "Maharashtra",
+          district: selectedDistrict,
+          taluka: selectedTaluka,
+          village: village.nameEnglish,
+          villageLatitude: result.latitude,
+          villageLongitude: result.longitude,
         };
+
         setParcel(newLocation);
         onSelect(newLocation);
-        setLatInput(topResult.latitude.toString());
-        setLngInput(topResult.longitude.toString());
+
+        if (result.isFallback) {
+          setErrorMsg(`Unable to locate this village automatically. Centered map on ${selectedTaluka} taluka. Please adjust the location on the map.`);
+        }
       } else {
-        setSearchError("No matching locations found.");
+        setErrorMsg("Unable to locate this village automatically. Please adjust the location on the map.");
       }
-    } catch {
-      setSearchError("Unable to find this location. Try a village, district, or landmark.");
+    } catch (err) {
+      console.error("Geocoding failed:", err);
+      setErrorMsg("Unable to locate this village automatically. Please adjust the location on the map.");
     } finally {
-      setSearching(false);
+      setGeocoding(false);
     }
   };
 
-  const handleLocateCoords = () => {
-    const lat = parseFloat(latInput);
-    const lng = parseFloat(lngInput);
-    setCoordError(null);
+  const validateFarmLand = async (feature: GeoJSON.Feature<GeoJSON.Polygon>, currentParcel: FarmLocation) => {
+    setValidatingLand(true);
+    setValidationMessage(null);
+    setValidationSuccessMessage(null);
+    setErrorMsg(null);
 
-    if (isNaN(lat) || lat < -90 || lat > 90) {
-      setCoordError("Latitude must be between -90 and 90.");
-      return;
-    }
-    if (isNaN(lng) || lng < -180 || lng > 180) {
-      setCoordError("Longitude must be between -180 and 180.");
-      return;
-    }
+    try {
+      const res = await fetch("/api/locations/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ geoJson: feature }),
+      });
 
-    setMapCenter([lat, lng]);
-    setMapZoom(15);
-    const newLocation: FarmLocation = { latitude: lat, longitude: lng };
-    setParcel(newLocation);
-    onSelect(newLocation);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.valid) {
+          const validated = {
+            ...currentParcel,
+            isValid: true,
+            validationStatus: data.reason || ("VALID" as const),
+          };
+          setParcel(validated);
+          onSelect(validated);
+          if (data.reason === "VALIDATION_UNAVAILABLE") {
+            setValidationMessage(data.error || "Land verification service is temporarily unavailable. The selected boundary can still be reviewed using satellite imagery.");
+            setValidationSuccessMessage(null);
+          } else {
+            setValidationSuccessMessage("Farm area verified");
+            setValidationMessage(null);
+          }
+        } else {
+          const invalidated = {
+            ...currentParcel,
+            isValid: false,
+            validationStatus: "INVALID" as const,
+            validationReason: data.reason,
+          };
+          setParcel(invalidated);
+          onSelect(invalidated);
+          setValidationMessage(data.error || "Please select a proper agricultural land/farm area.");
+          setValidationSuccessMessage(null);
+        }
+      } else {
+        const errorData = await res.json().catch(() => ({}));
+        const validated = {
+          ...currentParcel,
+          isValid: true,
+          validationStatus: "VALIDATION_UNAVAILABLE" as const,
+        };
+        setParcel(validated);
+        onSelect(validated);
+        setValidationMessage(errorData.error || "Land verification service is temporarily unavailable. The selected boundary can still be reviewed using satellite imagery.");
+        setValidationSuccessMessage(null);
+      }
+    } catch (err) {
+      console.error("Land validation request failed:", err);
+      const validated = {
+        ...currentParcel,
+        isValid: true,
+        validationStatus: "VALIDATION_UNAVAILABLE" as const,
+      };
+      setParcel(validated);
+      onSelect(validated);
+      setValidationMessage("Land verification service is temporarily unavailable. The selected boundary can still be reviewed using satellite imagery.");
+      setValidationSuccessMessage(null);
+    } finally {
+      setValidatingLand(false);
+    }
   };
 
   const clearPolygon = () => {
-    setDrawClearTrigger((prev) => prev + 1); // trigger clear in map
-    // Keep lat/lng if we had it, just clear the polygon/area
+    setDrawClearTrigger((prev) => prev + 1);
+    setValidationMessage(null);
+    setValidationSuccessMessage(null);
     if (parcel) {
       const updated = { ...parcel };
       delete updated.geoJson;
       delete updated.areaAcres;
       delete updated.areaHectares;
       delete updated.areaSqMeters;
+      delete updated.isValid;
+      delete updated.validationReason;
+      // Revert farm coordinates to village coordinates when cleared
+      updated.latitude = updated.villageLatitude || updated.latitude;
+      updated.longitude = updated.villageLongitude || updated.longitude;
       setParcel(updated);
       onSelect(updated);
     }
@@ -98,12 +287,18 @@ export function LocationStep({
 
   const handlePolygonChange = (geoJson: GeoJSON.FeatureCollection<GeoJSON.Polygon> | null) => {
     if (!geoJson || geoJson.features.length === 0) {
+      setValidationMessage(null);
+      setValidationSuccessMessage(null);
       if (parcel) {
         const updated = { ...parcel };
         delete updated.geoJson;
         delete updated.areaAcres;
         delete updated.areaHectares;
         delete updated.areaSqMeters;
+        delete updated.isValid;
+        delete updated.validationReason;
+        updated.latitude = updated.villageLatitude || updated.latitude;
+        updated.longitude = updated.villageLongitude || updated.longitude;
         setParcel(updated);
         onSelect(updated);
       }
@@ -119,131 +314,180 @@ export function LocationStep({
     const centroidLng = center.geometry.coordinates[0];
     const centroidLat = center.geometry.coordinates[1];
 
-    const updatedParcel: FarmLocation = {
-      ...(parcel || {}),
-      latitude: centroidLat,
-      longitude: centroidLng,
-      geoJson: feature,
-      areaSqMeters: sqMeters,
-      areaHectares: hectares,
-      areaAcres: acres,
-    };
-
-    setLatInput(centroidLat.toFixed(5));
-    setLngInput(centroidLng.toFixed(5));
-    setParcel(updatedParcel);
-    onSelect(updatedParcel);
+    if (parcel) {
+      const updatedParcel: FarmLocation = {
+        ...parcel,
+        latitude: centroidLat,
+        longitude: centroidLng,
+        geoJson: feature,
+        areaSqMeters: sqMeters,
+        areaHectares: hectares,
+        areaAcres: acres,
+        isValid: false, // Default to false until validated
+      };
+      setParcel(updatedParcel);
+      onSelect(updatedParcel); // initially block Continue
+      validateFarmLand(feature, updatedParcel);
+    }
   };
 
-  const handleCSVUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const markers = parcel?.villageLatitude && parcel?.villageLongitude
+    ? [{ id: "village-center", position: [parcel.villageLatitude, parcel.villageLongitude] as [number, number] }]
+    : [];
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const text = event.target?.result as string;
-      const lines = text.split("\\n");
-      // Basic parsing: expect header "farm_id,latitude,longitude"
-      if (lines.length > 1) {
-        const firstDataRow = lines[1].split(",");
-        if (firstDataRow.length >= 3) {
-          const lat = parseFloat(firstDataRow[1]);
-          const lng = parseFloat(firstDataRow[2]);
-          if (!isNaN(lat) && !isNaN(lng)) {
-            setLatInput(lat.toString());
-            setLngInput(lng.toString());
-            setMapCenter([lat, lng]);
-            setMapZoom(14);
-            const newLocation: FarmLocation = { latitude: lat, longitude: lng };
-            setParcel(newLocation);
-            onSelect(newLocation);
-          }
-        }
-      }
-    };
-    reader.readAsText(file);
-  };
-
-  const markers = parcel ? [{ id: "selected", position: [parcel.latitude, parcel.longitude] as [number, number] }] : [];
-  
-  const boundaryPoints = parcel?.geoJson ? parcel.geoJson.geometry.coordinates[0].length - 1 : 0; // -1 because first and last point are the same
+  const boundaryPoints = parcel?.geoJson ? parcel.geoJson.geometry.coordinates[0].length - 1 : 0;
 
   return (
     <div className="flex flex-col gap-4">
       {/* Search and Input Controls */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         
-        {/* Option 1: Search */}
-        <div className="flex flex-col gap-2">
-          <label className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-dim)]">Search Location</label>
-          <form onSubmit={handleSearch} className="flex flex-col gap-2">
-            <div className="flex items-center gap-1.5 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-2.5 py-1.5">
-              <Search size={13} className="text-[var(--color-text-dim)]" />
-              <input
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search village, taluka, or district"
-                className="w-full bg-transparent text-[12px] text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={searching}
-              className="rounded-[6px] border border-[var(--color-border)] px-2.5 py-1.5 text-[12px] text-[var(--color-text-muted)] hover:border-[var(--color-border-strong)] disabled:opacity-50"
+        {/* Country & State */}
+        <div className="flex gap-4">
+          <div className="flex flex-col gap-1.5 flex-1">
+            <label className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-dim)]">Country</label>
+            <select disabled className="w-full rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-2.5 py-1.5 text-[12.5px] text-[var(--color-text-muted)] opacity-70">
+              <option>India</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-1.5 flex-1">
+            <label className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-dim)]">State</label>
+            <select disabled className="w-full rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-2.5 py-1.5 text-[12.5px] text-[var(--color-text-muted)] opacity-70">
+              <option>Maharashtra</option>
+            </select>
+          </div>
+        </div>
+
+        {/* District & Taluka Selectors */}
+        <div className="flex gap-4">
+          <div className="flex flex-col gap-1.5 flex-1">
+            <label className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-dim)]">District</label>
+            <select
+              value={selectedDistrict}
+              onChange={handleDistrictChange}
+              className="w-full rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-2.5 py-1.5 text-[12.5px] text-[var(--color-text)] focus:border-[var(--color-emerald)] focus:outline-none"
             >
-              {searching ? "Searching…" : "Search"}
-            </button>
-            {searchError && <p className="text-[11px] text-[var(--color-red)]">{searchError}</p>}
-          </form>
+              <option value="">Select District</option>
+              {districts.map((d) => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1.5 flex-1">
+            <label className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-dim)]">Taluka / Sub-district</label>
+            <select
+              value={selectedTaluka}
+              onChange={handleTalukaChange}
+              disabled={!selectedDistrict}
+              className="w-full rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-2.5 py-1.5 text-[12.5px] text-[var(--color-text)] focus:border-[var(--color-emerald)] focus:outline-none disabled:opacity-50"
+            >
+              <option value="">Select Taluka</option>
+              {talukas.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        {/* Option 2: Coordinates */}
-        <div className="flex flex-col gap-2">
-           <label className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-dim)]">Enter Coordinates</label>
-           <div className="flex items-start gap-2">
-             <div className="flex flex-col gap-2 flex-1">
-               <div className="flex items-center gap-1.5 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-2.5 py-1.5">
-                 <input
-                   value={latInput}
-                   onChange={(e) => setLatInput(e.target.value)}
-                   placeholder="Latitude (e.g. 19.9975)"
-                   className="w-full bg-transparent text-[12px] text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:outline-none"
-                 />
-               </div>
-               <div className="flex items-center gap-1.5 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-2.5 py-1.5">
-                 <input
-                   value={lngInput}
-                   onChange={(e) => setLngInput(e.target.value)}
-                   placeholder="Longitude (e.g. 73.7898)"
-                   className="w-full bg-transparent text-[12px] text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:outline-none"
-                 />
-               </div>
-             </div>
-             <button
-               onClick={handleLocateCoords}
-               className="rounded-[6px] border border-[var(--color-border)] px-2.5 py-1.5 text-[12px] text-[var(--color-text-muted)] hover:border-[var(--color-border-strong)] h-[68px] flex items-center justify-center flex-col"
-             >
-               <MapPin size={14} className="mb-1" />
-               Locate
-             </button>
-           </div>
-           {coordError && <p className="text-[11px] text-[var(--color-red)]">{coordError}</p>}
-        </div>
       </div>
 
-      {/* CSV Import */}
-      <div className="flex items-center justify-end">
-        <label className="flex items-center gap-2 cursor-pointer rounded-[6px] border border-[var(--color-border)] px-2.5 py-1.5 text-[11px] text-[var(--color-text-muted)] hover:border-[var(--color-border-strong)] transition-colors">
-          <Upload size={12} />
-          Import Coordinates (CSV)
-          <input type="file" accept=".csv" className="hidden" onChange={handleCSVUpload} />
-        </label>
+      {/* Village Autocomplete Selector */}
+      <div ref={villageRef} className="relative flex flex-col gap-1.5">
+        <label className="text-[11px] font-medium uppercase tracking-wide text-[var(--color-text-dim)]">Village</label>
+        <div className="flex items-center gap-1.5 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-2.5 py-1.5">
+          <Search size={13} className="text-[var(--color-text-dim)]" />
+          <input
+            value={villageSearchVal}
+            onChange={(e) => {
+              setVillageSearchVal(e.target.value);
+              setShowVillageDropdown(true);
+            }}
+            onFocus={() => setShowVillageDropdown(true)}
+            placeholder={selectedTaluka ? "Type to search village..." : "Select district & taluka first"}
+            disabled={!selectedTaluka}
+            className="w-full bg-transparent text-[12.5px] text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:outline-none disabled:opacity-50"
+          />
+        </div>
+
+        {/* Suggestions Dropdown */}
+        {showVillageDropdown && selectedTaluka && (
+          <div className="absolute top-[62px] left-0 right-0 z-50 max-h-48 overflow-y-auto rounded-[6px] border border-[var(--color-border-strong)] bg-[var(--color-surface)] shadow-lg">
+            {fetchingVillages ? (
+              <div className="px-3 py-2 text-[12px] text-[var(--color-text-dim)]">Loading villages...</div>
+            ) : villages.length > 0 ? (
+              villages.map((v) => (
+                <button
+                  key={v.code}
+                  onClick={() => handleVillageSelect(v)}
+                  className="w-full px-3 py-2 text-left text-[12.5px] text-[var(--color-text)] hover:bg-[var(--color-surface-raised)] transition-colors border-b border-[var(--color-border)]/50 last:border-b-0"
+                >
+                  <div className="font-medium">{v.nameEnglish}</div>
+                  <div className="text-[11px] text-[var(--color-text-dim)]">{v.nameLocal}</div>
+                </button>
+              ))
+            ) : (
+              <div className="px-3 py-2 text-[12px] text-[var(--color-text-dim)]">No villages found</div>
+            )}
+          </div>
+        )}
       </div>
+
+      {errorMsg && (
+        <div className="flex items-center gap-1.5 text-[11.5px] text-[var(--color-red)] bg-[var(--color-red-dim)]/10 px-2.5 py-1.5 rounded-[4px]">
+          <AlertCircle size={13} />
+          <span>{errorMsg}</span>
+        </div>
+      )}
+
+      {geocoding && (
+        <div className="text-[12px] text-[var(--color-text-muted)] italic">
+          Locating village center on map...
+        </div>
+      )}
+
+      {parcel && (
+        <div className="flex items-start gap-2 text-[12px] text-[var(--color-emerald)] bg-[var(--color-emerald-dim)]/10 px-3 py-2.5 rounded-[6px] border border-[var(--color-emerald)]/20">
+          <HelpCircle size={14} className="mt-0.5 shrink-0" />
+          <div>
+            <p className="font-semibold">Village Located: {parcel.village}</p>
+            <p className="mt-0.5 text-[11.5px] text-[var(--color-text-muted)] leading-relaxed">
+              We have marked the center of {parcel.village}. Now, please use the polygon tools on the top right of the map to trace the boundaries of your actual farm land.
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="flex items-center justify-between">
-        <p className="text-[12px] text-[var(--color-text-muted)] font-medium">
-          {parcel?.geoJson ? "Farm boundary captured" : parcel ? "Location selected — draw farm boundary" : "Select a location above"}
-        </p>
+        <div className="text-[12px] font-medium">
+          {validatingLand && (
+            <span className="text-[var(--color-text-dim)] animate-pulse">Verifying selected land...</span>
+          )}
+          {!validatingLand && validationSuccessMessage && (
+            <span className="text-[var(--color-emerald)]">✓ {validationSuccessMessage}</span>
+          )}
+          {!validatingLand && validationMessage && (
+            <span
+              className={
+                parcel?.validationStatus === "VALIDATION_UNAVAILABLE"
+                  ? "text-[var(--color-amber)]"
+                  : "text-[var(--color-red)]"
+              }
+            >
+              {parcel?.validationStatus === "VALIDATION_UNAVAILABLE" ? "⚠ " : "✗ "}
+              {validationMessage}
+            </span>
+          )}
+          {!validatingLand && !validationSuccessMessage && !validationMessage && (
+            <span className="text-[var(--color-text-muted)]">
+              {parcel?.geoJson ? "Farm boundary captured" : parcel ? "Village located — please draw farm boundary" : "Please select district, taluka, and village"}
+            </span>
+          )}
+        </div>
         {parcel?.geoJson && (
           <button
             onClick={clearPolygon}
@@ -259,7 +503,7 @@ export function LocationStep({
         <MapView 
           center={mapCenter} 
           zoom={mapZoom} 
-          enableDrawing={true} 
+          enableDrawing={!!parcel} 
           markers={markers}
           onPolygonChange={handlePolygonChange}
           drawClearTrigger={drawClearTrigger}
@@ -269,7 +513,7 @@ export function LocationStep({
       {/* Info Panels */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-2">
         <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-3 py-2.5 flex flex-col justify-between">
-          <p className="text-[10.5px] uppercase tracking-wide text-[var(--color-text-dim)]">Selected Area</p>
+          <p className="text-[10.5px] uppercase tracking-wide text-[var(--color-text-dim)]">Farm Area</p>
           <div className="mt-1">
             {parcel?.areaAcres ? (
               <>
@@ -277,17 +521,21 @@ export function LocationStep({
                 <p className="tnum mt-0.5 text-[12px] text-[var(--color-text-dim)]">{parcel.areaHectares?.toFixed(2)} hectares</p>
               </>
             ) : (
-              <p className="tnum mt-0.5 text-[13px] text-[var(--color-text)]">Draw a polygon on the map</p>
+              <p className="tnum mt-0.5 text-[13px] text-[var(--color-text)] font-medium text-[var(--color-text-dim)]">Draw polygon on map</p>
             )}
           </div>
         </div>
         <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-3 py-2.5 flex flex-col justify-between">
-          <p className="text-[10.5px] uppercase tracking-wide text-[var(--color-text-dim)]">Coordinates</p>
+          <p className="text-[10.5px] uppercase tracking-wide text-[var(--color-text-dim)]">Farm Center Coordinates</p>
           <div className="mt-1">
             {parcel ? (
               <>
                 <p className="tnum text-[15px] text-[var(--color-text)]">{parcel.latitude.toFixed(5)}, {parcel.longitude.toFixed(5)}</p>
-                {boundaryPoints > 0 && <p className="mt-0.5 text-[12px] text-[var(--color-text-dim)]">Boundary: {boundaryPoints} points</p>}
+                {boundaryPoints > 0 ? (
+                  <p className="mt-0.5 text-[12px] text-[var(--color-text-dim)]">Boundary: {boundaryPoints} points</p>
+                ) : (
+                  <p className="mt-0.5 text-[12px] text-[var(--color-text-dim)]">Village Center (Farm not selected)</p>
+                )}
               </>
             ) : (
               <p className="tnum mt-0.5 text-[15px] text-[var(--color-text)]">—</p>

@@ -11,7 +11,7 @@ import { RiskAssessmentStep } from "./RiskAssessmentStep";
 import { PremiumRecommendationStep, SubmissionResult } from "./PremiumRecommendationStep";
 import { RiskPredictionResult } from "@/lib/ml/types";
 import { PremiumBreakdown } from "@/lib/pricing/types";
-import { CurrentWeather } from "@/lib/weather/types";
+import { CurrentWeather, HistoricalImdReading } from "@/lib/weather/types";
 import { NdviReading } from "@/lib/satellite/types";
 
 const STEPS = [
@@ -30,6 +30,8 @@ export function RiskAnalysisWorkflow() {
     weather: CurrentWeather | null;
     ndvi: NdviReading | null;
     soilMoisturePct: number | null;
+    historicalImd?: HistoricalImdReading | null;
+    v2Features?: Record<string, number | null> | null;
   } | null>(null);
 
   const [assessing, setAssessing] = useState(false);
@@ -41,7 +43,21 @@ export function RiskAnalysisWorkflow() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submissionResult, setSubmissionResult] = useState<SubmissionResult | null>(null);
 
-  const canAdvance = [!!parcel?.geoJson, !!details.crop && !!details.farmName, true, !!prediction, true];
+  const canAdvance = [
+    !!parcel?.district && !!parcel?.taluka && !!parcel?.village && !!parcel?.geoJson && !!parcel?.isValid,
+    !!details.farmName.trim() &&
+      !!details.farmerName.trim() &&
+      !!details.crop &&
+      !!details.cropVariety &&
+      (details.cropVariety !== "Other" || !!details.customCropVariety?.trim()) &&
+      !!details.sowingDate &&
+      !!details.growthStage &&
+      !!details.irrigationType &&
+      !!details.soilType,
+    true,
+    !!prediction,
+    true
+  ];
 
   const runAssessment = async () => {
     if (!parcel || !envData?.weather) return;
@@ -54,14 +70,22 @@ export function RiskAnalysisWorkflow() {
         body: JSON.stringify({
           latitude: parcel.latitude,
           longitude: parcel.longitude,
+          district: parcel.district,
+          taluka: parcel.taluka,
+          village: parcel.village,
           crop: details.crop,
+          cropVariety: details.cropVariety === "Other" ? details.customCropVariety : details.cropVariety,
+          sowingDate: details.sowingDate,
+          growthStage: details.growthStage,
           soilType: details.soilType,
           irrigationType: details.irrigationType,
+          areaAcres: parcel.areaAcres,
           rainfallMm: envData.weather.rainfallMm24h,
           temperatureC: envData.weather.temperatureC,
           humidityPct: envData.weather.humidityPct,
           soilMoisturePct: envData.soilMoisturePct ?? undefined,
           ndvi: envData.ndvi?.ndvi ?? null,
+          v2Features: envData.v2Features ?? undefined,
         }),
       });
       if (!res.ok) throw new Error("Risk model service is currently unavailable.");
@@ -102,6 +126,9 @@ export function RiskAnalysisWorkflow() {
             riskScore: prediction.riskScore,
             riskTier: prediction.riskLevel,
             factors: prediction.factors,
+            predictedYieldKgHa: prediction.predictedYieldKgHa,
+            expectedYieldKgHa: prediction.expectedYieldKgHa,
+            yieldDeviationPct: prediction.yieldDeviationPct,
           },
           premiumRecommendation: pricing,
         }),
@@ -170,10 +197,19 @@ export function RiskAnalysisWorkflow() {
           <EnvironmentalDataStep 
             lat={parcel?.latitude ?? null} 
             lng={parcel?.longitude ?? null} 
+            farmDetails={details}
+            farmLocation={parcel}
             onData={setEnvData} 
           />
         )}
-        {step === 3 && <RiskAssessmentStep loading={assessing} result={prediction} error={assessmentError} />}
+        {step === 3 && (
+          <RiskAssessmentStep 
+            loading={assessing} 
+            result={prediction} 
+            error={assessmentError} 
+            onRetry={runAssessment}
+          />
+        )}
         {step === 4 && (
           <PremiumRecommendationStep 
             breakdown={pricing} 
@@ -181,6 +217,8 @@ export function RiskAnalysisWorkflow() {
             isSubmitting={submitting}
             error={submitError}
             successData={submissionResult}
+            farmDetails={details}
+            farmLocation={parcel}
           />
         )}
 

@@ -1,0 +1,783 @@
+[
+  {
+    "id": "UW-2026-57292",
+    "farmCode": "F-21833",
+    "farmerName": "Vikram Kadam",
+    "farmName": "Kadam Cotton Farm",
+    "region": "Pune",
+    "district": "Pune",
+    "taluka": "Haveli",
+    "village": "Manjari",
+    "latitude": 18.5204,
+    "longitude": 73.8567,
+    "cropCategory": "Commercial / Fiber",
+    "crop": "Cotton",
+    "cropVariety": "Anand Desi Cotton-1",
+    "growthStage": "Kharif Season",
+    "irrigationType": "Drip",
+    "soilType": "Black Soil",
+    "areaAcres": 12.4,
+    "areaHectares": 5.0181,
+    "geoJson": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              73.85,
+              18.52
+            ],
+            [
+              73.86,
+              18.52
+            ],
+            [
+              73.86,
+              18.53
+            ],
+            [
+              73.85,
+              18.53
+            ],
+            [
+              73.85,
+              18.52
+            ]
+          ]
+        ]
+      }
+    },
+    "environmentalData": {
+      "weather": {
+        "rainfallMm24h": 5.2,
+        "temperatureC": 28.5
+      }
+    },
+    "riskScore": 68,
+    "riskLevel": "MODERATE",
+    "predictedYieldKgHa": 1420,
+    "expectedYieldKgHa": 1650,
+    "yieldDeviationPct": -13.9,
+    "riskFactors": [
+      {
+        "name": "Prev Yield",
+        "contribution": 0.609
+      },
+      {
+        "name": "Hist5y Mean Yield",
+        "contribution": 0.396
+      }
+    ],
+    "modelMetadata": null,
+    "coverageAmount": 300000,
+    "baseExposure": 22581.46,
+    "riskMultiplier": 1.15,
+    "underwritingAdjAmount": 240.3,
+    "recommendedPremium": 30000,
+    "pricingModelVersion": "v2.0",
+    "status": "UNDER_REVIEW",
+    "submittedAt": "2026-08-14T19:05:54.211Z",
+    "auditTrail": [
+      {
+        "id": "aud-1786734354211-1",
+        "timestamp": "2026-08-14T19:05:54.211Z",
+        "action": "Application Submitted for Underwriting",
+        "actor": "AgriSurge Workflow System",
+        "status": "UNDER_REVIEW",
+        "notes": "Submitted with Risk Score 68% (MODERATE) and Recommended Premium ₹30,000."
+      }
+    ]
+  },
+  {
+    "id": "UW-2026-59259",
+    "farmCode": "F-11222",
+    "farmerName": "Vikram Kadam",
+    "farmName": "Kadam Cotton Farm",
+    "region": "Pune",
+    "district": "Pune",
+    "taluka": "Haveli",
+    "village": "Manjari",
+    "latitude": 18.5204,
+    "longitude": 73.8567,
+    "cropCategory": "Commercial / Fiber",
+    "crop": "Cotton",
+    "cropVariety": "Anand Desi Cotton-1",
+    "growthStage": "Kharif Season",
+    "irrigationType": "Drip",
+    "soilType": "Black Soil",
+    "areaAcres": 12.4,
+    "areaHectares": 5.0181,
+    "geoJson": {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              73.85,
+              18.52
+            ],
+            [
+              73.86,
+              18.52
+            ],
+            [
+              73.86,
+              18.53
+            ],
+            [
+              73.85,
+              18.53
+            ],
+            [
+              73.85,
+              18.52
+            ]
+          ]
+        ]
+      }
+    },
+    "environmentalData": {
+      "weather": {
+        "rainfallMm24h": 5.2,
+        "temperatureC": 28.5
+      }
+    },
+    "riskScore": 68,
+    "riskLevel": "MODERATE",
+    "predictedYieldKgHa": 1420,
+    "expectedYieldKgHa": 1650,
+    "yieldDeviationPct": -13.9,
+    "riskFactors": [
+      {
+        "name": "Prev Yield",
+        "contribution": 0.609
+      },
+      {
+        "name": "Hist5y Mean Yield",
+        "contribution": 0.396
+      }
+    ],
+    "modelMetadata": null,
+    "coverageAmount": 300000,
+    "baseExposure": 22581.46,
+    "riskMultiplier": 1.15,
+    "underwritingAdjAmount": 240.3,
+    "recommendedPremium": 30000,
+    "pricingModelVersion": "v2.0",
+    "status": "APPROVED",
+    "submittedAt": "2026-08-14T19:06:24.271Z",
+    "auditTrail": [
+      {
+        "id": "aud-1786734384271-1",
+        "timestamp": "2026-08-14T19:06:24.271Z",
+        "action": "Application Submitted for Underwriting",
+        "actor": "AgriSurge Workflow System",
+        "status": "UNDER_REVIEW",
+        "notes": "Submitted with Risk Score 68% (MODERATE) and Recommended Premium ₹30,000."
+      },
+      {
+        "id": "aud-1786734386888-2",
+        "timestamp": "2026-08-14T19:06:26.888Z",
+        "action": "Application Approved by Underwriter",
+        "actor": "Senior Underwriter",
+        "status": "APPROVED",
+        "notes": "Approved with reason: Risk within underwriting appetite. Notes: Drip irrigation mitigates drought exposure.",
+        "reason": "Risk within underwriting appetite"
+      }
+    ],
+    "reviewedBy": "Senior Underwriter",
+    "reviewedAt": "2026-08-14T19:06:26.888Z",
+    "decisionReason": "Risk within underwriting appetite",
+    "underwriterNotes": "Drip irrigation mitigates drought exposure."
+  },
+  {
+    "id": "UW-2026-82409",
+    "farmCode": "F-73511",
+    "farmerName": "Ronit Farms ",
+    "farmName": "Ronit Farms ",
+    "region": "Anandgaon, Kaij, Beed",
+    "district": "Anandgaon, Kaij, Beed",
+    "latitude": 18.66230975,
+    "longitude": 76.15341075,
+    "cropCategory": "Cereals / Grains",
+    "crop": "Grape",
+    "cropVariety": "Basmati",
+    "irrigationType": "Rainfed",
+    "soilType": "Black Soil",
+    "areaAcres": 1.1212897389386751,
+    "areaHectares": 0.4538,
+    "geoJson": {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.153059,
+              18.662513
+            ],
+            [
+              76.152923,
+              18.662026
+            ],
+            [
+              76.153856,
+              18.662128
+            ],
+            [
+              76.153805,
+              18.662572
+            ],
+            [
+              76.153059,
+              18.662513
+            ]
+          ]
+        ]
+      }
+    },
+    "environmentalData": {
+      "weather": {
+        "temperatureC": 23.14,
+        "rainfallMm24h": 0,
+        "humidityPct": 82,
+        "windSpeedKph": 27,
+        "status": "live",
+        "source": "OpenWeatherMap",
+        "observedAt": "2026-08-14T19:08:45.000Z"
+      },
+      "ndvi": {
+        "ndvi": null,
+        "observationDate": null,
+        "cloudCoveragePct": null,
+        "status": "not_configured",
+        "source": "Sentinel-2 / Copernicus"
+      },
+      "soilMoisturePct": null,
+      "historicalImd": {
+        "available": true,
+        "gridLat": 18.75,
+        "gridLon": 76.25,
+        "distanceKm": 14.1,
+        "referenceYear": 2022,
+        "yearsAvailable": "2015–2025",
+        "crop": "Grape",
+        "season": "Kharif",
+        "seasonMonthsLabel": "Jun–Oct",
+        "annualRainfallMm": 899,
+        "seasonalRainfallMm": 899,
+        "kharifRainfallMm": 899,
+        "rabiRainfallMm": 0,
+        "rainyDays": 51,
+        "dryDays": 314,
+        "maxDailyRainfallMm": 54.6,
+        "maxConsecutiveRainyDays": 10,
+        "maxConsecutiveDryDays": 152,
+        "rf7dPreharvestMm": 0,
+        "rf30dPreharvestMm": 158.9,
+        "rf90dPreharvestMm": 476.4,
+        "sourceLabel": "IMD Grid (18.75°N, 76.25°E)",
+        "v2_features": {
+          "annual_rainfall": 899.04,
+          "kharif_rainfall": 899.04,
+          "rabi_rainfall": 0,
+          "rainy_days": 51,
+          "dry_days": 314,
+          "max_daily_rainfall": 54.64,
+          "max_consecutive_rainy_days": 10,
+          "max_consecutive_dry_days": 152,
+          "kharif_rf_7d_preharvest": 0,
+          "kharif_rf_30d_preharvest": 158.95,
+          "kharif_rf_90d_preharvest": 476.4,
+          "rabi_rf_7d_preharvest": 0,
+          "rabi_rf_30d_preharvest": 0,
+          "rabi_rf_90d_preharvest": 0
+        }
+      },
+      "v2Features": {
+        "annual_rainfall": 899.04,
+        "kharif_rainfall": 899.04,
+        "rabi_rainfall": 0,
+        "rainy_days": 51,
+        "dry_days": 314,
+        "max_daily_rainfall": 54.64,
+        "max_consecutive_rainy_days": 10,
+        "max_consecutive_dry_days": 152,
+        "kharif_rf_7d_preharvest": 0,
+        "kharif_rf_30d_preharvest": 158.95,
+        "kharif_rf_90d_preharvest": 476.4,
+        "rabi_rf_7d_preharvest": 0,
+        "rabi_rf_30d_preharvest": 0,
+        "rabi_rf_90d_preharvest": 0
+      }
+    },
+    "riskScore": 23,
+    "riskLevel": "LOW",
+    "predictedYieldKgHa": 1632.9,
+    "expectedYieldKgHa": 1520,
+    "yieldDeviationPct": 7.4,
+    "riskFactors": [
+      {
+        "name": "Prev Yield",
+        "contribution": 0.609,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Hist5y Mean Yield",
+        "contribution": 0.396,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Prev2 Yield",
+        "contribution": 0.007,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Prev Area",
+        "contribution": 0,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Area",
+        "contribution": 0,
+        "direction": "increases_risk"
+      }
+    ],
+    "modelMetadata": null,
+    "coverageAmount": 15000,
+    "baseExposure": 1361.4,
+    "riskMultiplier": 0.9,
+    "underwritingAdjAmount": 86.99,
+    "recommendedPremium": 1500,
+    "pricingModelVersion": "v2.0",
+    "status": "REJECTED",
+    "submittedAt": "2026-08-14T19:09:13.646Z",
+    "auditTrail": [
+      {
+        "id": "aud-1786734553646-1",
+        "timestamp": "2026-08-14T19:09:13.646Z",
+        "action": "Application Submitted for Underwriting",
+        "actor": "AgriSurge Workflow System",
+        "status": "UNDER_REVIEW",
+        "notes": "Submitted with Risk Score 23% (LOW) and Recommended Premium ₹1,500."
+      },
+      {
+        "id": "aud-1786734595604-2",
+        "timestamp": "2026-08-14T19:09:55.604Z",
+        "action": "Information Requested from Applicant",
+        "actor": "Senior Underwriter",
+        "status": "NEEDS_INFORMATION",
+        "notes": "Information requested: kuv",
+        "reason": "Additional information required"
+      },
+      {
+        "id": "aud-1786734601391-3",
+        "timestamp": "2026-08-14T19:10:01.391Z",
+        "action": "Application Approved by Underwriter",
+        "actor": "Senior Underwriter",
+        "status": "APPROVED",
+        "notes": "Approved with reason: Acceptable risk appetite. Notes: None",
+        "reason": "Acceptable risk appetite"
+      },
+      {
+        "id": "aud-1786735506826-4",
+        "timestamp": "2026-08-14T19:25:06.826Z",
+        "action": "Application Rejected by Underwriter",
+        "actor": "Senior Underwriter",
+        "status": "REJECTED",
+        "notes": "Rejected with reason: khkh. Notes: None",
+        "reason": "Risk exceeds underwriting appetite"
+      }
+    ],
+    "reviewedBy": "Senior Underwriter",
+    "reviewedAt": "2026-08-14T19:25:06.826Z",
+    "decisionReason": "Risk exceeds underwriting appetite",
+    "informationRequest": "kuv",
+    "rejectionReason": "khkh"
+  },
+  {
+    "id": "UW-2026-88125",
+    "farmCode": "F-24601",
+    "farmerName": "Kunal Farm",
+    "farmName": "Kunal Farm",
+    "region": "Dhawalgaon, Shrigonda, Ahilyanagar",
+    "district": "Dhawalgaon, Shrigonda, Ahilyanagar",
+    "latitude": 18.801835750000002,
+    "longitude": 74.481313,
+    "cropCategory": "Cereals / Grains",
+    "crop": "Potato",
+    "cropVariety": "Basmati",
+    "irrigationType": "Rainfed",
+    "soilType": "Black Soil",
+    "areaAcres": 0.5826549686105624,
+    "areaHectares": 0.2358,
+    "geoJson": {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.481061,
+              18.802041
+            ],
+            [
+              74.480984,
+              18.801715
+            ],
+            [
+              74.481551,
+              18.801623
+            ],
+            [
+              74.481656,
+              18.801964
+            ],
+            [
+              74.481061,
+              18.802041
+            ]
+          ]
+        ]
+      }
+    },
+    "environmentalData": {
+      "weather": {
+        "temperatureC": 23.17,
+        "rainfallMm24h": 0,
+        "humidityPct": 76,
+        "windSpeedKph": 23,
+        "status": "live",
+        "source": "OpenWeatherMap",
+        "observedAt": "2026-08-14T19:21:12.000Z"
+      },
+      "ndvi": {
+        "ndvi": null,
+        "observationDate": null,
+        "cloudCoveragePct": null,
+        "status": "not_configured",
+        "source": "Sentinel-2 / Copernicus"
+      },
+      "soilMoisturePct": null,
+      "historicalImd": {
+        "available": true,
+        "gridLat": 18.75,
+        "gridLon": 74.5,
+        "distanceKm": 6.1,
+        "referenceYear": 2022,
+        "yearsAvailable": "2015–2025",
+        "crop": "Potato",
+        "season": "Kharif",
+        "seasonMonthsLabel": "Jun–Oct",
+        "annualRainfallMm": 659.8,
+        "seasonalRainfallMm": 658.4,
+        "kharifRainfallMm": 658.4,
+        "rabiRainfallMm": 0,
+        "rainyDays": 49,
+        "dryDays": 316,
+        "maxDailyRainfallMm": 39.1,
+        "maxConsecutiveRainyDays": 7,
+        "maxConsecutiveDryDays": 156,
+        "rf7dPreharvestMm": 0,
+        "rf30dPreharvestMm": 175.3,
+        "rf90dPreharvestMm": 505.6,
+        "sourceLabel": "IMD Grid (18.75°N, 74.5°E)",
+        "v2_features": {
+          "annual_rainfall": 659.8,
+          "kharif_rainfall": 658.43,
+          "rabi_rainfall": 0,
+          "rainy_days": 49,
+          "dry_days": 316,
+          "max_daily_rainfall": 39.14,
+          "max_consecutive_rainy_days": 7,
+          "max_consecutive_dry_days": 156,
+          "kharif_rf_7d_preharvest": 0,
+          "kharif_rf_30d_preharvest": 175.29,
+          "kharif_rf_90d_preharvest": 505.58,
+          "rabi_rf_7d_preharvest": 0,
+          "rabi_rf_30d_preharvest": 0,
+          "rabi_rf_90d_preharvest": 0
+        }
+      },
+      "v2Features": {
+        "annual_rainfall": 659.8,
+        "kharif_rainfall": 658.43,
+        "rabi_rainfall": 0,
+        "rainy_days": 49,
+        "dry_days": 316,
+        "max_daily_rainfall": 39.14,
+        "max_consecutive_rainy_days": 7,
+        "max_consecutive_dry_days": 156,
+        "kharif_rf_7d_preharvest": 0,
+        "kharif_rf_30d_preharvest": 175.29,
+        "kharif_rf_90d_preharvest": 505.58,
+        "rabi_rf_7d_preharvest": 0,
+        "rabi_rf_30d_preharvest": 0,
+        "rabi_rf_90d_preharvest": 0
+      }
+    },
+    "riskScore": 23,
+    "riskLevel": "LOW",
+    "predictedYieldKgHa": 1630.3,
+    "expectedYieldKgHa": 1520,
+    "yieldDeviationPct": 7.3,
+    "riskFactors": [
+      {
+        "name": "Prev Yield",
+        "contribution": 0.609,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Hist5y Mean Yield",
+        "contribution": 0.396,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Prev2 Yield",
+        "contribution": 0.007,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Prev Area",
+        "contribution": 0,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Area",
+        "contribution": 0,
+        "direction": "increases_risk"
+      }
+    ],
+    "modelMetadata": null,
+    "coverageAmount": 15000,
+    "baseExposure": 707.4,
+    "riskMultiplier": 0.9,
+    "underwritingAdjAmount": 18.46,
+    "recommendedPremium": 1500,
+    "pricingModelVersion": "v2.0",
+    "status": "APPROVED",
+    "submittedAt": "2026-08-14T19:23:17.728Z",
+    "auditTrail": [
+      {
+        "id": "aud-1786735397728-1",
+        "timestamp": "2026-08-14T19:23:17.728Z",
+        "action": "Application Submitted for Underwriting",
+        "actor": "AgriSurge Workflow System",
+        "status": "UNDER_REVIEW",
+        "notes": "Submitted with Risk Score 23% (LOW) and Recommended Premium ₹1,500."
+      },
+      {
+        "id": "aud-1786735452323-2",
+        "timestamp": "2026-08-14T19:24:12.323Z",
+        "action": "Information Requested from Applicant",
+        "actor": "Senior Underwriter",
+        "status": "NEEDS_INFORMATION",
+        "notes": "Information requested: kjvkh",
+        "reason": "Additional information required"
+      },
+      {
+        "id": "aud-1786735460422-3",
+        "timestamp": "2026-08-14T19:24:20.422Z",
+        "action": "Application Approved by Underwriter",
+        "actor": "Senior Underwriter",
+        "status": "APPROVED",
+        "notes": "Approved with reason: Acceptable risk appetite. Notes: None",
+        "reason": "Acceptable risk appetite"
+      }
+    ],
+    "reviewedBy": "Senior Underwriter",
+    "reviewedAt": "2026-08-14T19:24:20.422Z",
+    "decisionReason": "Acceptable risk appetite",
+    "informationRequest": "kjvkh"
+  },
+  {
+    "id": "UW-2026-61696",
+    "farmCode": "F-56419",
+    "farmerName": "h hhk",
+    "farmName": "h hhk",
+    "region": "Andheri, Andheri, Mumbai Suburban",
+    "district": "Andheri, Andheri, Mumbai Suburban",
+    "latitude": 19.12491875,
+    "longitude": 72.81259025,
+    "cropCategory": "Cereals / Grains",
+    "crop": "Avocado",
+    "cropVariety": "Basmati",
+    "irrigationType": "Rainfed",
+    "soilType": "Black Soil",
+    "areaAcres": 6.676619328333151,
+    "areaHectares": 2.7019,
+    "geoJson": {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              72.811475,
+              19.125458
+            ],
+            [
+              72.812161,
+              19.124101
+            ],
+            [
+              72.813491,
+              19.124324
+            ],
+            [
+              72.813234,
+              19.125792
+            ],
+            [
+              72.811475,
+              19.125458
+            ]
+          ]
+        ]
+      }
+    },
+    "environmentalData": {
+      "weather": {
+        "temperatureC": 28.05,
+        "rainfallMm24h": 0,
+        "humidityPct": 83,
+        "windSpeedKph": 19,
+        "status": "live",
+        "source": "OpenWeatherMap",
+        "observedAt": "2026-08-14T19:28:20.000Z"
+      },
+      "ndvi": {
+        "ndvi": null,
+        "observationDate": null,
+        "cloudCoveragePct": null,
+        "status": "not_configured",
+        "source": "Sentinel-2 / Copernicus"
+      },
+      "soilMoisturePct": null,
+      "historicalImd": {
+        "available": true,
+        "gridLat": 19,
+        "gridLon": 72.75,
+        "distanceKm": 15.3,
+        "referenceYear": 2022,
+        "yearsAvailable": "2015–2025",
+        "crop": "Avocado",
+        "season": "Kharif",
+        "seasonMonthsLabel": "Jun–Oct",
+        "annualRainfallMm": 2552.5,
+        "seasonalRainfallMm": 2547.6,
+        "kharifRainfallMm": 2547.6,
+        "rabiRainfallMm": 1.7,
+        "rainyDays": 103,
+        "dryDays": 262,
+        "maxDailyRainfallMm": 182.3,
+        "maxConsecutiveRainyDays": 32,
+        "maxConsecutiveDryDays": 160,
+        "rf7dPreharvestMm": 0,
+        "rf30dPreharvestMm": 180.7,
+        "rf90dPreharvestMm": 1142.3,
+        "sourceLabel": "IMD Grid (19.0°N, 72.75°E)",
+        "v2_features": {
+          "annual_rainfall": 2552.51,
+          "kharif_rainfall": 2547.59,
+          "rabi_rainfall": 1.73,
+          "rainy_days": 103,
+          "dry_days": 262,
+          "max_daily_rainfall": 182.32,
+          "max_consecutive_rainy_days": 32,
+          "max_consecutive_dry_days": 160,
+          "kharif_rf_7d_preharvest": 0,
+          "kharif_rf_30d_preharvest": 180.68,
+          "kharif_rf_90d_preharvest": 1142.25,
+          "rabi_rf_7d_preharvest": 0,
+          "rabi_rf_30d_preharvest": 0,
+          "rabi_rf_90d_preharvest": 1.73
+        }
+      },
+      "v2Features": {
+        "annual_rainfall": 2552.51,
+        "kharif_rainfall": 2547.59,
+        "rabi_rainfall": 1.73,
+        "rainy_days": 103,
+        "dry_days": 262,
+        "max_daily_rainfall": 182.32,
+        "max_consecutive_rainy_days": 32,
+        "max_consecutive_dry_days": 160,
+        "kharif_rf_7d_preharvest": 0,
+        "kharif_rf_30d_preharvest": 180.68,
+        "kharif_rf_90d_preharvest": 1142.25,
+        "rabi_rf_7d_preharvest": 0,
+        "rabi_rf_30d_preharvest": 0,
+        "rabi_rf_90d_preharvest": 1.73
+      }
+    },
+    "riskScore": 23,
+    "riskLevel": "LOW",
+    "predictedYieldKgHa": 1629.4,
+    "expectedYieldKgHa": 1520,
+    "yieldDeviationPct": 7.2,
+    "riskFactors": [
+      {
+        "name": "Prev Yield",
+        "contribution": 0.609,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Hist5y Mean Yield",
+        "contribution": 0.396,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Prev2 Yield",
+        "contribution": 0.007,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Prev Area",
+        "contribution": 0,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Area",
+        "contribution": 0,
+        "direction": "increases_risk"
+      }
+    ],
+    "modelMetadata": null,
+    "coverageAmount": 76600,
+    "baseExposure": 8105.7,
+    "riskMultiplier": 0.9,
+    "underwritingAdjAmount": 364.76,
+    "recommendedPremium": 7660,
+    "pricingModelVersion": "v2.0",
+    "status": "APPROVED",
+    "submittedAt": "2026-08-14T19:28:56.639Z",
+    "auditTrail": [
+      {
+        "id": "aud-1786735736639-1",
+        "timestamp": "2026-08-14T19:28:56.639Z",
+        "action": "Application Submitted for Underwriting",
+        "actor": "AgriSurge Workflow System",
+        "status": "UNDER_REVIEW",
+        "notes": "Submitted with Risk Score 23% (LOW) and Recommended Premium ₹7,660."
+      },
+      {
+        "id": "aud-1786735790305-2",
+        "timestamp": "2026-08-14T19:29:50.305Z",
+        "action": "Application Approved by Underwriter",
+        "actor": "Senior Underwriter",
+        "status": "APPROVED",
+        "notes": "Approved with reason: Acceptable risk appetite. Notes: None",
+        "reason": "Acceptable risk appetite"
+      }
+    ],
+    "reviewedBy": "Senior Underwriter",
+    "reviewedAt": "2026-08-14T19:29:50.305Z",
+    "decisionReason": "Acceptable risk appetite"
+  }
+]

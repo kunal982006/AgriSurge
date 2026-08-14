@@ -1,0 +1,5 @@
+Crop,State,Season,Area-Average,Area-Maximum,Area-Minimum,Production-Average,Production-Maximum,Production-Minimum,Yield-Average,Yield-Maximum,Yield-Minimum
+Rice,Maharashtra,Kharif,15.25,15.55,14.73,33.34,34.63,30.28,2187.00,2270.00,2056.00
+Rice,Maharashtra,Rabi,0.96,1.03,0.88,2.84,3.03,2.64,2969.00,3001.00,2954.00
+Rice,Maharashtra,Summer,1.64,1.68,1.61,4.40,4.45,4.37,2681.00,2732.00,2611.00
+Rice,Maharashtra,Total,16.61,17.18,15.61,37.11,39.00,32.92,2234.00,2304.00,2109.00
