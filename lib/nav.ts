@@ -7,7 +7,6 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Overview", href: "/overview" },
   { label: "Risk Analysis", href: "/risk-analysis" },
   { label: "Farm Map", href: "/farm-map" },
-  { label: "Farms", href: "/farms" },
   { label: "Policies", href: "/policies" },
   { label: "Reports & Analytics", href: "/reports" },
   { label: "Notifications", href: "/notifications" },

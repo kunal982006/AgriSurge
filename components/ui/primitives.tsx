@@ -56,32 +56,32 @@ export function RiskBadge({ level }: { level: RiskLevel }) {
   );
 }
 
-type Status = "active" | "pending" | "expired" | "under_review" | "connected" | "not_configured" | "error";
+export function StatusBadge({ status }: { status: string }) {
+  const norm = (status || "").toLowerCase().replace(/\s+/g, "_");
 
-const STATUS_STYLES: Record<Status, string> = {
-  active: "bg-[var(--color-emerald-dim)] text-[var(--color-emerald)]",
-  connected: "bg-[var(--color-emerald-dim)] text-[var(--color-emerald)]",
-  pending: "bg-[var(--color-amber-dim)] text-[var(--color-amber)]",
-  under_review: "bg-[var(--color-amber-dim)] text-[var(--color-amber)]",
-  expired: "border border-[var(--color-border-strong)] text-[var(--color-text-dim)]",
-  not_configured: "border border-[var(--color-border-strong)] text-[var(--color-text-dim)]",
-  error: "bg-[var(--color-red-dim)] text-[var(--color-red)]",
-};
+  let style = "border border-[var(--color-border-strong)] text-[var(--color-text-dim)]";
+  let label = status ? status.replace(/_/g, " ") : "Unknown";
 
-const STATUS_LABELS: Record<Status, string> = {
-  active: "Active",
-  connected: "Connected",
-  pending: "Pending",
-  under_review: "Under review",
-  expired: "Expired",
-  not_configured: "Not configured",
-  error: "Error",
-};
+  if (norm === "approved" || norm === "active" || norm === "connected") {
+    style = "bg-[var(--color-emerald-dim)] text-[var(--color-emerald)]";
+    label = norm === "approved" ? "Approved" : norm === "active" ? "Active" : "Connected";
+  } else if (norm === "under_review" || norm === "pending") {
+    style = "bg-[var(--color-amber-dim)] text-[var(--color-amber)]";
+    label = "Under review";
+  } else if (norm === "needs_information") {
+    style = "bg-indigo-500/15 text-indigo-400 border border-indigo-500/30";
+    label = "Needs Info";
+  } else if (norm === "rejected" || norm === "error") {
+    style = "bg-[var(--color-red-dim)] text-[var(--color-red)]";
+    label = "Rejected";
+  } else if (norm === "draft") {
+    style = "bg-white/5 text-white/50 border border-white/10";
+    label = "Draft";
+  }
 
-export function StatusBadge({ status }: { status: Status }) {
   return (
-    <span className={`inline-flex items-center rounded-[4px] px-1.5 py-0.5 text-[11px] font-medium ${STATUS_STYLES[status]}`}>
-      {STATUS_LABELS[status]}
+    <span className={`inline-flex items-center rounded-[4px] px-1.5 py-0.5 text-[11px] font-medium ${style}`}>
+      {label}
     </span>
   );
 }

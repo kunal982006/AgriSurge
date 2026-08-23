@@ -1,0 +1,174 @@
+{
+  "rows": 2200,
+  "columns": 8,
+  "column_names": [
+    "N",
+    "P",
+    "K",
+    "temperature",
+    "humidity",
+    "ph",
+    "rainfall",
+    "label"
+  ],
+  "dtypes": {
+    "N": "int64",
+    "P": "int64",
+    "K": "int64",
+    "temperature": "float64",
+    "humidity": "float64",
+    "ph": "float64",
+    "rainfall": "float64",
+    "label": "str"
+  },
+  "missing_values": 0,
+  "duplicate_rows": 0,
+  "num_unique_crops": 22,
+  "unique_crops": [
+    "apple",
+    "banana",
+    "blackgram",
+    "chickpea",
+    "coconut",
+    "coffee",
+    "cotton",
+    "grapes",
+    "jute",
+    "kidneybeans",
+    "lentil",
+    "maize",
+    "mango",
+    "mothbeans",
+    "mungbean",
+    "muskmelon",
+    "orange",
+    "papaya",
+    "pigeonpeas",
+    "pomegranate",
+    "rice",
+    "watermelon"
+  ],
+  "crop_counts": {
+    "rice": 100,
+    "maize": 100,
+    "chickpea": 100,
+    "kidneybeans": 100,
+    "pigeonpeas": 100,
+    "mothbeans": 100,
+    "mungbean": 100,
+    "blackgram": 100,
+    "lentil": 100,
+    "pomegranate": 100,
+    "banana": 100,
+    "mango": 100,
+    "grapes": 100,
+    "watermelon": 100,
+    "muskmelon": 100,
+    "apple": 100,
+    "orange": 100,
+    "papaya": 100,
+    "coconut": 100,
+    "cotton": 100,
+    "jute": 100,
+    "coffee": 100
+  },
+  "feature_stats": {
+    "N": {
+      "Min": 0.0,
+      "Max": 140.0,
+      "Mean": 50.551818181818184,
+      "Median": 37.0,
+      "Std": 36.9173338337566
+    },
+    "P": {
+      "Min": 5.0,
+      "Max": 145.0,
+      "Mean": 53.36272727272727,
+      "Median": 51.0,
+      "Std": 32.98588273858715
+    },
+    "K": {
+      "Min": 5.0,
+      "Max": 205.0,
+      "Mean": 48.14909090909091,
+      "Median": 32.0,
+      "Std": 50.64793054666013
+    },
+    "temperature": {
+      "Min": 8.825674745,
+      "Max": 43.67549305,
+      "Mean": 25.616243851779544,
+      "Median": 25.5986932,
+      "Std": 5.063748599958843
+    },
+    "humidity": {
+      "Min": 14.25803981,
+      "Max": 99.98187601,
+      "Mean": 71.48177921778637,
+      "Median": 80.473145665,
+      "Std": 22.263811589761083
+    },
+    "ph": {
+      "Min": 3.504752314,
+      "Max": 9.93509073,
+      "Mean": 6.469480065256364,
+      "Median": 6.42504527,
+      "Std": 0.7739376880298733
+    },
+    "rainfall": {
+      "Min": 20.21126747,
+      "Max": 298.5601175,
+      "Mean": 103.46365541576817,
+      "Median": 94.86762427,
+      "Std": 54.95838852487813
+    }
+  },
+  "matches": [
+    [
+      "chickpea",
+      "CHICKPEA"
+    ],
+    [
+      "cotton",
+      "COTTON"
+    ],
+    [
+      "maize",
+      "MAIZE"
+    ],
+    [
+      "rice",
+      "RICE"
+    ]
+  ],
+  "csv_only": [
+    "apple",
+    "banana",
+    "blackgram",
+    "coconut",
+    "coffee",
+    "grapes",
+    "jute",
+    "kidneybeans",
+    "lentil",
+    "mango",
+    "mothbeans",
+    "mungbean",
+    "muskmelon",
+    "orange",
+    "papaya",
+    "pigeonpeas",
+    "pomegranate",
+    "watermelon"
+  ],
+  "agrisurge_missing": [
+    "WHEAT",
+    "KHARIF SORGHUM",
+    "RABI SORGHUM",
+    "PEARL MILLET",
+    "PIGEONPEA",
+    "GROUNDNUT",
+    "SOYABEAN",
+    "SUGARCANE"
+  ]
+}

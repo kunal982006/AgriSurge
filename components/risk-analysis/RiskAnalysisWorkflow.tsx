@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
 import { Card } from "@/components/ui/primitives";
+import { SensorSoilDataStep, SensorData, DEFAULT_SENSOR_DATA } from "./SensorSoilDataStep";
 import { LocationStep } from "./LocationStep";
 import { FarmLocation } from "@/lib/geocoding/types";
 import { FarmDetailsStep, FarmDetails, EMPTY_FARM_DETAILS } from "./FarmDetailsStep";
@@ -15,6 +16,7 @@ import { CurrentWeather, HistoricalImdReading } from "@/lib/weather/types";
 import { NdviReading } from "@/lib/satellite/types";
 
 const STEPS = [
+  "Sensor & soil data",
   "Select farm location",
   "Farm & crop details",
   "Environmental data",
@@ -24,6 +26,7 @@ const STEPS = [
 
 export function RiskAnalysisWorkflow() {
   const [step, setStep] = useState(0);
+  const [sensorData, setSensorData] = useState<SensorData>(DEFAULT_SENSOR_DATA);
   const [parcel, setParcel] = useState<FarmLocation | null>(null);
   const [details, setDetails] = useState<FarmDetails>(EMPTY_FARM_DETAILS);
   const [envData, setEnvData] = useState<{
@@ -44,6 +47,13 @@ export function RiskAnalysisWorkflow() {
   const [submissionResult, setSubmissionResult] = useState<SubmissionResult | null>(null);
 
   const canAdvance = [
+    sensorData.nitrogen !== "" &&
+      sensorData.phosphorus !== "" &&
+      sensorData.potassium !== "" &&
+      sensorData.temperature !== "" &&
+      sensorData.humidity !== "" &&
+      sensorData.soilPH !== "" &&
+      sensorData.rainfall !== "",
     !!parcel?.district && !!parcel?.taluka && !!parcel?.village && !!parcel?.geoJson && !!parcel?.isValid,
     !!details.farmName.trim() &&
       !!details.farmerName.trim() &&
@@ -56,7 +66,7 @@ export function RiskAnalysisWorkflow() {
       !!details.soilType,
     true,
     !!prediction,
-    true
+    true,
   ];
 
   const runAssessment = async () => {
@@ -86,6 +96,7 @@ export function RiskAnalysisWorkflow() {
           soilMoisturePct: envData.soilMoisturePct ?? undefined,
           ndvi: envData.ndvi?.ndvi ?? null,
           v2Features: envData.v2Features ?? undefined,
+          sensorData,
         }),
       });
       if (!res.ok) throw new Error("Risk model service is currently unavailable.");
@@ -100,7 +111,7 @@ export function RiskAnalysisWorkflow() {
   };
 
   const goNext = () => {
-    if (step === 2) {
+    if (step === 3) {
       runAssessment();
     }
     setStep((s) => Math.min(STEPS.length - 1, s + 1));
@@ -121,7 +132,10 @@ export function RiskAnalysisWorkflow() {
           location: { latitude: parcel.latitude, longitude: parcel.longitude },
           geoPolygon: parcel.geoJson,
           area: parcel.areaAcres,
-          environmentalData: envData,
+          environmentalData: {
+            ...envData,
+            sensorData,
+          },
           riskAssessment: {
             riskScore: prediction.riskScore,
             riskTier: prediction.riskLevel,
@@ -136,7 +150,7 @@ export function RiskAnalysisWorkflow() {
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to submit for underwriting.");
-      
+
       setSubmissionResult({
         assessmentId: data.assessmentId,
         status: data.status,
@@ -191,28 +205,29 @@ export function RiskAnalysisWorkflow() {
       <Card className="px-5 py-5">
         <h2 className="mb-4 text-[14px] font-medium text-[var(--color-text)]">{STEPS[step]}</h2>
 
-        {step === 0 && <LocationStep onSelect={setParcel} />}
-        {step === 1 && <FarmDetailsStep details={details} onChange={setDetails} />}
-        {step === 2 && (
-          <EnvironmentalDataStep 
-            lat={parcel?.latitude ?? null} 
-            lng={parcel?.longitude ?? null} 
+        {step === 0 && <SensorSoilDataStep data={sensorData} onChange={setSensorData} />}
+        {step === 1 && <LocationStep onSelect={setParcel} />}
+        {step === 2 && <FarmDetailsStep details={details} onChange={setDetails} sensorData={sensorData} />}
+        {step === 3 && (
+          <EnvironmentalDataStep
+            lat={parcel?.latitude ?? null}
+            lng={parcel?.longitude ?? null}
             farmDetails={details}
             farmLocation={parcel}
-            onData={setEnvData} 
-          />
-        )}
-        {step === 3 && (
-          <RiskAssessmentStep 
-            loading={assessing} 
-            result={prediction} 
-            error={assessmentError} 
-            onRetry={runAssessment}
+            onData={setEnvData}
           />
         )}
         {step === 4 && (
-          <PremiumRecommendationStep 
-            breakdown={pricing} 
+          <RiskAssessmentStep
+            loading={assessing}
+            result={prediction}
+            error={assessmentError}
+            onRetry={runAssessment}
+          />
+        )}
+        {step === 5 && (
+          <PremiumRecommendationStep
+            breakdown={pricing}
             onSubmit={submitUnderwriting}
             isSubmitting={submitting}
             error={submitError}
@@ -236,7 +251,7 @@ export function RiskAnalysisWorkflow() {
               disabled={!canAdvance[step]}
               className="rounded-[6px] bg-[var(--color-emerald)] px-3.5 py-2 text-[12.5px] font-medium text-[#0c1210] disabled:opacity-40"
             >
-              {step === 2 ? "Run risk assessment" : "Continue"}
+              {step === 3 ? "Run risk assessment" : "Continue"}
             </button>
           )}
         </div>
