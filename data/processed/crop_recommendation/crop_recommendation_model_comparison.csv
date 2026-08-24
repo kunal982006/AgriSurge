@@ -1,0 +1,6 @@
+Model,Val_Accuracy,Val_Macro_Precision,Val_Macro_Recall,Val_Macro_F1,Val_Weighted_F1
+ExtraTreesClassifier,0.9939,0.9943,0.9939,0.9939,0.9939
+RandomForestClassifier,0.9909,0.9915,0.9909,0.9909,0.9909
+HistGradientBoostingClassifier,0.9879,0.989,0.9879,0.9878,0.9878
+GradientBoostingClassifier,0.9848,0.9859,0.9848,0.9848,0.9848
+KNeighborsClassifier,0.9848,0.9861,0.9848,0.9848,0.9848

@@ -779,5 +779,389 @@
     "reviewedBy": "Senior Underwriter",
     "reviewedAt": "2026-08-14T19:29:50.305Z",
     "decisionReason": "Acceptable risk appetite"
+  },
+  {
+    "id": "UW-2026-36722",
+    "farmCode": "F-81261",
+    "farmerName": "iuiv",
+    "farmName": "iuiv",
+    "region": "Ajayapur Raiyyatwari, Chandrapur, Chandrapur",
+    "district": "Ajayapur Raiyyatwari, Chandrapur, Chandrapur",
+    "latitude": 19.918656499999997,
+    "longitude": 79.25239925,
+    "cropCategory": "Commercial / Fiber",
+    "crop": "Cotton",
+    "cropVariety": "Basmati",
+    "irrigationType": "Rainfed",
+    "soilType": "Black Soil",
+    "areaAcres": 1.0706370950712933,
+    "areaHectares": 0.4333,
+    "geoJson": {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              79.252183,
+              19.919052
+            ],
+            [
+              79.252644,
+              19.919082
+            ],
+            [
+              79.252609,
+              19.918246
+            ],
+            [
+              79.252161,
+              19.918246
+            ],
+            [
+              79.252183,
+              19.919052
+            ]
+          ]
+        ]
+      }
+    },
+    "environmentalData": {
+      "weather": {
+        "temperatureC": 25.61,
+        "rainfallMm24h": 0,
+        "humidityPct": 92,
+        "windSpeedKph": 14,
+        "status": "live",
+        "source": "OpenWeatherMap",
+        "observedAt": "2026-08-23T13:28:44.000Z"
+      },
+      "ndvi": {
+        "ndvi": null,
+        "observationDate": null,
+        "cloudCoveragePct": null,
+        "status": "not_configured",
+        "source": "Sentinel-2 / Copernicus"
+      },
+      "soilMoisturePct": null,
+      "historicalImd": {
+        "available": true,
+        "gridLat": 20,
+        "gridLon": 79.25,
+        "distanceKm": 9,
+        "referenceYear": 2022,
+        "yearsAvailable": "2015–2025",
+        "crop": "Cotton",
+        "season": "Kharif",
+        "seasonMonthsLabel": "Jun–Oct",
+        "annualRainfallMm": 1462,
+        "seasonalRainfallMm": 1391.4,
+        "kharifRainfallMm": 1391.4,
+        "rabiRainfallMm": 70.6,
+        "rainyDays": 66,
+        "dryDays": 299,
+        "maxDailyRainfallMm": 103.2,
+        "maxConsecutiveRainyDays": 17,
+        "maxConsecutiveDryDays": 146,
+        "rf7dPreharvestMm": 0,
+        "rf30dPreharvestMm": 50.8,
+        "rf90dPreharvestMm": 641.1,
+        "sourceLabel": "IMD Grid (20.0°N, 79.25°E)",
+        "v2_features": {
+          "annual_rainfall": 1461.96,
+          "kharif_rainfall": 1391.39,
+          "rabi_rainfall": 70.57,
+          "rainy_days": 66,
+          "dry_days": 299,
+          "max_daily_rainfall": 103.18,
+          "max_consecutive_rainy_days": 17,
+          "max_consecutive_dry_days": 146,
+          "kharif_rf_7d_preharvest": 0,
+          "kharif_rf_30d_preharvest": 50.78,
+          "kharif_rf_90d_preharvest": 641.13,
+          "rabi_rf_7d_preharvest": 0,
+          "rabi_rf_30d_preharvest": 0,
+          "rabi_rf_90d_preharvest": 70.57
+        }
+      },
+      "v2Features": {
+        "annual_rainfall": 1461.96,
+        "kharif_rainfall": 1391.39,
+        "rabi_rainfall": 70.57,
+        "rainy_days": 66,
+        "dry_days": 299,
+        "max_daily_rainfall": 103.18,
+        "max_consecutive_rainy_days": 17,
+        "max_consecutive_dry_days": 146,
+        "kharif_rf_7d_preharvest": 0,
+        "kharif_rf_30d_preharvest": 50.78,
+        "kharif_rf_90d_preharvest": 641.13,
+        "rabi_rf_7d_preharvest": 0,
+        "rabi_rf_30d_preharvest": 0,
+        "rabi_rf_90d_preharvest": 70.57
+      },
+      "sensorData": {
+        "soilMoisture": 42,
+        "soilTemperature": 27,
+        "airTemperature": 31,
+        "humidity": 64,
+        "soilPH": 6.7,
+        "soilNutrientLevel": "Medium",
+        "source": "iot",
+        "deviceStatus": "connected",
+        "deviceName": "AgriSurge Sensor Node #8421",
+        "lastSynced": "Just now (06:57:12 pm)"
+      }
+    },
+    "riskScore": 95,
+    "riskLevel": "HIGH",
+    "predictedYieldKgHa": 100,
+    "expectedYieldKgHa": 380.5,
+    "yieldDeviationPct": -73.7,
+    "riskFactors": [
+      {
+        "name": "Prev Yield",
+        "contribution": 0.609,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Hist5y Mean Yield",
+        "contribution": 0.396,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Prev2 Yield",
+        "contribution": 0.007,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Prev Area",
+        "contribution": 0,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Area",
+        "contribution": 0,
+        "direction": "increases_risk"
+      }
+    ],
+    "modelMetadata": null,
+    "coverageAmount": 25900,
+    "baseExposure": 1949.85,
+    "riskMultiplier": 1.4,
+    "underwritingAdjAmount": -136.49,
+    "recommendedPremium": 2590,
+    "pricingModelVersion": "v2.0",
+    "status": "APPROVED",
+    "submittedAt": "2026-08-23T13:29:47.832Z",
+    "auditTrail": [
+      {
+        "id": "aud-1787491787832-1",
+        "timestamp": "2026-08-23T13:29:47.832Z",
+        "action": "Application Submitted for Underwriting",
+        "actor": "AgriSurge Workflow System",
+        "status": "UNDER_REVIEW",
+        "notes": "Submitted with Risk Score 95% (HIGH) and Recommended Premium ₹2,590."
+      },
+      {
+        "id": "aud-1787498236818-2",
+        "timestamp": "2026-08-23T15:17:16.818Z",
+        "action": "Application Approved by Underwriter",
+        "actor": "Senior Underwriter",
+        "status": "APPROVED",
+        "notes": "Approved with reason: Acceptable risk appetite. Notes: None",
+        "reason": "Acceptable risk appetite"
+      }
+    ],
+    "reviewedBy": "Senior Underwriter",
+    "reviewedAt": "2026-08-23T15:17:16.818Z",
+    "decisionReason": "Acceptable risk appetite"
+  },
+  {
+    "id": "UW-2026-77966",
+    "farmCode": "F-26493",
+    "farmerName": "Ronit",
+    "farmName": "Ronit",
+    "region": "Dhamankhel, Junnar, Pune",
+    "district": "Dhamankhel, Junnar, Pune",
+    "latitude": 19.203321499999998,
+    "longitude": 73.9748165,
+    "cropCategory": "Cereals / Grains",
+    "crop": "Banana",
+    "cropVariety": "Basmati",
+    "irrigationType": "Rainfed",
+    "soilType": "Black Soil",
+    "areaAcres": 2.0101132997611026,
+    "areaHectares": 0.8135,
+    "geoJson": {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              73.974317,
+              19.203701
+            ],
+            [
+              73.975435,
+              19.203529
+            ],
+            [
+              73.975352,
+              19.202952
+            ],
+            [
+              73.974162,
+              19.203104
+            ],
+            [
+              73.974317,
+              19.203701
+            ]
+          ]
+        ]
+      }
+    },
+    "environmentalData": {
+      "weather": {
+        "temperatureC": 22.72,
+        "rainfallMm24h": 0,
+        "humidityPct": 78,
+        "windSpeedKph": 14,
+        "status": "live",
+        "source": "OpenWeatherMap",
+        "observedAt": "2026-08-23T15:16:10.000Z"
+      },
+      "ndvi": {
+        "ndvi": null,
+        "observationDate": null,
+        "cloudCoveragePct": null,
+        "status": "not_configured",
+        "source": "Sentinel-2 / Copernicus"
+      },
+      "soilMoisturePct": null,
+      "historicalImd": {
+        "available": true,
+        "gridLat": 19.25,
+        "gridLon": 74,
+        "distanceKm": 5.8,
+        "referenceYear": 2022,
+        "yearsAvailable": "2015–2025",
+        "crop": "Banana",
+        "season": "Kharif",
+        "seasonMonthsLabel": "Jun–Oct",
+        "annualRainfallMm": 1224.8,
+        "seasonalRainfallMm": 1220.5,
+        "kharifRainfallMm": 1220.5,
+        "rabiRainfallMm": 4.4,
+        "rainyDays": 77,
+        "dryDays": 288,
+        "maxDailyRainfallMm": 92.5,
+        "maxConsecutiveRainyDays": 16,
+        "maxConsecutiveDryDays": 81,
+        "rf7dPreharvestMm": 0,
+        "rf30dPreharvestMm": 222.9,
+        "rf90dPreharvestMm": 741.9,
+        "sourceLabel": "IMD Grid (19.25°N, 74.0°E)",
+        "v2_features": {
+          "annual_rainfall": 1224.85,
+          "kharif_rainfall": 1220.45,
+          "rabi_rainfall": 4.4,
+          "rainy_days": 77,
+          "dry_days": 288,
+          "max_daily_rainfall": 92.45,
+          "max_consecutive_rainy_days": 16,
+          "max_consecutive_dry_days": 81,
+          "kharif_rf_7d_preharvest": 0,
+          "kharif_rf_30d_preharvest": 222.91,
+          "kharif_rf_90d_preharvest": 741.95,
+          "rabi_rf_7d_preharvest": 0,
+          "rabi_rf_30d_preharvest": 4.4,
+          "rabi_rf_90d_preharvest": 4.4
+        }
+      },
+      "v2Features": {
+        "annual_rainfall": 1224.85,
+        "kharif_rainfall": 1220.45,
+        "rabi_rainfall": 4.4,
+        "rainy_days": 77,
+        "dry_days": 288,
+        "max_daily_rainfall": 92.45,
+        "max_consecutive_rainy_days": 16,
+        "max_consecutive_dry_days": 81,
+        "kharif_rf_7d_preharvest": 0,
+        "kharif_rf_30d_preharvest": 222.91,
+        "kharif_rf_90d_preharvest": 741.95,
+        "rabi_rf_7d_preharvest": 0,
+        "rabi_rf_30d_preharvest": 4.4,
+        "rabi_rf_90d_preharvest": 4.4
+      },
+      "sensorData": {
+        "nitrogen": "67",
+        "phosphorus": "91",
+        "potassium": "118",
+        "temperature": "31.4",
+        "humidity": "57.8",
+        "soilPH": "7.23",
+        "rainfall": "137.6",
+        "source": "manual",
+        "deviceStatus": "idle",
+        "deviceName": "AgriSurge Sensor Node"
+      }
+    },
+    "riskScore": 21,
+    "riskLevel": "LOW",
+    "predictedYieldKgHa": 1645.3,
+    "expectedYieldKgHa": 1520,
+    "yieldDeviationPct": 8.2,
+    "riskFactors": [
+      {
+        "name": "Prev Yield",
+        "contribution": 0.609,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Hist5y Mean Yield",
+        "contribution": 0.396,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Prev2 Yield",
+        "contribution": 0.007,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Prev Area",
+        "contribution": 0,
+        "direction": "increases_risk"
+      },
+      {
+        "name": "Area",
+        "contribution": 0,
+        "direction": "increases_risk"
+      }
+    ],
+    "modelMetadata": null,
+    "coverageAmount": 21300,
+    "baseExposure": 2440.5,
+    "riskMultiplier": 0.9,
+    "underwritingAdjAmount": -65.89,
+    "recommendedPremium": 2130,
+    "pricingModelVersion": "v2.0",
+    "status": "UNDER_REVIEW",
+    "submittedAt": "2026-08-23T15:16:54.648Z",
+    "auditTrail": [
+      {
+        "id": "aud-1787498214648-1",
+        "timestamp": "2026-08-23T15:16:54.648Z",
+        "action": "Application Submitted for Underwriting",
+        "actor": "AgriSurge Workflow System",
+        "status": "UNDER_REVIEW",
+        "notes": "Submitted with Risk Score 21% (LOW) and Recommended Premium ₹2,130."
+      }
+    ]
   }
 ]

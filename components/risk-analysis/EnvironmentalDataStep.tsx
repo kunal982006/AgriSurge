@@ -9,7 +9,6 @@ import {
   Info,
   MapPin,
   RefreshCw,
-  Satellite,
   Sprout,
   Sun,
   Thermometer,
@@ -406,102 +405,11 @@ export function EnvironmentalDataStep({
         )}
       </div>
 
-      {/* SECTION 4: SHORT-TERM FORECAST */}
-      <div>
-        <div className="mb-2.5 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sun size={15} className="text-amber-400" />
-            <h3 className="text-[13px] font-semibold uppercase tracking-wider text-[var(--color-text)]">
-              Short-Term Forecast (7-Day Window)
-            </h3>
-          </div>
-          <SourceBadge type="forecast" label="7-DAY FORECAST" />
-        </div>
-
-        {weather?.forecast ? (
-          <div className="flex flex-col gap-2.5">
-            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-              <MetricCard
-                icon={CloudRain}
-                label="7-Day Rain Forecast"
-                value={`${weather.forecast.totalRainfallMm7d} mm`}
-                subtext="Expected 7-day accumulation"
-                badgeType="forecast"
-              />
-              <MetricCard
-                icon={Thermometer}
-                label="Temp Range (Avg)"
-                value={`${weather.forecast.avgTempMinC}°C – ${weather.forecast.avgTempMaxC}°C`}
-                subtext="Average 7-day high/low"
-                badgeType="forecast"
-              />
-              <MetricCard
-                icon={Wind}
-                label="Max Wind Forecast"
-                value={`${Math.max(...weather.forecast.days.map((d) => d.maxWindSpeedKph)).toFixed(0)} km/h`}
-                subtext="Peak expected wind"
-                badgeType="forecast"
-              />
-            </div>
-
-            {/* Daily forecast strip */}
-            <div className="grid grid-cols-7 gap-1.5 overflow-x-auto rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)]/40 p-2 text-center">
-              {weather.forecast.days.map((d) => (
-                <div key={d.date} className="flex flex-col items-center rounded-[4px] bg-[var(--color-surface)] p-1.5 text-[10.5px]">
-                  <span className="font-semibold text-[var(--color-text-muted)]">
-                    {new Date(d.date).toLocaleDateString([], { weekday: "short" })}
-                  </span>
-                  <span className="text-[9.5px] text-[var(--color-text-dim)]">{d.date.slice(5)}</span>
-                  <span className="tnum mt-1 font-medium text-amber-300">{d.tempMaxC.toFixed(0)}°</span>
-                  <span className="tnum text-[9.5px] text-[var(--color-text-dim)]">{d.tempMinC.toFixed(0)}°</span>
-                  <span className="tnum mt-1 font-semibold text-blue-400">{d.precipitationMm > 0 ? `${d.precipitationMm}m` : "0"}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)]/40 p-3 text-[11.5px] text-[var(--color-text-dim)]">
-            7-day short term forecast data is currently unavailable from the active weather provider.
-          </div>
-        )}
-      </div>
-
-      {/* SECTION 6 & 7: SATELLITE & UNCONFIGURED PROVIDERS */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-[var(--color-text-dim)]">
-              <Droplets size={14} />
-              <span className="text-[11.5px] font-medium text-[var(--color-text-muted)]">Soil Moisture</span>
-            </div>
-            <SourceBadge type="not_configured" />
-          </div>
-          <p className="tnum mt-2 text-[15px] font-medium text-[var(--color-text-muted)]">Not available</p>
-          <p className="mt-1 text-[10.5px] text-[var(--color-text-dim)]">
-            Calibrated soil moisture requires ground telemetry or ERA5-Land provider credentials.
-          </p>
-        </div>
-
-        <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-[var(--color-text-dim)]">
-              <Satellite size={14} />
-              <span className="text-[11.5px] font-medium text-[var(--color-text-muted)]">NDVI (Vegetation Index)</span>
-            </div>
-            <SourceBadge type="not_configured" />
-          </div>
-          <p className="tnum mt-2 text-[15px] font-medium text-[var(--color-text-muted)]">Not available</p>
-          <p className="mt-1 text-[10.5px] text-[var(--color-text-dim)]">
-            Sentinel-2 / Copernicus Satellite API credentials (`SATELLITE_CLIENT_ID`) not configured in environment.
-          </p>
-        </div>
-      </div>
-
-      {/* SECTION 8: DATA TRANSPARENCY FOOTER */}
+      {/* DATA TRANSPARENCY FOOTER */}
       <div className="flex items-center gap-2 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)]/40 p-2.5 text-[11px] text-[var(--color-text-dim)]">
         <Info size={14} className="shrink-0 text-[var(--color-emerald)]" />
         <span>
-          Environmental features are prepared and formatted for underwriting risk analysis. Live data is fetched from Open-Meteo, historical data is derived from server-side IMD NetCDF grids, and unconfigured providers return explicit non-fabricated status tags.
+          Live conditions are sourced from Open-Meteo. Historical seasonal exposure data is derived from IMD observed rainfall records for the nearest grid point to your farm location.
         </span>
       </div>
     </div>

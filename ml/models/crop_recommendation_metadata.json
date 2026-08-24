@@ -1,0 +1,247 @@
+{
+  "module_name": "AgriSurge Crop Recommendation ML Module",
+  "model_algorithm": "ExtraTreesClassifier",
+  "model_version": "1.0.0",
+  "trained_timestamp": "2026-08-23T20:11:19.939050",
+  "dataset_name": "Crop_recommendation.csv",
+  "num_total_records": 2200,
+  "num_features": 7,
+  "feature_names": [
+    "N",
+    "P",
+    "K",
+    "temperature",
+    "humidity",
+    "ph",
+    "rainfall"
+  ],
+  "num_classes": 22,
+  "classes": [
+    "apple",
+    "banana",
+    "blackgram",
+    "chickpea",
+    "coconut",
+    "coffee",
+    "cotton",
+    "grapes",
+    "jute",
+    "kidneybeans",
+    "lentil",
+    "maize",
+    "mango",
+    "mothbeans",
+    "mungbean",
+    "muskmelon",
+    "orange",
+    "papaya",
+    "pigeonpeas",
+    "pomegranate",
+    "rice",
+    "watermelon"
+  ],
+  "split_ratios": {
+    "train": 0.7,
+    "validation": 0.15,
+    "test": 0.15,
+    "random_state": 42
+  },
+  "validation_metrics": {
+    "accuracy": 0.9939,
+    "macro_precision": 0.9943,
+    "macro_recall": 0.9939,
+    "macro_f1": 0.9939,
+    "weighted_f1": 0.9939
+  },
+  "final_test_metrics": {
+    "accuracy": 0.9939,
+    "macro_precision": 0.9943,
+    "macro_recall": 0.9939,
+    "macro_f1": 0.9939,
+    "weighted_f1": 0.9939
+  },
+  "feature_ranges": {
+    "N": {
+      "min": 0.0,
+      "max": 140.0,
+      "mean": 50.5518,
+      "std": 36.9173
+    },
+    "P": {
+      "min": 5.0,
+      "max": 145.0,
+      "mean": 53.3627,
+      "std": 32.9859
+    },
+    "K": {
+      "min": 5.0,
+      "max": 205.0,
+      "mean": 48.1491,
+      "std": 50.6479
+    },
+    "temperature": {
+      "min": 8.8257,
+      "max": 43.6755,
+      "mean": 25.6162,
+      "std": 5.0637
+    },
+    "humidity": {
+      "min": 14.258,
+      "max": 99.9819,
+      "mean": 71.4818,
+      "std": 22.2638
+    },
+    "ph": {
+      "min": 3.5048,
+      "max": 9.9351,
+      "mean": 6.4695,
+      "std": 0.7739
+    },
+    "rainfall": {
+      "min": 20.2113,
+      "max": 298.5601,
+      "mean": 103.4637,
+      "std": 54.9584
+    }
+  },
+  "supported_agrisurge_crops": [
+    {
+      "crop_in_model": "chickpea",
+      "agrisurge_name": "CHICKPEA"
+    },
+    {
+      "crop_in_model": "cotton",
+      "agrisurge_name": "COTTON"
+    },
+    {
+      "crop_in_model": "maize",
+      "agrisurge_name": "MAIZE"
+    },
+    {
+      "crop_in_model": "pigeonpeas",
+      "agrisurge_name": "PIGEONPEA"
+    },
+    {
+      "crop_in_model": "rice",
+      "agrisurge_name": "RICE"
+    }
+  ],
+  "recommendation_only_crops": [
+    {
+      "crop_in_model": "apple",
+      "agrisurge_name": "APPLE"
+    },
+    {
+      "crop_in_model": "banana",
+      "agrisurge_name": "BANANA"
+    },
+    {
+      "crop_in_model": "blackgram",
+      "agrisurge_name": "BLACKGRAM"
+    },
+    {
+      "crop_in_model": "coconut",
+      "agrisurge_name": "COCONUT"
+    },
+    {
+      "crop_in_model": "coffee",
+      "agrisurge_name": "COFFEE"
+    },
+    {
+      "crop_in_model": "grapes",
+      "agrisurge_name": "GRAPES"
+    },
+    {
+      "crop_in_model": "jute",
+      "agrisurge_name": "JUTE"
+    },
+    {
+      "crop_in_model": "kidneybeans",
+      "agrisurge_name": "KIDNEYBEANS"
+    },
+    {
+      "crop_in_model": "lentil",
+      "agrisurge_name": "LENTIL"
+    },
+    {
+      "crop_in_model": "mango",
+      "agrisurge_name": "MANGO"
+    },
+    {
+      "crop_in_model": "mothbeans",
+      "agrisurge_name": "MOTHBEANS"
+    },
+    {
+      "crop_in_model": "mungbean",
+      "agrisurge_name": "MUNGBEAN"
+    },
+    {
+      "crop_in_model": "muskmelon",
+      "agrisurge_name": "MUSKMELON"
+    },
+    {
+      "crop_in_model": "orange",
+      "agrisurge_name": "ORANGE"
+    },
+    {
+      "crop_in_model": "papaya",
+      "agrisurge_name": "PAPAYA"
+    },
+    {
+      "crop_in_model": "pomegranate",
+      "agrisurge_name": "POMEGRANATE"
+    },
+    {
+      "crop_in_model": "watermelon",
+      "agrisurge_name": "WATERMELON"
+    }
+  ],
+  "model_comparison": [
+    {
+      "Model": "RandomForestClassifier",
+      "Val_Accuracy": 0.9909,
+      "Val_Macro_Precision": 0.9915,
+      "Val_Macro_Recall": 0.9909,
+      "Val_Macro_F1": 0.9909,
+      "Val_Weighted_F1": 0.9909
+    },
+    {
+      "Model": "ExtraTreesClassifier",
+      "Val_Accuracy": 0.9939,
+      "Val_Macro_Precision": 0.9943,
+      "Val_Macro_Recall": 0.9939,
+      "Val_Macro_F1": 0.9939,
+      "Val_Weighted_F1": 0.9939
+    },
+    {
+      "Model": "GradientBoostingClassifier",
+      "Val_Accuracy": 0.9848,
+      "Val_Macro_Precision": 0.9859,
+      "Val_Macro_Recall": 0.9848,
+      "Val_Macro_F1": 0.9848,
+      "Val_Weighted_F1": 0.9848
+    },
+    {
+      "Model": "KNeighborsClassifier",
+      "Val_Accuracy": 0.9848,
+      "Val_Macro_Precision": 0.9861,
+      "Val_Macro_Recall": 0.9848,
+      "Val_Macro_F1": 0.9848,
+      "Val_Weighted_F1": 0.9848
+    },
+    {
+      "Model": "HistGradientBoostingClassifier",
+      "Val_Accuracy": 0.9879,
+      "Val_Macro_Precision": 0.989,
+      "Val_Macro_Recall": 0.9879,
+      "Val_Macro_F1": 0.9878,
+      "Val_Weighted_F1": 0.9878
+    }
+  ],
+  "limitations": [
+    "Baseline dataset contains 2,200 synthetic/lab samples.",
+    "Key Maharashtra crops (Wheat, Soybean, Sugarcane, Sorghum) are not in this 22-class dataset.",
+    "Confidence scores represent model softmax/class probabilities, not real-world yield or survival guarantees.",
+    "Sensors (N, P, K, Temp, Humidity, pH, Rainfall) must use units matching training dataset boundaries."
+  ]
+}
