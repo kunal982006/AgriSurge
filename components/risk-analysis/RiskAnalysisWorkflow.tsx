@@ -186,13 +186,13 @@ export function RiskAnalysisWorkflow() {
                   <span
                     className={`flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full text-[10px] ${
                       state === "done"
-                        ? "bg-[var(--color-emerald)] text-[#0c1210]"
+                        ? "bg-[var(--color-emerald)] text-white"
                         : state === "active"
                         ? "border border-[var(--color-emerald)] text-[var(--color-emerald)]"
                         : "border border-[var(--color-border-strong)]"
                     }`}
                   >
-                    {state === "done" ? <Check size={10} /> : i + 1}
+                    {state === "done" ? <Check size={10} className="stroke-[3]" /> : i + 1}
                   </span>
                   {label}
                 </button>
@@ -241,7 +241,7 @@ export function RiskAnalysisWorkflow() {
           <button
             onClick={() => setStep((s) => Math.max(0, s - 1))}
             disabled={step === 0}
-            className="rounded-[6px] border border-[var(--color-border)] px-3.5 py-2 text-[12.5px] text-[var(--color-text-muted)] disabled:opacity-40"
+            className="rounded-[6px] border border-[var(--color-border)] px-3.5 py-2 text-[12.5px] text-[var(--color-text-muted)] disabled:opacity-40 cursor-pointer"
           >
             Back
           </button>
@@ -249,7 +249,7 @@ export function RiskAnalysisWorkflow() {
             <button
               onClick={goNext}
               disabled={!canAdvance[step]}
-              className="rounded-[6px] bg-[var(--color-emerald)] px-3.5 py-2 text-[12.5px] font-medium text-[#0c1210] disabled:opacity-40"
+              className="rounded-[6px] bg-[var(--color-emerald)] px-3.5 py-2 text-[12.5px] font-medium text-white disabled:opacity-40 cursor-pointer hover:opacity-95"
             >
               {step === 3 ? "Run risk assessment" : "Continue"}
             </button>

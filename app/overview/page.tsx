@@ -15,7 +15,7 @@ import {
   Clock,
   XCircle,
 } from "lucide-react";
-import { Card, RiskBadge, StatusBadge } from "@/components/ui/primitives";
+import { RiskBadge, StatusBadge } from "@/components/ui/primitives";
 import { RiskDistributionChart } from "@/components/charts/RiskDistributionChart";
 import { RegionalRiskMap } from "@/components/map/RegionalRiskMap";
 import type { OverviewDashboardPayload } from "@/lib/analytics/overviewAnalytics";
@@ -26,7 +26,7 @@ function KpiMetric({
   value,
   subtext,
   icon: Icon,
-  accent = "text-white",
+  accent = "text-[var(--color-emerald)]",
   badge,
 }: {
   label: string;
@@ -37,18 +37,18 @@ function KpiMetric({
   badge?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col justify-between rounded-[8px] border border-white/8 bg-[var(--color-surface)] p-3.5 transition-colors hover:border-white/15">
+    <div className="flex flex-col justify-between rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] p-3.5 transition-colors hover:border-[var(--color-border-strong)]">
       <div className="flex items-center justify-between">
-        <span className="text-[11px] font-semibold uppercase tracking-wider text-white/45">{label}</span>
+        <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-text-dim)]">{label}</span>
         <Icon size={14} className={accent} />
       </div>
 
       <div className="mt-2.5">
         <div className="flex items-baseline gap-2">
-          <span className="tnum text-[22px] font-bold tracking-tight text-white">{value}</span>
+          <span className="tnum text-[22px] font-bold tracking-tight text-[var(--color-text)]">{value}</span>
           {badge}
         </div>
-        <p className="mt-0.5 text-[11px] text-white/40 truncate">{subtext}</p>
+        <p className="mt-0.5 text-[11px] text-[var(--color-text-dim)] truncate">{subtext}</p>
       </div>
     </div>
   );
@@ -60,26 +60,26 @@ function OverviewSkeleton() {
     <div className="flex flex-col gap-4 animate-pulse">
       <div className="flex items-center justify-between">
         <div className="space-y-1.5">
-          <div className="h-5 w-44 rounded bg-white/8" />
-          <div className="h-3 w-64 rounded bg-white/5" />
+          <div className="h-5 w-44 rounded bg-[var(--color-surface-raised)]" />
+          <div className="h-3 w-64 rounded bg-[var(--color-surface-raised)]" />
         </div>
-        <div className="h-7 w-48 rounded bg-white/8" />
+        <div className="h-7 w-48 rounded bg-[var(--color-surface-raised)]" />
       </div>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="h-24 rounded-[8px] bg-white/6" />
+          <div key={i} className="h-24 rounded-[8px] bg-[var(--color-surface-raised)]" />
         ))}
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-        <div className="h-[380px] rounded-[8px] bg-white/8 lg:col-span-8" />
-        <div className="h-[380px] rounded-[8px] bg-white/5 lg:col-span-4" />
+        <div className="h-[380px] rounded-[8px] bg-[var(--color-surface-raised)] lg:col-span-8" />
+        <div className="h-[380px] rounded-[8px] bg-[var(--color-surface-raised)] lg:col-span-4" />
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className="h-44 rounded-[8px] bg-white/6" />
-        <div className="h-44 rounded-[8px] bg-white/6" />
+        <div className="h-44 rounded-[8px] bg-[var(--color-surface-raised)]" />
+        <div className="h-44 rounded-[8px] bg-[var(--color-surface-raised)]" />
       </div>
     </div>
   );
@@ -138,8 +138,8 @@ export default function OverviewPage() {
     return (
       <div className="flex flex-col items-center justify-center rounded-[8px] border border-red-500/20 bg-red-500/5 py-14 text-center">
         <AlertTriangle size={28} className="text-red-400 mb-2" />
-        <h3 className="text-[14px] font-semibold text-white">Failed to load overview data</h3>
-        <p className="mt-1 text-[11.5px] text-white/50 max-w-sm">{error}</p>
+        <h3 className="text-[14px] font-semibold text-[var(--color-text)]">Failed to load overview data</h3>
+        <p className="mt-1 text-[11.5px] text-[var(--color-text-dim)] max-w-sm">{error}</p>
         <button
           onClick={() => fetchOverviewData(true)}
           className="mt-3.5 rounded-[5px] bg-red-500/20 px-3 py-1.5 text-[11.5px] font-medium text-red-200 hover:bg-red-500/30"
@@ -163,12 +163,12 @@ export default function OverviewPage() {
   const highRiskPct = total > 0 ? Math.round((highRiskCount / total) * 100) : 0;
 
   return (
-    <div className="flex flex-col gap-4 text-white">
+    <div className="flex flex-col gap-4 text-[var(--color-text)]">
       {/* ── 1. Compact Header ────────────────────────────────────────── */}
       <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-[18px] font-bold tracking-tight text-white">Portfolio Overview</h1>
-          <p className="mt-0.5 text-[12px] text-white/50">
+          <h1 className="text-[18px] font-bold tracking-tight text-[var(--color-text)]">Portfolio Overview</h1>
+          <p className="mt-0.5 text-[12px] text-[var(--color-text-dim)]">
             {hasPolicies
               ? `Real-time view of ${total} underwriting ${total === 1 ? "policy" : "policies"}`
               : "No underwriting policies registered yet"}
@@ -180,7 +180,7 @@ export default function OverviewPage() {
           <select
             value={regionFilter}
             onChange={(e) => setRegionFilter(e.target.value)}
-            className="rounded-[6px] border border-white/10 bg-[var(--color-surface)] px-2.5 py-1 text-[11.5px] text-white/80 focus:border-emerald-500/50 focus:outline-none"
+            className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[11.5px] text-[var(--color-text)] focus:border-emerald-500/50 focus:outline-none"
           >
             <option value="ALL">All Regions</option>
             {(data?.availableRegions || []).map((r) => (
@@ -193,7 +193,7 @@ export default function OverviewPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded-[6px] border border-white/10 bg-[var(--color-surface)] px-2.5 py-1 text-[11.5px] text-white/80 focus:border-emerald-500/50 focus:outline-none"
+            className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[11.5px] text-[var(--color-text)] focus:border-emerald-500/50 focus:outline-none"
           >
             <option value="ALL">All Statuses</option>
             <option value="APPROVED">Approved</option>
@@ -208,7 +208,7 @@ export default function OverviewPage() {
                 setRegionFilter("ALL");
                 setStatusFilter("ALL");
               }}
-              className="rounded-[5px] border border-white/10 px-2 py-1 text-[11px] text-white/50 hover:bg-white/5 hover:text-white"
+              className="rounded-[5px] border border-[var(--color-border)] px-2 py-1 text-[11px] text-[var(--color-text-dim)] hover:bg-[var(--color-surface-raised)] hover:text-[var(--color-text)] cursor-pointer"
             >
               Clear
             </button>
@@ -217,10 +217,10 @@ export default function OverviewPage() {
           <button
             onClick={() => fetchOverviewData(true)}
             disabled={refreshing}
-            className="flex items-center gap-1 rounded-[5px] border border-white/10 bg-white/4 px-2 py-1 text-[11px] font-medium text-white/70 hover:border-white/20 hover:bg-white/8 hover:text-white disabled:opacity-50"
+            className="flex items-center gap-1 rounded-[5px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-2 py-1 text-[11px] font-medium text-[var(--color-text-muted)] hover:border-[var(--color-border-strong)] hover:text-[var(--color-text)] disabled:opacity-50 cursor-pointer"
             title="Refresh portfolio data"
           >
-            <RefreshCw size={11} className={`shrink-0 ${refreshing ? "animate-spin text-emerald-400" : ""}`} />
+            <RefreshCw size={11} className={`shrink-0 ${refreshing ? "animate-spin text-emerald-500" : ""}`} />
             <span>{refreshing ? "Updating…" : "Refresh"}</span>
           </button>
         </div>
@@ -228,17 +228,17 @@ export default function OverviewPage() {
 
       {/* ── Empty State if Zero Policies ────────────────────────────── */}
       {!hasPolicies && (
-        <div className="flex flex-col items-center justify-center rounded-[8px] border border-dashed border-white/12 bg-[var(--color-surface)] py-14 text-center">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 mb-3">
+        <div className="flex flex-col items-center justify-center rounded-[8px] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] py-14 text-center">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 mb-3">
             <FileText size={20} />
           </div>
-          <h2 className="text-[14.5px] font-bold text-white">No Underwriting Policies Available</h2>
-          <p className="mt-1 text-[12px] text-white/50 max-w-sm leading-relaxed">
+          <h2 className="text-[14.5px] font-bold text-[var(--color-text)]">No Underwriting Policies Available</h2>
+          <p className="mt-1 text-[12px] text-[var(--color-text-dim)] max-w-sm leading-relaxed">
             Complete a risk assessment and submit for underwriting to populate live portfolio metrics and geographic exposure.
           </p>
           <Link
             href="/risk-analysis"
-            className="mt-4 inline-flex items-center gap-1.5 rounded-[5px] bg-[var(--color-emerald)] px-3.5 py-1.5 text-[12px] font-semibold text-[#0c1210] hover:opacity-90 transition-opacity"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-[5px] bg-[var(--color-emerald)] px-3.5 py-1.5 text-[12px] font-semibold text-white hover:opacity-90 transition-opacity"
           >
             <span>Start Risk Assessment</span>
             <ArrowRight size={13} />
@@ -256,7 +256,7 @@ export default function OverviewPage() {
               value={total}
               subtext="Across active underwriting records"
               icon={FileText}
-              accent="text-sky-400"
+              accent="text-sky-500"
             />
 
             {/* Card 2: Portfolio Risk */}
@@ -265,7 +265,7 @@ export default function OverviewPage() {
               value={`${avgScore}%`}
               subtext="Average risk across portfolio"
               icon={Activity}
-              accent="text-emerald-400"
+              accent="text-emerald-500"
               badge={<RiskBadge level={avgRiskLevel} />}
             />
 
@@ -275,7 +275,7 @@ export default function OverviewPage() {
               value={`${highRiskCount} ${highRiskCount === 1 ? "Policy" : "Policies"}`}
               subtext={`${highRiskPct}% of total portfolio`}
               icon={AlertTriangle}
-              accent={highRiskCount > 0 ? "text-red-400" : "text-emerald-400"}
+              accent={highRiskCount > 0 ? "text-red-500" : "text-emerald-500"}
             />
 
             {/* Card 4: Total Premium */}
@@ -284,22 +284,22 @@ export default function OverviewPage() {
               value={`₹${(data?.summary.totalPremium || 0).toLocaleString("en-IN")}`}
               subtext="Aggregated recommended premium"
               icon={Coins}
-              accent="text-emerald-400"
+              accent="text-emerald-500"
             />
           </div>
 
           {/* ── 3. Main Content Grid (Left 65%, Right 35%) ─────────────── */}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
             {/* Left 65%: Geographic Risk Map */}
-            <div className="flex flex-col rounded-[8px] border border-white/8 bg-[var(--color-surface)] lg:col-span-8">
-              <div className="flex items-center justify-between border-b border-white/6 px-4 py-2.5">
+            <div className="flex flex-col rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] lg:col-span-8">
+              <div className="flex items-center justify-between border-b border-[var(--color-border)] px-4 py-2.5">
                 <div>
-                  <h2 className="text-[13px] font-semibold text-white">Geographic Risk Exposure</h2>
-                  <p className="text-[11px] text-white/40">Live distribution of insured locations</p>
+                  <h2 className="text-[13px] font-semibold text-[var(--color-text)]">Geographic Risk Exposure</h2>
+                  <p className="text-[11px] text-[var(--color-text-dim)]">Live distribution of insured locations</p>
                 </div>
                 <Link
                   href="/farm-map"
-                  className="inline-flex items-center gap-1 text-[11.5px] font-medium text-emerald-400 hover:underline"
+                  className="inline-flex items-center gap-1 text-[11.5px] font-medium text-[var(--color-emerald)] hover:underline"
                 >
                   <span>Full Map</span>
                   <ChevronRight size={12} />
@@ -310,9 +310,9 @@ export default function OverviewPage() {
                 {data && data.mapFarms.length > 0 ? (
                   <RegionalRiskMap farms={data.mapFarms} />
                 ) : (
-                  <div className="flex h-full items-center justify-center p-6 text-center text-white/35 text-[12px]">
+                  <div className="flex h-full items-center justify-center p-6 text-center text-[var(--color-text-dim)] text-[12px]">
                     <div className="flex flex-col items-center gap-1.5">
-                      <MapPin size={18} className="text-white/20" />
+                      <MapPin size={18} className="text-[var(--color-text-dim)] opacity-40" />
                       <span>No coordinate data available for current selection.</span>
                     </div>
                   </div>
@@ -321,13 +321,13 @@ export default function OverviewPage() {
             </div>
 
             {/* Right 35%: Risk Distribution */}
-            <div className="flex flex-col justify-between rounded-[8px] border border-white/8 bg-[var(--color-surface)] p-4 lg:col-span-4">
-              <div className="flex items-center justify-between border-b border-white/6 pb-2.5">
+            <div className="flex flex-col justify-between rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 lg:col-span-4">
+              <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2.5">
                 <div>
-                  <h2 className="text-[13px] font-semibold text-white">Risk Distribution</h2>
-                  <p className="text-[11px] text-white/40">Categorical portfolio breakdown</p>
+                  <h2 className="text-[13px] font-semibold text-[var(--color-text)]">Risk Distribution</h2>
+                  <p className="text-[11px] text-[var(--color-text-dim)]">Categorical portfolio breakdown</p>
                 </div>
-                <span className="text-[11px] font-semibold text-white/60">{total} Policies</span>
+                <span className="text-[11px] font-semibold text-[var(--color-text-muted)]">{total} Policies</span>
               </div>
 
               <div className="py-2">
@@ -335,19 +335,19 @@ export default function OverviewPage() {
               </div>
 
               {/* Exact Count List */}
-              <div className="space-y-2 border-t border-white/6 pt-3 text-[12px]">
+              <div className="space-y-2 border-t border-[var(--color-border)] pt-3 text-[12px]">
                 {(data?.riskDistribution || []).map((item) => {
                   const count = item.count || 0;
                   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
                   return (
                     <div key={item.level} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-white/70">
+                      <div className="flex items-center gap-2 text-[var(--color-text-muted)]">
                         <span className="h-2 w-2 rounded-full shrink-0" style={{ background: item.fill }} />
                         <span>{item.level} Risk</span>
                       </div>
                       <div className="flex items-center gap-2 font-medium">
-                        <span className="text-white/40 text-[11px]">{pct}%</span>
-                        <span className="tnum font-bold text-white">{count}</span>
+                        <span className="text-[var(--color-text-dim)] text-[11px]">{pct}%</span>
+                        <span className="tnum font-bold text-[var(--color-text)]">{count}</span>
                       </div>
                     </div>
                   );
@@ -359,13 +359,13 @@ export default function OverviewPage() {
           {/* ── 4. Secondary Analytics Row (Crop Exposure & Policy Status) */}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
             {/* Left: Crop Exposure */}
-            <div className="rounded-[8px] border border-white/8 bg-[var(--color-surface)] p-4">
-              <div className="flex items-center justify-between border-b border-white/6 pb-2.5 mb-3">
+            <div className="rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2.5 mb-3">
                 <div>
-                  <h3 className="text-[13px] font-semibold text-white">Crop Exposure</h3>
-                  <p className="text-[11px] text-white/40">Portfolio distribution by crop type</p>
+                  <h3 className="text-[13px] font-semibold text-[var(--color-text)]">Crop Exposure</h3>
+                  <p className="text-[11px] text-[var(--color-text-dim)]">Portfolio distribution by crop type</p>
                 </div>
-                <span className="text-[11px] text-white/40">{data?.topCrops.length || 0} Crops</span>
+                <span className="text-[11px] text-[var(--color-text-dim)]">{data?.topCrops.length || 0} Crops</span>
               </div>
 
               {data && data.topCrops.length > 0 ? (
@@ -375,23 +375,23 @@ export default function OverviewPage() {
                     return (
                       <div key={c.crop} className="space-y-1">
                         <div className="flex items-center justify-between text-[11.5px]">
-                          <span className="font-medium text-white/85">{c.crop}</span>
+                          <span className="font-medium text-[var(--color-text)]">{c.crop}</span>
                           <div className="flex items-center gap-2.5">
-                            <span className="text-white/40">{c.count} {c.count === 1 ? "policy" : "policies"} ({pct}%)</span>
+                            <span className="text-[var(--color-text-dim)]">{c.count} {c.count === 1 ? "policy" : "policies"} ({pct}%)</span>
                             <span
                               className={`tnum font-semibold text-[11px] ${
                                 c.avgRisk >= 70
-                                  ? "text-red-400"
+                                  ? "text-red-500"
                                   : c.avgRisk >= 40
-                                  ? "text-amber-400"
-                                  : "text-emerald-400"
+                                  ? "text-amber-500"
+                                  : "text-emerald-500"
                               }`}
                             >
                               {c.avgRisk}% avg risk
                             </span>
                           </div>
                         </div>
-                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/6">
+                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-[var(--color-surface-raised)]">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${
                               c.avgRisk >= 70
@@ -408,60 +408,60 @@ export default function OverviewPage() {
                   })}
                 </div>
               ) : (
-                <p className="text-[12px] text-white/30 py-4 text-center">No crop data available</p>
+                <p className="text-[12px] text-[var(--color-text-dim)] py-4 text-center">No crop data available</p>
               )}
             </div>
 
             {/* Right: Policy Status Breakdown */}
-            <div className="rounded-[8px] border border-white/8 bg-[var(--color-surface)] p-4">
-              <div className="flex items-center justify-between border-b border-white/6 pb-2.5 mb-3">
+            <div className="rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2.5 mb-3">
                 <div>
-                  <h3 className="text-[13px] font-semibold text-white">Policy Status Breakdown</h3>
-                  <p className="text-[11px] text-white/40">Distribution by underwriting decision</p>
+                  <h3 className="text-[13px] font-semibold text-[var(--color-text)]">Policy Status Breakdown</h3>
+                  <p className="text-[11px] text-[var(--color-text-dim)]">Distribution by underwriting decision</p>
                 </div>
-                <span className="text-[11px] text-white/40">{total} Total</span>
+                <span className="text-[11px] text-[var(--color-text-dim)]">{total} Total</span>
               </div>
 
               <div className="space-y-2.5 text-[12px]">
                 {/* Approved */}
-                <div className="flex items-center justify-between rounded-[5px] bg-white/3 px-3 py-2 border border-white/5">
+                <div className="flex items-center justify-between rounded-[5px] bg-[var(--color-surface-raised)] px-3 py-2 border border-[var(--color-border)]">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-emerald-400 shrink-0" />
-                    <span className="text-white/80 font-medium">Approved / Active</span>
+                    <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
+                    <span className="text-[var(--color-text)] font-medium">Approved / Active</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-white/40">
+                    <span className="text-[11px] text-[var(--color-text-dim)]">
                       {total > 0 ? Math.round(((data?.summary.approvedPolicies || 0) / total) * 100) : 0}%
                     </span>
-                    <span className="tnum font-bold text-white">{data?.summary.approvedPolicies || 0}</span>
+                    <span className="tnum font-bold text-[var(--color-text)]">{data?.summary.approvedPolicies || 0}</span>
                   </div>
                 </div>
 
                 {/* Under Review */}
-                <div className="flex items-center justify-between rounded-[5px] bg-white/3 px-3 py-2 border border-white/5">
+                <div className="flex items-center justify-between rounded-[5px] bg-[var(--color-surface-raised)] px-3 py-2 border border-[var(--color-border)]">
                   <div className="flex items-center gap-2">
-                    <Clock size={14} className="text-amber-400 shrink-0" />
-                    <span className="text-white/80 font-medium">Under Review</span>
+                    <Clock size={14} className="text-amber-500 shrink-0" />
+                    <span className="text-[var(--color-text)] font-medium">Under Review</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-white/40">
+                    <span className="text-[11px] text-[var(--color-text-dim)]">
                       {total > 0 ? Math.round(((data?.summary.underReviewPolicies || 0) / total) * 100) : 0}%
                     </span>
-                    <span className="tnum font-bold text-white">{data?.summary.underReviewPolicies || 0}</span>
+                    <span className="tnum font-bold text-[var(--color-text)]">{data?.summary.underReviewPolicies || 0}</span>
                   </div>
                 </div>
 
                 {/* Rejected */}
-                <div className="flex items-center justify-between rounded-[5px] bg-white/3 px-3 py-2 border border-white/5">
+                <div className="flex items-center justify-between rounded-[5px] bg-[var(--color-surface-raised)] px-3 py-2 border border-[var(--color-border)]">
                   <div className="flex items-center gap-2">
-                    <XCircle size={14} className="text-red-400 shrink-0" />
-                    <span className="text-white/80 font-medium">Rejected</span>
+                    <XCircle size={14} className="text-red-500 shrink-0" />
+                    <span className="text-[var(--color-text)] font-medium">Rejected</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-white/40">
+                    <span className="text-[11px] text-[var(--color-text-dim)]">
                       {total > 0 ? Math.round(((data?.summary.rejectedPolicies || 0) / total) * 100) : 0}%
                     </span>
-                    <span className="tnum font-bold text-white">{data?.summary.rejectedPolicies || 0}</span>
+                    <span className="tnum font-bold text-[var(--color-text)]">{data?.summary.rejectedPolicies || 0}</span>
                   </div>
                 </div>
               </div>
@@ -469,15 +469,15 @@ export default function OverviewPage() {
           </div>
 
           {/* ── 5. Recent Underwriting Activity Table ─────────────────── */}
-          <div className="rounded-[8px] border border-white/8 bg-[var(--color-surface)] overflow-hidden">
-            <div className="flex items-center justify-between border-b border-white/6 px-4 py-3">
+          <div className="rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden">
+            <div className="flex items-center justify-between border-b border-[var(--color-border)] px-4 py-3">
               <div>
-                <h3 className="text-[13px] font-semibold text-white">Recent Underwriting Activity</h3>
-                <p className="text-[11px] text-white/40">Latest policy assessments and decision status</p>
+                <h3 className="text-[13px] font-semibold text-[var(--color-text)]">Recent Underwriting Activity</h3>
+                <p className="text-[11px] text-[var(--color-text-dim)]">Latest policy assessments and decision status</p>
               </div>
               <Link
                 href="/policies"
-                className="inline-flex items-center gap-1 text-[11.5px] font-medium text-emerald-400 hover:underline"
+                className="inline-flex items-center gap-1 text-[11.5px] font-medium text-[var(--color-emerald)] hover:underline"
               >
                 <span>All Policies</span>
                 <ChevronRight size={12} />
@@ -488,7 +488,7 @@ export default function OverviewPage() {
               {data && data.recentAssessments.length > 0 ? (
                 <table className="w-full text-left text-[12px]">
                   <thead>
-                    <tr className="border-b border-white/6 text-[10.5px] uppercase tracking-wider text-white/35">
+                    <tr className="border-b border-[var(--color-border)] text-[10.5px] uppercase tracking-wider text-[var(--color-text-dim)]">
                       <th className="px-4 py-2 font-medium">Policy ID</th>
                       <th className="px-4 py-2 font-medium">Farm & Farmer</th>
                       <th className="px-4 py-2 font-medium">Location</th>
@@ -499,38 +499,38 @@ export default function OverviewPage() {
                       <th className="px-4 py-2 font-medium">Date</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/4">
+                  <tbody className="divide-y divide-[var(--color-border)]">
                     {data.recentAssessments.map((a) => (
                       <tr key={a.id} className="hover:bg-[var(--color-surface-raised)] transition-colors">
-                        <td className="tnum px-4 py-2.5 font-semibold text-emerald-400">
+                        <td className="tnum px-4 py-2.5 font-semibold text-[var(--color-emerald)]">
                           <Link href="/policies" className="hover:underline">
                             {a.id}
                           </Link>
                         </td>
                         <td className="px-4 py-2.5">
-                          <span className="font-medium text-white/90">{a.farmName}</span>
-                          <span className="block text-[10.5px] text-white/40">{a.farmerName}</span>
+                          <span className="font-medium text-[var(--color-text)]">{a.farmName}</span>
+                          <span className="block text-[10.5px] text-[var(--color-text-dim)]">{a.farmerName}</span>
                         </td>
-                        <td className="px-4 py-2.5 text-white/60 max-w-[130px] truncate" title={a.location}>
+                        <td className="px-4 py-2.5 text-[var(--color-text-muted)] max-w-[130px] truncate" title={a.location}>
                           {a.location}
                         </td>
-                        <td className="px-4 py-2.5 text-white/80">
+                        <td className="px-4 py-2.5 text-[var(--color-text)]">
                           <span>{a.crop}</span>
-                          {a.cropVariety && <span className="block text-[10px] text-white/40">{a.cropVariety}</span>}
+                          {a.cropVariety && <span className="block text-[10px] text-[var(--color-text-dim)]">{a.cropVariety}</span>}
                         </td>
                         <td className="px-4 py-2.5">
                           <div className="flex items-center gap-1.5">
-                            <span className="tnum font-bold text-white/90">{a.riskScore}%</span>
+                            <span className="tnum font-bold text-[var(--color-text)]">{a.riskScore}%</span>
                             <RiskBadge level={a.riskLevel} />
                           </div>
                         </td>
                         <td className="px-4 py-2.5">
                           <StatusBadge status={a.status} />
                         </td>
-                        <td className="tnum px-4 py-2.5 font-medium text-white/80">
+                        <td className="tnum px-4 py-2.5 font-medium text-[var(--color-text)]">
                           ₹{a.recommendedPremium.toLocaleString("en-IN")}
                         </td>
-                        <td className="tnum px-4 py-2.5 text-[10.5px] text-white/35 whitespace-nowrap">
+                        <td className="tnum px-4 py-2.5 text-[10.5px] text-[var(--color-text-dim)] whitespace-nowrap">
                           {a.dateFormatted}
                         </td>
                       </tr>
@@ -538,7 +538,7 @@ export default function OverviewPage() {
                   </tbody>
                 </table>
               ) : (
-                <div className="py-8 text-center text-white/35 text-[11.5px]">
+                <div className="py-8 text-center text-[var(--color-text-dim)] text-[11.5px]">
                   No assessments match current filters.
                 </div>
               )}

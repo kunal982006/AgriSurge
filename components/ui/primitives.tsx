@@ -75,7 +75,7 @@ export function StatusBadge({ status }: { status: string }) {
     style = "bg-[var(--color-red-dim)] text-[var(--color-red)]";
     label = "Rejected";
   } else if (norm === "draft") {
-    style = "bg-white/5 text-white/50 border border-white/10";
+    style = "bg-[var(--color-surface-raised)] text-[var(--color-text-dim)] border border-[var(--color-border)]";
     label = "Draft";
   }
 

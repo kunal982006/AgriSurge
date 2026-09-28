@@ -302,9 +302,6 @@ export function EnvironmentalDataStep({
               Historical Weather Exposure (IMD 0.25° Grid)
             </h3>
           </div>
-          {historicalImd?.available && (
-            <SourceBadge type="historical" label={`IMD (${historicalImd.yearsAvailable})`} />
-          )}
         </div>
 
         {loadingImd ? (
@@ -323,7 +320,6 @@ export function EnvironmentalDataStep({
                   {historicalImd.distanceKm} km from farm)
                 </span>
               </div>
-              <span>Reference Year: {historicalImd.referenceYear}</span>
             </div>
 
             {/* CROP-SEASON HIGHLIGHT (Section 3) */}

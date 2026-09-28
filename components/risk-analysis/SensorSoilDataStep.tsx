@@ -279,7 +279,7 @@ export function SensorSoilDataStep({ data, onChange }: SensorSoilDataStepProps) 
                 <button
                   type="button"
                   onClick={() => startIoTScan(false)}
-                  className="flex items-center gap-2 rounded-[6px] bg-[var(--color-emerald)] px-3.5 py-2 text-[12.5px] font-medium text-[#0c1210] transition-transform hover:opacity-90 active:scale-[0.98]"
+                  className="flex items-center gap-2 rounded-[6px] bg-[var(--color-emerald)] px-3.5 py-2 text-[12.5px] font-semibold text-white transition-transform hover:opacity-90 active:scale-[0.98] cursor-pointer"
                 >
                   <Zap size={14} />
                   Detect Device
@@ -396,7 +396,7 @@ export function SensorSoilDataStep({ data, onChange }: SensorSoilDataStepProps) 
                 <button
                   type="button"
                   onClick={() => setSource("manual")}
-                  className="flex items-center gap-1.5 rounded-[6px] bg-[var(--color-emerald)] px-3.5 py-1.5 text-[12px] font-medium text-[#0c1210] transition-all hover:opacity-90"
+                  className="flex items-center gap-1.5 rounded-[6px] bg-[var(--color-emerald)] px-3.5 py-1.5 text-[12px] font-semibold text-white transition-all hover:opacity-90 cursor-pointer"
                 >
                   <Edit3 size={13} />
                   Enter Real Data Manually

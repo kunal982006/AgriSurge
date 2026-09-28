@@ -18,17 +18,17 @@ import { FarmDetails } from "./FarmDetailsStep";
 
 // ─── Colour system ───────────────────────────────────────────────────
 const STATUS_COLORS = {
-  optimal:  { bg: "bg-emerald-500/15", text: "text-emerald-400",  bar: "bg-emerald-500",  dot: "bg-emerald-400"  },
-  moderate: { bg: "bg-sky-500/10",     text: "text-sky-400",      bar: "bg-sky-400",      dot: "bg-sky-400"      },
-  caution:  { bg: "bg-amber-500/10",   text: "text-amber-400",    bar: "bg-amber-400",    dot: "bg-amber-400"    },
-  risk:     { bg: "bg-red-500/10",     text: "text-red-400",      bar: "bg-red-500",      dot: "bg-red-400"      },
+  optimal:  { bg: "bg-emerald-500/15", text: "text-emerald-600 dark:text-emerald-400",  bar: "bg-emerald-500",  dot: "bg-emerald-500"  },
+  moderate: { bg: "bg-sky-500/10",     text: "text-sky-600 dark:text-sky-400",          bar: "bg-sky-500",      dot: "bg-sky-500"      },
+  caution:  { bg: "bg-amber-500/10",   text: "text-amber-600 dark:text-amber-400",      bar: "bg-amber-500",    dot: "bg-amber-500"    },
+  risk:     { bg: "bg-red-500/10",     text: "text-red-600 dark:text-red-400",          bar: "bg-red-500",      dot: "bg-red-500"      },
 };
 
 const TIER_STYLES = {
-  Excellent:  { gradient: "from-emerald-600/20 to-emerald-500/5",  border: "border-emerald-500/30", text: "text-emerald-400",  ring: "ring-emerald-500/40"  },
-  Good:       { gradient: "from-green-600/20 to-green-500/5",      border: "border-green-500/30",   text: "text-green-400",    ring: "ring-green-500/40"    },
-  Moderate:   { gradient: "from-amber-600/20 to-amber-500/5",      border: "border-amber-500/30",   text: "text-amber-400",    ring: "ring-amber-500/40"    },
-  "High Risk":{ gradient: "from-red-700/20 to-red-500/5",          border: "border-red-500/30",     text: "text-red-400",      ring: "ring-red-500/40"      },
+  Excellent:  { gradient: "from-emerald-500/15 to-emerald-500/5",  border: "border-emerald-500/30", text: "text-emerald-600 dark:text-emerald-400",  ring: "ring-emerald-500/40"  },
+  Good:       { gradient: "from-green-500/15 to-green-500/5",      border: "border-green-500/30",   text: "text-green-600 dark:text-green-400",      ring: "ring-green-500/40"    },
+  Moderate:   { gradient: "from-amber-500/15 to-amber-500/5",      border: "border-amber-500/30",   text: "text-amber-600 dark:text-amber-400",      ring: "ring-amber-500/40"    },
+  "High Risk":{ gradient: "from-red-500/15 to-red-500/5",          border: "border-red-500/30",     text: "text-red-600 dark:text-red-400",          ring: "ring-red-500/40"      },
 };
 
 const PARAM_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
@@ -65,7 +65,7 @@ function ScoreRing({ score, tier }: { score: number; tier: string }) {
   return (
     <div className="relative flex h-24 w-24 shrink-0 items-center justify-center">
       <svg className="absolute inset-0 -rotate-90" viewBox="0 0 88 88">
-        <circle cx="44" cy="44" r={radius} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="8" />
+        <circle cx="44" cy="44" r={radius} fill="none" stroke="var(--color-border)" strokeWidth="8" />
         <circle
           cx="44"
           cy="44"
@@ -81,7 +81,7 @@ function ScoreRing({ score, tier }: { score: number; tier: string }) {
       </svg>
       <div className="text-center">
         <span className={`text-[22px] font-bold tabular-nums ${style.text}`}>{animatedScore}</span>
-        <span className="block text-[9px] text-white/40 uppercase tracking-wider">/ 100</span>
+        <span className="block text-[9px] text-[var(--color-text-dim)] uppercase tracking-wider">/ 100</span>
       </div>
     </div>
   );
@@ -99,11 +99,11 @@ function ParameterBar({ param }: { param: ParameterAnalysis }) {
   }, []);
 
   return (
-    <div className={`rounded-[8px] border border-white/5 bg-[var(--color-surface)] p-3 transition-all duration-200 hover:border-white/10 ${colors.bg}`}>
+    <div className={`rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 transition-all duration-200 hover:border-[var(--color-border-strong)] ${colors.bg}`}>
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex items-center gap-1.5">
           <Icon size={13} className={`shrink-0 ${colors.text}`} />
-          <span className="text-[11.5px] font-medium text-white/70">{param.label}</span>
+          <span className="text-[11.5px] font-medium text-[var(--color-text)]">{param.label}</span>
         </div>
         <span className={`shrink-0 text-[10px] font-semibold rounded-full px-2 py-0.5 ${colors.bg} ${colors.text}`}>
           {param.statusLabel}
@@ -111,10 +111,10 @@ function ParameterBar({ param }: { param: ParameterAnalysis }) {
       </div>
 
       {/* Range track */}
-      <div className="relative h-1.5 w-full rounded-full bg-white/8 overflow-hidden">
+      <div className="relative h-1.5 w-full rounded-full bg-[var(--color-surface-raised)] border border-[var(--color-border)] overflow-hidden">
         {/* Optimal zone highlight */}
         <div
-          className="absolute top-0 h-full rounded-full bg-white/10"
+          className="absolute top-0 h-full rounded-full bg-[var(--color-border-strong)] opacity-60"
           style={{
             left: `${param.optLowPct}%`,
             width: `${param.optHighPct - param.optLowPct}%`,
@@ -133,7 +133,7 @@ function ParameterBar({ param }: { param: ParameterAnalysis }) {
         <span className={`text-[11px] font-semibold tabular-nums ${colors.text}`}>
           {param.parameter === "ph" ? param.actualValue.toFixed(1) : param.actualValue.toFixed(param.parameter === "rainfall" ? 0 : 1)}{param.unit}
         </span>
-        <span className="text-[10px] text-white/35">Preferred: {param.preferredRange}</span>
+        <span className="text-[10px] text-[var(--color-text-dim)]">Preferred: {param.preferredRange}</span>
       </div>
     </div>
   );
@@ -150,28 +150,25 @@ export function CropSuitabilityPanel({
   farmDetails?: FarmDetails;
 }) {
   const [result, setResult] = useState<CropSuitabilityResult | null>(null);
-  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    setVisible(false);
-    const t = setTimeout(() => {
-      const analysis = analyseCropSuitability(sensorData, selectedCrop, farmDetails);
-      setResult(analysis);
-      setVisible(true);
-    }, 120);
-    return () => clearTimeout(t);
-  }, [sensorData, selectedCrop, farmDetails?.soilType, farmDetails?.irrigationType]);
+    if (!selectedCrop) {
+      setResult(null);
+      return;
+    }
+    const r = analyseCropSuitability(sensorData, selectedCrop, farmDetails);
+    setResult(r);
+  }, [sensorData, selectedCrop, farmDetails]);
 
-  if (!selectedCrop || !result) return null;
+  if (!result) return null;
 
-  const tierStyle = TIER_STYLES[result.tier];
+  const tierStyle = TIER_STYLES[result.tier as keyof typeof TIER_STYLES] || TIER_STYLES.Moderate;
 
   return (
     <div
-      className="flex flex-col gap-4 transition-all duration-500"
+      className="flex flex-col gap-3 rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 transition-all"
       style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(12px)",
+        animation: "fadeSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
       {/* ── Overall Suitability Header ───────────────────────────── */}
@@ -181,22 +178,22 @@ export function CropSuitabilityPanel({
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-[20px]">{result.cropEmoji}</span>
-              <h3 className="text-[16px] font-bold text-white leading-tight">{result.cropName}</h3>
-              <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold bg-white/8 ${tierStyle.text}`}>
+              <h3 className="text-[16px] font-bold text-[var(--color-text)] leading-tight">{result.cropName}</h3>
+              <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold bg-[var(--color-surface)] border border-[var(--color-border)] shadow-xs ${tierStyle.text}`}>
                 {result.tier}
               </span>
             </div>
-            <p className="mt-1.5 text-[12px] text-white/55 leading-relaxed max-w-lg">{result.summary}</p>
+            <p className="mt-1.5 text-[12px] text-[var(--color-text-muted)] leading-relaxed max-w-lg">{result.summary}</p>
 
             {/* Soil & Irrigation chips */}
             <div className="mt-2.5 flex items-center gap-2 flex-wrap">
               {farmDetails?.soilType && (
                 <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] ${
                   result.soilCompatibility === "Compatible"
-                    ? "bg-emerald-500/10 text-emerald-400"
+                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
                     : result.soilCompatibility === "Moderate"
-                    ? "bg-amber-500/10 text-amber-400"
-                    : "bg-red-500/10 text-red-400"
+                    ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                    : "bg-red-500/10 text-red-600 dark:text-red-400"
                 }`}>
                   <Layers size={10} />
                   Soil: {result.soilCompatibility}
@@ -205,8 +202,8 @@ export function CropSuitabilityPanel({
               {farmDetails?.irrigationType && (
                 <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] ${
                   result.irrigationCompatibility === "Compatible"
-                    ? "bg-sky-500/10 text-sky-400"
-                    : "bg-amber-500/10 text-amber-400"
+                    ? "bg-sky-500/10 text-sky-600 dark:text-sky-400"
+                    : "bg-amber-500/10 text-amber-600 dark:text-amber-400"
                 }`}>
                   <Droplets size={10} />
                   Irrigation: {result.irrigationCompatibility}
@@ -219,7 +216,7 @@ export function CropSuitabilityPanel({
 
       {/* ── Environmental Compatibility Grid ─────────────────────── */}
       <div>
-        <h4 className="mb-2.5 text-[11px] font-semibold uppercase tracking-widest text-white/35">
+        <h4 className="mb-2.5 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-text-dim)]">
           Environmental Compatibility
         </h4>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -234,14 +231,14 @@ export function CropSuitabilityPanel({
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {/* Positive Conditions */}
           {result.positiveConditions.length > 0 && (
-            <div className="rounded-[8px] border border-emerald-500/15 bg-emerald-500/5 p-3">
+            <div className="rounded-[8px] border border-emerald-500/20 bg-emerald-500/5 p-3">
               <div className="flex items-center gap-1.5 mb-2">
-                <CheckCircle2 size={13} className="text-emerald-400" />
-                <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wide">Favourable Conditions</span>
+                <CheckCircle2 size={13} className="text-emerald-600 dark:text-emerald-400" />
+                <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">Favourable Conditions</span>
               </div>
               <ul className="flex flex-col gap-1.5">
                 {result.positiveConditions.map((c, i) => (
-                  <li key={i} className="flex items-start gap-2 text-[11.5px] text-white/60">
+                  <li key={i} className="flex items-start gap-2 text-[11.5px] text-[var(--color-text-muted)]">
                     <ChevronRight size={11} className="mt-0.5 shrink-0 text-emerald-500/60" />
                     {c}
                   </li>
@@ -252,14 +249,14 @@ export function CropSuitabilityPanel({
 
           {/* Risk Factors */}
           {result.riskFactors.length > 0 && (
-            <div className="rounded-[8px] border border-amber-500/15 bg-amber-500/5 p-3">
+            <div className="rounded-[8px] border border-amber-500/20 bg-amber-500/5 p-3">
               <div className="flex items-center gap-1.5 mb-2">
-                <AlertTriangle size={13} className="text-amber-400" />
-                <span className="text-[11px] font-semibold text-amber-400 uppercase tracking-wide">Factors to Watch</span>
+                <AlertTriangle size={13} className="text-amber-600 dark:text-amber-400" />
+                <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Factors to Watch</span>
               </div>
               <ul className="flex flex-col gap-1.5">
                 {result.riskFactors.map((r, i) => (
-                  <li key={i} className="flex items-start gap-2 text-[11.5px] text-white/60">
+                  <li key={i} className="flex items-start gap-2 text-[11.5px] text-[var(--color-text-muted)]">
                     <ChevronRight size={11} className="mt-0.5 shrink-0 text-amber-500/60" />
                     {r}
                   </li>
