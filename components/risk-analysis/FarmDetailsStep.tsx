@@ -40,14 +40,43 @@ interface CropItem {
   category: string;
 }
 
+const GROWTH_STAGES = [
+  "Germination",
+  "Vegetative",
+  "Flowering",
+  "Fruiting",
+  "Maturity",
+];
+
+const IRRIGATION_TYPES = [
+  "Rainfed",
+  "Drip",
+  "Sprinkler",
+  "Canal",
+  "Borewell",
+  "Other",
+];
+
+const SOIL_TYPES = [
+  "Black Soil",
+  "Loamy",
+  "Clay",
+  "Sandy",
+  "Sandy Loam",
+  "Alluvial",
+  "Red Soil",
+  "Laterite",
+  "Other",
+];
+
 // ─── Primitives ───────────────────────────────────────────────────────
 const FIELD_CLASS =
-  "w-full rounded-[7px] border border-white/8 bg-white/4 px-3 py-2 text-[12.5px] text-white/85 placeholder:text-white/25 focus:border-emerald-500/50 focus:bg-white/6 focus:outline-none transition-all";
+  "w-full rounded-[7px] border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-[12.5px] text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:border-emerald-500/50 focus:bg-[var(--color-surface)] focus:outline-none transition-all";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="text-[11px] font-medium uppercase tracking-wider text-white/40">{label}</span>
+      <span className="text-[11px] font-medium uppercase tracking-wider text-[var(--color-text-dim)]">{label}</span>
       {children}
     </label>
   );
@@ -60,6 +89,7 @@ function SearchableSelect({
   placeholder,
   onChange,
   disabled = false,
+  searchable = true,
 }: {
   label: string;
   value: string;
@@ -67,6 +97,7 @@ function SearchableSelect({
   placeholder: string;
   onChange: (val: string) => void;
   disabled?: boolean;
+  searchable?: boolean;
 }) {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
@@ -83,40 +114,44 @@ function SearchableSelect({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const filtered = options.filter((opt) => opt.toLowerCase().includes(search.toLowerCase()));
+  const filtered = searchable
+    ? options.filter((opt) => opt.toLowerCase().includes(search.toLowerCase()))
+    : options;
 
   return (
     <div ref={containerRef} className="relative flex flex-col gap-1.5">
-      <span className="text-[11px] font-medium uppercase tracking-wider text-white/40">{label}</span>
+      <span className="text-[11px] font-medium uppercase tracking-wider text-[var(--color-text-dim)]">{label}</span>
       <button
         type="button"
         disabled={disabled}
         onClick={() => setOpen(!open)}
-        className={`flex w-full items-center justify-between rounded-[7px] border px-3 py-2 text-[12.5px] text-left transition-all disabled:opacity-40 ${
+        className={`flex w-full items-center justify-between rounded-[7px] border px-3 py-2 text-[12.5px] text-left transition-all disabled:opacity-40 cursor-pointer ${
           value
-            ? "border-white/10 bg-white/5 text-white/85"
-            : "border-white/8 bg-white/4 text-white/30"
+            ? "border-[var(--color-border-strong)] bg-[var(--color-surface)] text-[var(--color-text)]"
+            : "border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-dim)]"
         } focus:border-emerald-500/50 focus:outline-none`}
       >
         <span className="truncate">{value || placeholder}</span>
         <ChevronDown
           size={13}
-          className={`shrink-0 text-white/30 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`shrink-0 text-[var(--color-text-dim)] transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
 
       {open && (
-        <div className="absolute top-[calc(100%+4px)] left-0 right-0 z-50 rounded-[8px] border border-white/10 bg-[#151b14] shadow-2xl">
-          <div className="p-1.5">
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search..."
-              className="w-full rounded-[5px] border border-white/8 bg-white/5 px-2.5 py-1.5 text-[12px] text-white/80 placeholder:text-white/25 focus:outline-none focus:border-emerald-500/40"
-              autoFocus
-            />
-          </div>
-          <div className="max-h-44 overflow-y-auto p-1">
+        <div className="absolute top-[calc(100%+4px)] left-0 right-0 z-50 rounded-[8px] border border-[var(--color-border-strong)] bg-[var(--color-surface)] shadow-xl overflow-hidden">
+          {searchable && (
+            <div className="p-1.5 border-b border-[var(--color-border)] bg-[var(--color-surface-raised)]">
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search..."
+                className="w-full rounded-[5px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1.5 text-[12px] text-[var(--color-text)] placeholder:text-[var(--color-text-dim)] focus:outline-none focus:border-emerald-500/40"
+                autoFocus
+              />
+            </div>
+          )}
+          <div className="max-h-48 overflow-y-auto p-1">
             {filtered.length > 0 ? (
               filtered.map((opt) => (
                 <button
@@ -127,17 +162,17 @@ function SearchableSelect({
                     setSearch("");
                     setOpen(false);
                   }}
-                  className={`w-full text-left rounded-[5px] px-2.5 py-1.5 text-[12.5px] transition-colors ${
+                  className={`w-full text-left rounded-[5px] px-2.5 py-1.5 text-[12.5px] transition-colors cursor-pointer ${
                     opt === value
-                      ? "bg-emerald-500/15 text-emerald-400"
-                      : "text-white/70 hover:bg-white/6 hover:text-white"
+                      ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-semibold"
+                      : "text-[var(--color-text)] hover:bg-[var(--color-surface-raised)]"
                   }`}
                 >
                   {opt}
                 </button>
               ))
             ) : (
-              <span className="block p-2 text-[11px] text-white/30">No options found</span>
+              <span className="block p-2 text-[11px] text-[var(--color-text-dim)]">No options found</span>
             )}
           </div>
         </div>
@@ -168,8 +203,8 @@ function RecommendationCard({
   const rankMeta = [
     { label: "Best Match",   barWidth: "w-full",    color: "bg-emerald-500" },
     { label: "Good Match",   barWidth: "w-4/5",     color: "bg-sky-400" },
-    { label: "Alternative",  barWidth: "w-3/5",     color: "bg-white/30" },
-  ][rec.rank - 1] || { label: "Match", barWidth: "w-1/2", color: "bg-white/20" };
+    { label: "Alternative",  barWidth: "w-3/5",     color: "bg-[var(--color-border-strong)]" },
+  ][rec.rank - 1] || { label: "Match", barWidth: "w-1/2", color: "bg-[var(--color-border)]" };
 
   const pct = Math.round((rec.confidence || 0) * 100);
 
@@ -182,35 +217,35 @@ function RecommendationCard({
         transform: visible ? "translateY(0)" : "translateY(10px)",
         transition: `opacity 0.35s ease ${delay}ms, transform 0.35s ease ${delay}ms, box-shadow 0.2s, border-color 0.2s`,
       }}
-      className={`relative flex flex-col rounded-[10px] border p-3.5 text-left transition-colors group ${
+      className={`relative flex flex-col rounded-[10px] border p-3.5 text-left transition-colors group cursor-pointer ${
         isSelected
-          ? "border-emerald-500/60 bg-emerald-500/8 shadow-[0_0_0_1px_rgba(52,211,153,0.15)]"
-          : "border-white/8 bg-white/3 hover:border-white/15 hover:bg-white/5"
+          ? "border-emerald-500/60 bg-emerald-500/10 shadow-xs"
+          : "border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-raised)]"
       }`}
     >
       {/* Selected indicator */}
       {isSelected && (
-        <span className="absolute right-2.5 top-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-emerald-500">
-          <Check size={10} className="text-[#0c1210]" />
+        <span className="absolute right-2.5 top-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-emerald-500 text-white">
+          <Check size={10} className="stroke-[3]" />
         </span>
       )}
 
-      <span className={`mb-1.5 text-[10px] font-medium uppercase tracking-wider ${isSelected ? "text-emerald-400" : "text-white/35"}`}>
+      <span className={`mb-1.5 text-[10px] font-medium uppercase tracking-wider ${isSelected ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-[var(--color-text-dim)]"}`}>
         {rankMeta.label}
       </span>
-      <h4 className={`text-[15px] font-bold leading-tight ${isSelected ? "text-white" : "text-white/80 group-hover:text-white"}`}>
+      <h4 className={`text-[15px] font-bold leading-tight ${isSelected ? "text-[var(--color-text)]" : "text-[var(--color-text)] group-hover:text-[var(--color-emerald)] transition-colors"}`}>
         {rec.crop}
       </h4>
 
       {/* Confidence bar */}
       <div className="mt-3 space-y-1">
-        <div className="flex items-center justify-between text-[10px] text-white/35">
+        <div className="flex items-center justify-between text-[10px] text-[var(--color-text-dim)]">
           <span>Suitability</span>
-          <span className={`font-semibold tabular-nums ${isSelected ? "text-emerald-400" : "text-white/55"}`}>
+          <span className={`font-semibold tabular-nums ${isSelected ? "text-emerald-600 dark:text-emerald-400" : "text-[var(--color-text-muted)]"}`}>
             {pct > 0 ? `${pct}%` : "—"}
           </span>
         </div>
-        <div className="h-1 w-full overflow-hidden rounded-full bg-white/8">
+        <div className="h-1 w-full overflow-hidden rounded-full bg-[var(--color-surface-raised)] border border-[var(--color-border)]">
           <div
             className={`h-full rounded-full transition-all duration-700 ${
               isSelected ? "bg-emerald-500" : rankMeta.color
@@ -331,12 +366,12 @@ export function FarmDetailsStep({
       {/* ── ML CROP RECOMMENDATIONS ─────────────────────────────── */}
       <div>
         <div className="mb-3 flex items-center gap-2">
-          <Sparkles size={15} className="text-emerald-400 shrink-0" />
+          <Sparkles size={15} className="text-emerald-500 shrink-0" />
           <div>
-            <h3 className="text-[13px] font-semibold text-white/90 leading-none">
+            <h3 className="text-[13px] font-semibold text-[var(--color-text)] leading-none">
               Crop Recommendations
             </h3>
-            <p className="mt-0.5 text-[11px] text-white/40">
+            <p className="mt-0.5 text-[11px] text-[var(--color-text-dim)]">
               Based on your soil and environmental readings. Select to begin analysis.
             </p>
           </div>
@@ -345,22 +380,22 @@ export function FarmDetailsStep({
         {/* Out-of-range advisory (user-friendly) */}
         {mlWarnings.length > 0 && !loadingMl && (
           <div className="mb-3 flex items-start gap-2 rounded-[7px] border border-amber-500/20 bg-amber-500/5 px-3 py-2">
-            <AlertTriangle size={13} className="mt-0.5 shrink-0 text-amber-400" />
-            <p className="text-[11.5px] text-amber-300/80 leading-relaxed">
+            <AlertTriangle size={13} className="mt-0.5 shrink-0 text-amber-500" />
+            <p className="text-[11.5px] text-amber-600 dark:text-amber-300 leading-relaxed">
               Some of your readings are outside typical agricultural ranges. Recommendations may be less accurate — please verify your inputs.
             </p>
           </div>
         )}
 
         {loadingMl && (
-          <div className="flex items-center gap-2 py-6 text-[12px] text-white/40">
+          <div className="flex items-center gap-2 py-6 text-[12px] text-[var(--color-text-dim)]">
             <RefreshCw size={14} className="animate-spin text-emerald-500" />
             <span>Analysing your conditions…</span>
           </div>
         )}
 
         {mlError && !loadingMl && (
-          <div className="flex items-center gap-2 rounded-[7px] border border-red-500/20 bg-red-500/5 px-3 py-2.5 text-[12px] text-red-400">
+          <div className="flex items-center gap-2 rounded-[7px] border border-red-500/20 bg-red-500/5 px-3 py-2.5 text-[12px] text-red-500">
             <AlertTriangle size={13} className="shrink-0" />
             {mlError}
           </div>
@@ -381,13 +416,13 @@ export function FarmDetailsStep({
         )}
 
         {!loadingMl && !mlError && recommendations.length === 0 && hasSensor && (
-          <p className="text-[12px] text-white/35 py-4">
+          <p className="text-[12px] text-[var(--color-text-dim)] py-4">
             No recommendations available for the provided readings.
           </p>
         )}
 
         {!hasSensor && (
-          <p className="text-[12px] text-white/35 py-4">
+          <p className="text-[12px] text-[var(--color-text-dim)] py-4">
             Complete Step 1 (Sensor & Soil Data) to receive crop recommendations.
           </p>
         )}
@@ -397,11 +432,11 @@ export function FarmDetailsStep({
       {details.crop && sensorData && (
         <div>
           <div className="mb-3 flex items-center justify-between">
-            <h3 className="text-[11px] font-semibold uppercase tracking-widest text-white/35">
+            <h3 className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-text-dim)]">
               Crop Suitability Analysis
             </h3>
-            <span className="text-[10.5px] text-white/30">
-              Currently analysing: <span className="text-white/55 font-medium">{details.crop}</span>
+            <span className="text-[10.5px] text-[var(--color-text-dim)]">
+              Currently analysing: <span className="text-[var(--color-text)] font-semibold">{details.crop}</span>
             </span>
           </div>
           <CropSuitabilityPanel
@@ -414,8 +449,8 @@ export function FarmDetailsStep({
 
       {/* ── FARM & CROP DETAILS FORM ─────────────────────────────── */}
       <div>
-        <div className="mb-3 border-t border-white/6 pt-5">
-          <h3 className="text-[11px] font-semibold uppercase tracking-widest text-white/35">
+        <div className="mb-3 border-t border-[var(--color-border)] pt-5">
+          <h3 className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-text-dim)]">
             Farm & Crop Details
           </h3>
         </div>
@@ -493,55 +528,32 @@ export function FarmDetailsStep({
             />
           </Field>
 
-          <Field label="Growth stage">
-            <select
-              className={FIELD_CLASS}
-              value={details.growthStage}
-              onChange={(e) => field("growthStage", e.target.value)}
-            >
-              <option value="">Select stage</option>
-              <option value="Germination">Germination</option>
-              <option value="Vegetative">Vegetative</option>
-              <option value="Flowering">Flowering</option>
-              <option value="Fruiting">Fruiting</option>
-              <option value="Maturity">Maturity</option>
-            </select>
-          </Field>
+          <SearchableSelect
+            label="Growth stage"
+            value={details.growthStage}
+            options={GROWTH_STAGES}
+            placeholder="Select stage"
+            onChange={(val) => field("growthStage", val)}
+            searchable={false}
+          />
 
-          <Field label="Irrigation type">
-            <select
-              className={FIELD_CLASS}
-              value={details.irrigationType}
-              onChange={(e) => field("irrigationType", e.target.value)}
-            >
-              <option value="">Select irrigation</option>
-              <option value="Rainfed">Rainfed</option>
-              <option value="Drip">Drip</option>
-              <option value="Sprinkler">Sprinkler</option>
-              <option value="Canal">Canal</option>
-              <option value="Borewell">Borewell</option>
-              <option value="Other">Other</option>
-            </select>
-          </Field>
+          <SearchableSelect
+            label="Irrigation type"
+            value={details.irrigationType}
+            options={IRRIGATION_TYPES}
+            placeholder="Select irrigation"
+            onChange={(val) => field("irrigationType", val)}
+            searchable={false}
+          />
 
-          <Field label="Soil type">
-            <select
-              className={FIELD_CLASS}
-              value={details.soilType}
-              onChange={(e) => field("soilType", e.target.value)}
-            >
-              <option value="">Select soil type</option>
-              <option value="Black Soil">Black Soil</option>
-              <option value="Loamy">Loamy</option>
-              <option value="Clay">Clay</option>
-              <option value="Sandy">Sandy</option>
-              <option value="Sandy Loam">Sandy Loam</option>
-              <option value="Alluvial">Alluvial</option>
-              <option value="Red Soil">Red Soil</option>
-              <option value="Laterite">Laterite</option>
-              <option value="Other">Other</option>
-            </select>
-          </Field>
+          <SearchableSelect
+            label="Soil type"
+            value={details.soilType}
+            options={SOIL_TYPES}
+            placeholder="Select soil type"
+            onChange={(val) => field("soilType", val)}
+            searchable={false}
+          />
         </div>
       </div>
     </div>

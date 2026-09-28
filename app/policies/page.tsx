@@ -366,7 +366,7 @@ export default function PoliciesUnderwritingPage() {
                       <td className="px-4 py-3 text-right">
                         <Link
                           href={`/policies/${r.id}`}
-                          className="inline-flex items-center gap-1 rounded-[6px] bg-[var(--color-emerald)] px-3 py-1 text-[11.5px] font-semibold text-[#0c1210] hover:opacity-90"
+                          className="inline-flex items-center gap-1 rounded-[6px] bg-[var(--color-emerald)] px-3 py-1 text-[11.5px] font-semibold text-white hover:opacity-90"
                         >
                           Review <ExternalLink size={11} />
                         </Link>

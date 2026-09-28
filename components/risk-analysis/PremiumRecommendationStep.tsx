@@ -173,15 +173,6 @@ export function PremiumRecommendationStep({
 
   return (
     <div className="flex flex-col gap-5 text-[var(--color-text)]">
-      {/* DISCLAIMER BANNER */}
-      <div className="flex items-start gap-2.5 rounded-[6px] border border-amber-500/30 bg-amber-500/5 p-3 text-[11.5px] text-amber-300">
-        <Info size={16} className="mt-0.5 shrink-0 text-amber-400" />
-        <div className="leading-relaxed">
-          <span className="font-semibold text-amber-300">Risk-Based Premium Recommendation Notice:</span>{" "}
-          This recommendation is generated using AgriSurge&apos;s configured risk-based pricing model (v2.0) for underwriting decision support. Final policy pricing is subject to authorized underwriting review, product terms, and regulatory guidelines.
-        </div>
-      </div>
-
       {/* MAIN RECOMMENDED PREMIUM HERO CARD */}
       <div className="flex flex-col items-center rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-6 shadow-sm">
         <div className="mb-1 flex items-center gap-2">
@@ -363,7 +354,7 @@ export function PremiumRecommendationStep({
           <button
             onClick={onSubmit}
             disabled={isSubmitting}
-            className="inline-flex items-center gap-1.5 rounded-[6px] bg-[var(--color-emerald)] px-4 py-2 text-[12.5px] font-medium text-[#0c1210] hover:opacity-90 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-[6px] bg-[var(--color-emerald)] px-4 py-2 text-[12.5px] font-semibold text-white hover:opacity-90 disabled:opacity-50 cursor-pointer"
           >
             {isSubmitting ? (
               <>

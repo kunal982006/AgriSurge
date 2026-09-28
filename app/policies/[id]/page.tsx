@@ -344,7 +344,7 @@ export default function UnderwritingDetailPage() {
                   setActionError(null);
                   setActiveModal("APPROVE");
                 }}
-                className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-[6px] bg-[var(--color-emerald)] px-4 py-2.5 text-[12.5px] font-semibold text-[#0c1210] hover:opacity-90"
+                className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-[6px] bg-[var(--color-emerald)] px-4 py-2.5 text-[12.5px] font-semibold text-white hover:opacity-90 cursor-pointer"
               >
                 <CheckCircle2 size={15} /> Approve Policy
               </button>
@@ -697,7 +697,7 @@ export default function UnderwritingDetailPage() {
                   <button
                     onClick={handleApproveSubmit}
                     disabled={submittingAction}
-                    className="rounded-[6px] bg-[var(--color-emerald)] px-4 py-1.5 text-[12px] font-bold text-[#0c1210]"
+                    className="rounded-[6px] bg-[var(--color-emerald)] px-4 py-1.5 text-[12px] font-bold text-white cursor-pointer"
                   >
                     {submittingAction ? "Confirming..." : "Confirm Approval"}
                   </button>

@@ -1,8 +1,39 @@
 @import "tailwindcss";
+
 @theme {
   --font-sans: var(--font-plex-sans, "IBM Plex Sans"), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-plex-mono, "IBM Plex Mono"), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
 
+/* ── Light Mode (Default) ────────────────────────────────────────── */
+:root,
+html:not(.dark),
+html[data-theme="light"] {
+  --color-bg: #f8faf8;
+  --color-surface: #ffffff;
+  --color-surface-raised: #f1f5f2;
+  --color-border: #e2e8e4;
+  --color-border-strong: #cbd5ce;
+
+  --color-text: #111815;
+  --color-text-muted: #4b5a51;
+  --color-text-dim: #6d7e74;
+
+  --color-emerald: #15803d;
+  --color-emerald-dim: #eaf6ef;
+  --color-primary-fg: #ffffff;
+  --color-amber: #b45309;
+  --color-amber-dim: #fef3c7;
+  --color-red: #dc2626;
+  --color-red-dim: #fee2e2;
+  --color-accent: #16a34a;
+
+  color-scheme: light;
+}
+
+/* ── Dark Mode ───────────────────────────────────────────────────── */
+html.dark,
+html[data-theme="dark"] {
   --color-bg: #0c1210;
   --color-surface: #121a17;
   --color-surface-raised: #17211d;
@@ -15,17 +46,21 @@
 
   --color-emerald: #3fa772;
   --color-emerald-dim: #234f3a;
+  --color-primary-fg: #0c1210;
   --color-amber: #c9963f;
   --color-amber-dim: #52401f;
   --color-red: #c15a4a;
   --color-red-dim: #4d2620;
   --color-accent: #4fb787;
+
+  color-scheme: dark;
 }
 
 html, body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 * {
