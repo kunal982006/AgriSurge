@@ -6,7 +6,6 @@ import {
   AlertTriangle,
   FileText,
   RefreshCw,
-  Coins,
   ChevronRight,
   Activity,
   ArrowRight,
@@ -14,19 +13,84 @@ import {
   CheckCircle2,
   Clock,
   XCircle,
+  TrendingUp,
+  BarChart2,
+  Layers,
+  DollarSign,
 } from "lucide-react";
-import { RiskBadge, StatusBadge } from "@/components/ui/primitives";
 import { RiskDistributionChart } from "@/components/charts/RiskDistributionChart";
 import { RegionalRiskMap } from "@/components/map/RegionalRiskMap";
 import type { OverviewDashboardPayload } from "@/lib/analytics/overviewAnalytics";
 
-// ─── Compact KPI Card ────────────────────────────────────────────────────────
-function KpiMetric({
+// ─── Inline Risk Badge (no emojis, professional dot indicator) ─────────
+function RiskPill({ level }: { level: "low" | "moderate" | "high" }) {
+  if (level === "high")
+    return (
+      <span className="inline-flex items-center gap-1 rounded-[3px] bg-red-50 px-1.5 py-0.5 text-[10.5px] font-semibold text-red-700 dark:bg-red-950/40 dark:text-red-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-red-500 shrink-0" />
+        High
+      </span>
+    );
+  if (level === "moderate")
+    return (
+      <span className="inline-flex items-center gap-1 rounded-[3px] bg-amber-50 px-1.5 py-0.5 text-[10.5px] font-semibold text-amber-700 dark:bg-amber-950/40 dark:text-amber-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
+        Moderate
+      </span>
+    );
+  return (
+    <span className="inline-flex items-center gap-1 rounded-[3px] bg-emerald-50 px-1.5 py-0.5 text-[10.5px] font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
+      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
+      Low
+    </span>
+  );
+}
+
+// ─── Inline Status Badge ───────────────────────────────────────────────
+function StatusPill({ status }: { status: string }) {
+  const norm = (status || "").toLowerCase().replace(/\s+/g, "_");
+  if (norm === "approved")
+    return (
+      <span className="inline-flex items-center gap-1 rounded-[3px] bg-emerald-50 px-1.5 py-0.5 text-[10.5px] font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
+        Approved
+      </span>
+    );
+  if (norm === "under_review")
+    return (
+      <span className="inline-flex items-center gap-1 rounded-[3px] bg-amber-50 px-1.5 py-0.5 text-[10.5px] font-semibold text-amber-700 dark:bg-amber-950/40 dark:text-amber-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shrink-0" />
+        Under Review
+      </span>
+    );
+  if (norm === "rejected")
+    return (
+      <span className="inline-flex items-center gap-1 rounded-[3px] bg-red-50 px-1.5 py-0.5 text-[10.5px] font-semibold text-red-700 dark:bg-red-950/40 dark:text-red-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-red-500 shrink-0" />
+        Rejected
+      </span>
+    );
+  if (norm === "needs_information")
+    return (
+      <span className="inline-flex items-center gap-1 rounded-[3px] bg-blue-50 px-1.5 py-0.5 text-[10.5px] font-semibold text-blue-700 dark:bg-blue-950/40 dark:text-blue-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-blue-400 shrink-0" />
+        Needs Info
+      </span>
+    );
+  return (
+    <span className="inline-flex items-center rounded-[3px] border border-slate-200 px-1.5 py-0.5 text-[10.5px] text-slate-500 dark:border-slate-700 dark:text-slate-400">
+      {status.replace(/_/g, " ")}
+    </span>
+  );
+}
+
+// ─── KPI Card ─────────────────────────────────────────────────────────
+function KpiCard({
   label,
   value,
   subtext,
   icon: Icon,
-  accent = "text-[var(--color-emerald)]",
+  accent = "text-slate-400",
   badge,
 }: {
   label: string;
@@ -37,62 +101,65 @@ function KpiMetric({
   badge?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col justify-between rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] p-3.5 transition-colors hover:border-[var(--color-border-strong)]">
-      <div className="flex items-center justify-between">
-        <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-text-dim)]">{label}</span>
-        <Icon size={14} className={accent} />
+    <div className="flex flex-col justify-between rounded-[6px] border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow dark:border-slate-800 dark:bg-slate-900">
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-[10.5px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+          {label}
+        </span>
+        <div className="flex h-7 w-7 items-center justify-center rounded-[4px] border border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-800/50">
+          <Icon size={13} className={accent} />
+        </div>
       </div>
-
-      <div className="mt-2.5">
+      <div>
         <div className="flex items-baseline gap-2">
-          <span className="tnum text-[22px] font-bold tracking-tight text-[var(--color-text)]">{value}</span>
+          <span className="tabular-nums text-[24px] font-bold leading-none tracking-tight text-slate-900 dark:text-slate-100">
+            {value}
+          </span>
           {badge}
         </div>
-        <p className="mt-0.5 text-[11px] text-[var(--color-text-dim)] truncate">{subtext}</p>
+        <p className="mt-1.5 text-[11.5px] text-slate-500 dark:text-slate-400 leading-snug">
+          {subtext}
+        </p>
       </div>
     </div>
   );
 }
 
-// ─── Compact Loading Skeleton ────────────────────────────────────────────────
+// ─── Skeleton ─────────────────────────────────────────────────────────
 function OverviewSkeleton() {
   return (
-    <div className="flex flex-col gap-4 animate-pulse">
+    <div className="flex flex-col gap-5 animate-pulse">
       <div className="flex items-center justify-between">
         <div className="space-y-1.5">
-          <div className="h-5 w-44 rounded bg-[var(--color-surface-raised)]" />
-          <div className="h-3 w-64 rounded bg-[var(--color-surface-raised)]" />
+          <div className="h-5 w-44 rounded bg-slate-100 dark:bg-slate-800" />
+          <div className="h-3 w-64 rounded bg-slate-100 dark:bg-slate-800" />
         </div>
-        <div className="h-7 w-48 rounded bg-[var(--color-surface-raised)]" />
+        <div className="h-7 w-32 rounded bg-slate-100 dark:bg-slate-800" />
       </div>
-
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="h-24 rounded-[8px] bg-[var(--color-surface-raised)]" />
+          <div key={i} className="h-28 rounded-[6px] bg-slate-100 dark:bg-slate-800" />
         ))}
       </div>
-
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-        <div className="h-[380px] rounded-[8px] bg-[var(--color-surface-raised)] lg:col-span-8" />
-        <div className="h-[380px] rounded-[8px] bg-[var(--color-surface-raised)] lg:col-span-4" />
+        <div className="h-[380px] rounded-[6px] bg-slate-100 dark:bg-slate-800 lg:col-span-8" />
+        <div className="h-[380px] rounded-[6px] bg-slate-100 dark:bg-slate-800 lg:col-span-4" />
       </div>
-
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className="h-44 rounded-[8px] bg-[var(--color-surface-raised)]" />
-        <div className="h-44 rounded-[8px] bg-[var(--color-surface-raised)]" />
+        <div className="h-52 rounded-[6px] bg-slate-100 dark:bg-slate-800" />
+        <div className="h-52 rounded-[6px] bg-slate-100 dark:bg-slate-800" />
       </div>
     </div>
   );
 }
 
-// ─── Main Overview Page ──────────────────────────────────────────────────────
+// ─── Main Page ─────────────────────────────────────────────────────────
 export default function OverviewPage() {
   const [data, setData] = useState<OverviewDashboardPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Filters
   const [regionFilter, setRegionFilter] = useState("ALL");
   const [statusFilter, setStatusFilter] = useState("ALL");
 
@@ -130,19 +197,17 @@ export default function OverviewPage() {
     fetchOverviewData(false);
   }, [fetchOverviewData]);
 
-  if (loading && !data) {
-    return <OverviewSkeleton />;
-  }
+  if (loading && !data) return <OverviewSkeleton />;
 
   if (error && !data) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-[8px] border border-red-500/20 bg-red-500/5 py-14 text-center">
-        <AlertTriangle size={28} className="text-red-400 mb-2" />
-        <h3 className="text-[14px] font-semibold text-[var(--color-text)]">Failed to load overview data</h3>
-        <p className="mt-1 text-[11.5px] text-[var(--color-text-dim)] max-w-sm">{error}</p>
+      <div className="flex flex-col items-center justify-center rounded-[6px] border border-red-200 bg-red-50 py-14 text-center dark:border-red-800/40 dark:bg-red-950/20">
+        <AlertTriangle size={22} className="text-red-500 mb-2" />
+        <h3 className="text-[14px] font-semibold text-slate-800 dark:text-slate-200">Failed to load overview</h3>
+        <p className="mt-1 text-[12px] text-slate-500 max-w-sm">{error}</p>
         <button
           onClick={() => fetchOverviewData(true)}
-          className="mt-3.5 rounded-[5px] bg-red-500/20 px-3 py-1.5 text-[11.5px] font-medium text-red-200 hover:bg-red-500/30"
+          className="mt-4 rounded-[5px] border border-red-200 bg-white px-3.5 py-1.5 text-[12px] font-medium text-red-700 hover:bg-red-50 dark:border-red-800 dark:bg-transparent dark:text-red-400"
         >
           Retry
         </button>
@@ -154,7 +219,6 @@ export default function OverviewPage() {
   const hasPolicies = total > 0;
   const isFiltered = regionFilter !== "ALL" || statusFilter !== "ALL";
 
-  // Derived metrics
   const avgScore = data?.summary.averageRiskScore || 0;
   const avgRiskLevel: "low" | "moderate" | "high" =
     avgScore >= 70 ? "high" : avgScore >= 40 ? "moderate" : "low";
@@ -163,37 +227,37 @@ export default function OverviewPage() {
   const highRiskPct = total > 0 ? Math.round((highRiskCount / total) * 100) : 0;
 
   return (
-    <div className="flex flex-col gap-4 text-[var(--color-text)]">
-      {/* ── 1. Compact Header ────────────────────────────────────────── */}
-      <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-5 text-slate-900 dark:text-slate-100">
+
+      {/* ── 1. Header ────────────────────────────────────────────────── */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-[18px] font-bold tracking-tight text-[var(--color-text)]">Portfolio Overview</h1>
-          <p className="mt-0.5 text-[12px] text-[var(--color-text-dim)]">
+          <h1 className="text-[20px] font-bold tracking-tight text-slate-900 dark:text-white">
+            Portfolio Overview
+          </h1>
+          <p className="mt-0.5 text-[12.5px] text-slate-500 dark:text-slate-400">
             {hasPolicies
               ? `Real-time view of ${total} underwriting ${total === 1 ? "policy" : "policies"}`
               : "No underwriting policies registered yet"}
           </p>
         </div>
 
-        {/* Filters & Refresh */}
-        <div className="flex flex-wrap items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-2">
           <select
             value={regionFilter}
             onChange={(e) => setRegionFilter(e.target.value)}
-            className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[11.5px] text-[var(--color-text)] focus:border-emerald-500/50 focus:outline-none"
+            className="rounded-[5px] border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] text-slate-700 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
           >
             <option value="ALL">All Regions</option>
             {(data?.availableRegions || []).map((r) => (
-              <option key={r} value={r}>
-                {r}
-              </option>
+              <option key={r} value={r}>{r}</option>
             ))}
           </select>
 
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1 text-[11.5px] text-[var(--color-text)] focus:border-emerald-500/50 focus:outline-none"
+            className="rounded-[5px] border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] text-slate-700 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
           >
             <option value="ALL">All Statuses</option>
             <option value="APPROVED">Approved</option>
@@ -204,11 +268,8 @@ export default function OverviewPage() {
 
           {isFiltered && (
             <button
-              onClick={() => {
-                setRegionFilter("ALL");
-                setStatusFilter("ALL");
-              }}
-              className="rounded-[5px] border border-[var(--color-border)] px-2 py-1 text-[11px] text-[var(--color-text-dim)] hover:bg-[var(--color-surface-raised)] hover:text-[var(--color-text)] cursor-pointer"
+              onClick={() => { setRegionFilter("ALL"); setStatusFilter("ALL"); }}
+              className="rounded-[5px] border border-slate-200 px-2.5 py-1.5 text-[12px] text-slate-500 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
             >
               Clear
             </button>
@@ -217,30 +278,37 @@ export default function OverviewPage() {
           <button
             onClick={() => fetchOverviewData(true)}
             disabled={refreshing}
-            className="flex items-center gap-1 rounded-[5px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-2 py-1 text-[11px] font-medium text-[var(--color-text-muted)] hover:border-[var(--color-border-strong)] hover:text-[var(--color-text)] disabled:opacity-50 cursor-pointer"
-            title="Refresh portfolio data"
+            className="inline-flex items-center gap-1.5 rounded-[5px] border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
           >
-            <RefreshCw size={11} className={`shrink-0 ${refreshing ? "animate-spin text-emerald-500" : ""}`} />
-            <span>{refreshing ? "Updating…" : "Refresh"}</span>
+            <RefreshCw size={11} className={refreshing ? "animate-spin text-emerald-500" : ""} />
+            {refreshing ? "Updating…" : "Refresh"}
           </button>
+
+          <Link
+            href="/risk-analysis"
+            className="inline-flex items-center gap-1.5 rounded-[5px] bg-emerald-600 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-700 transition-colors"
+          >
+            New Application
+            <ArrowRight size={12} />
+          </Link>
         </div>
       </div>
 
-      {/* ── Empty State if Zero Policies ────────────────────────────── */}
+      {/* ── Empty State ────────────────────────────────────────────────── */}
       {!hasPolicies && (
-        <div className="flex flex-col items-center justify-center rounded-[8px] border border-dashed border-[var(--color-border)] bg-[var(--color-surface)] py-14 text-center">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 mb-3">
-            <FileText size={20} />
+        <div className="flex flex-col items-center justify-center rounded-[6px] border border-dashed border-slate-200 bg-slate-50 py-16 text-center dark:border-slate-700 dark:bg-slate-900/50">
+          <div className="flex h-10 w-10 items-center justify-center rounded-[6px] border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800 mb-3">
+            <FileText size={18} className="text-slate-400" />
           </div>
-          <h2 className="text-[14.5px] font-bold text-[var(--color-text)]">No Underwriting Policies Available</h2>
-          <p className="mt-1 text-[12px] text-[var(--color-text-dim)] max-w-sm leading-relaxed">
-            Complete a risk assessment and submit for underwriting to populate live portfolio metrics and geographic exposure.
+          <h2 className="text-[14px] font-semibold text-slate-700 dark:text-slate-300">No Policies Yet</h2>
+          <p className="mt-1 text-[12px] text-slate-400 max-w-sm leading-relaxed">
+            Complete a risk assessment and submit for underwriting to populate portfolio metrics.
           </p>
           <Link
             href="/risk-analysis"
-            className="mt-4 inline-flex items-center gap-1.5 rounded-[5px] bg-[var(--color-emerald)] px-3.5 py-1.5 text-[12px] font-semibold text-white hover:opacity-90 transition-opacity"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-[5px] bg-emerald-600 px-4 py-2 text-[12.5px] font-semibold text-white hover:bg-emerald-700 transition-colors"
           >
-            <span>Start Risk Assessment</span>
+            Start Risk Assessment
             <ArrowRight size={13} />
           </Link>
         </div>
@@ -248,61 +316,58 @@ export default function OverviewPage() {
 
       {hasPolicies && (
         <>
-          {/* ── 2. Primary Metrics Row (4 Compact Cards) ──────────────── */}
+          {/* ── 2. KPI Cards ──────────────────────────────────────────── */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Card 1: Total Policies */}
-            <KpiMetric
-              label="TOTAL POLICIES"
+            <KpiCard
+              label="Total Policies"
               value={total}
               subtext="Across active underwriting records"
               icon={FileText}
-              accent="text-sky-500"
+              accent="text-slate-500"
             />
-
-            {/* Card 2: Portfolio Risk */}
-            <KpiMetric
-              label="PORTFOLIO RISK"
+            <KpiCard
+              label="Portfolio Risk"
               value={`${avgScore}%`}
               subtext="Average risk across portfolio"
               icon={Activity}
-              accent="text-emerald-500"
-              badge={<RiskBadge level={avgRiskLevel} />}
+              accent={avgRiskLevel === "high" ? "text-red-500" : avgRiskLevel === "moderate" ? "text-amber-500" : "text-emerald-500"}
+              badge={<RiskPill level={avgRiskLevel} />}
             />
-
-            {/* Card 3: High Risk */}
-            <KpiMetric
-              label="HIGH RISK"
-              value={`${highRiskCount} ${highRiskCount === 1 ? "Policy" : "Policies"}`}
+            <KpiCard
+              label="High Risk Policies"
+              value={highRiskCount}
               subtext={`${highRiskPct}% of total portfolio`}
               icon={AlertTriangle}
-              accent={highRiskCount > 0 ? "text-red-500" : "text-emerald-500"}
+              accent={highRiskCount > 0 ? "text-red-500" : "text-slate-400"}
             />
-
-            {/* Card 4: Total Premium */}
-            <KpiMetric
-              label="TOTAL PREMIUM"
+            <KpiCard
+              label="Total Premium"
               value={`₹${(data?.summary.totalPremium || 0).toLocaleString("en-IN")}`}
               subtext="Aggregated recommended premium"
-              icon={Coins}
+              icon={DollarSign}
               accent="text-emerald-500"
             />
           </div>
 
-          {/* ── 3. Main Content Grid (Left 65%, Right 35%) ─────────────── */}
+          {/* ── 3. Map + Risk Distribution ────────────────────────────── */}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-            {/* Left 65%: Geographic Risk Map */}
-            <div className="flex flex-col rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] lg:col-span-8">
-              <div className="flex items-center justify-between border-b border-[var(--color-border)] px-4 py-2.5">
+
+            {/* Geographic Map */}
+            <div className="flex flex-col overflow-hidden rounded-[6px] border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:col-span-8">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 px-4 py-3">
                 <div>
-                  <h2 className="text-[13px] font-semibold text-[var(--color-text)]">Geographic Risk Exposure</h2>
-                  <p className="text-[11px] text-[var(--color-text-dim)]">Live distribution of insured locations</p>
+                  <h2 className="text-[13px] font-semibold text-slate-800 dark:text-slate-200">
+                    Geographic Risk Exposure
+                  </h2>
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500">
+                    Live distribution of insured farm locations across Maharashtra
+                  </p>
                 </div>
                 <Link
                   href="/farm-map"
-                  className="inline-flex items-center gap-1 text-[11.5px] font-medium text-[var(--color-emerald)] hover:underline"
+                  className="inline-flex items-center gap-1 text-[11.5px] font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400"
                 >
-                  <span>Full Map</span>
-                  <ChevronRight size={12} />
+                  Full Map <ChevronRight size={12} />
                 </Link>
               </div>
 
@@ -310,44 +375,62 @@ export default function OverviewPage() {
                 {data && data.mapFarms.length > 0 ? (
                   <RegionalRiskMap farms={data.mapFarms} />
                 ) : (
-                  <div className="flex h-full items-center justify-center p-6 text-center text-[var(--color-text-dim)] text-[12px]">
-                    <div className="flex flex-col items-center gap-1.5">
-                      <MapPin size={18} className="text-[var(--color-text-dim)] opacity-40" />
-                      <span>No coordinate data available for current selection.</span>
+                  <div className="flex h-full items-center justify-center text-center">
+                    <div className="flex flex-col items-center gap-2">
+                      <MapPin size={16} className="text-slate-300 dark:text-slate-600" />
+                      <span className="text-[12px] text-slate-400">No coordinate data available for current selection.</span>
                     </div>
                   </div>
                 )}
               </div>
+
+              {/* Map Legend */}
+              <div className="flex items-center gap-4 border-t border-slate-100 dark:border-slate-800 px-4 py-2.5">
+                <span className="text-[10.5px] font-semibold uppercase tracking-widest text-slate-400">Legend</span>
+                {[
+                  { label: "Low Risk", color: "bg-emerald-500" },
+                  { label: "Moderate Risk", color: "bg-amber-400" },
+                  { label: "High Risk", color: "bg-red-500" },
+                ].map((item) => (
+                  <span key={item.label} className="flex items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
+                    <span className={`h-2 w-2 rounded-full ${item.color} shrink-0`} />
+                    {item.label}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            {/* Right 35%: Risk Distribution */}
-            <div className="flex flex-col justify-between rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4 lg:col-span-4">
-              <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2.5">
+            {/* Risk Distribution */}
+            <div className="flex flex-col rounded-[6px] border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 p-4 lg:col-span-4">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 mb-3">
                 <div>
-                  <h2 className="text-[13px] font-semibold text-[var(--color-text)]">Risk Distribution</h2>
-                  <p className="text-[11px] text-[var(--color-text-dim)]">Categorical portfolio breakdown</p>
+                  <h2 className="text-[13px] font-semibold text-slate-800 dark:text-slate-200">
+                    Risk Distribution
+                  </h2>
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500">Portfolio breakdown by risk tier</p>
                 </div>
-                <span className="text-[11px] font-semibold text-[var(--color-text-muted)]">{total} Policies</span>
+                <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tabular-nums">
+                  {total} Total
+                </span>
               </div>
 
-              <div className="py-2">
+              <div className="flex-1 py-1">
                 <RiskDistributionChart data={data?.riskDistribution || []} />
               </div>
 
-              {/* Exact Count List */}
-              <div className="space-y-2 border-t border-[var(--color-border)] pt-3 text-[12px]">
+              <div className="space-y-2 border-t border-slate-100 dark:border-slate-800 pt-3">
                 {(data?.riskDistribution || []).map((item) => {
                   const count = item.count || 0;
                   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
                   return (
-                    <div key={item.level} className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-[var(--color-text-muted)]">
+                    <div key={item.level} className="flex items-center justify-between text-[12px]">
+                      <div className="flex items-center gap-2">
                         <span className="h-2 w-2 rounded-full shrink-0" style={{ background: item.fill }} />
-                        <span>{item.level} Risk</span>
+                        <span className="text-slate-600 dark:text-slate-400">{item.level} Risk</span>
                       </div>
-                      <div className="flex items-center gap-2 font-medium">
-                        <span className="text-[var(--color-text-dim)] text-[11px]">{pct}%</span>
-                        <span className="tnum font-bold text-[var(--color-text)]">{count}</span>
+                      <div className="flex items-center gap-2.5">
+                        <span className="text-[11px] text-slate-400 tabular-nums">{pct}%</span>
+                        <span className="tabular-nums font-semibold text-slate-800 dark:text-slate-200 min-w-[16px] text-right">{count}</span>
                       </div>
                     </div>
                   );
@@ -356,50 +439,45 @@ export default function OverviewPage() {
             </div>
           </div>
 
-          {/* ── 4. Secondary Analytics Row (Crop Exposure & Policy Status) */}
+          {/* ── 4. Crop Exposure + Policy Status ─────────────────────── */}
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            {/* Left: Crop Exposure */}
-            <div className="rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-              <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2.5 mb-3">
+
+            {/* Crop Exposure */}
+            <div className="rounded-[6px] border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 p-4">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
                 <div>
-                  <h3 className="text-[13px] font-semibold text-[var(--color-text)]">Crop Exposure</h3>
-                  <p className="text-[11px] text-[var(--color-text-dim)]">Portfolio distribution by crop type</p>
+                  <h3 className="text-[13px] font-semibold text-slate-800 dark:text-slate-200">Crop Exposure</h3>
+                  <p className="text-[11px] text-slate-400">Portfolio distribution by insured crop</p>
                 </div>
-                <span className="text-[11px] text-[var(--color-text-dim)]">{data?.topCrops.length || 0} Crops</span>
+                <div className="flex h-6 w-6 items-center justify-center rounded-[4px] border border-slate-100 dark:border-slate-800">
+                  <BarChart2 size={12} className="text-slate-400" />
+                </div>
               </div>
 
               {data && data.topCrops.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-4">
+                  {/* Table header */}
+                  <div className="grid grid-cols-12 text-[10px] font-semibold uppercase tracking-widest text-slate-400 pb-1 border-b border-slate-100 dark:border-slate-800">
+                    <span className="col-span-4">Crop</span>
+                    <span className="col-span-3 text-right">Policies</span>
+                    <span className="col-span-2 text-right">Share</span>
+                    <span className="col-span-3 text-right">Avg Risk</span>
+                  </div>
                   {data.topCrops.map((c) => {
                     const pct = total > 0 ? Math.round((c.count / total) * 100) : 0;
+                    const riskColor = c.avgRisk >= 70 ? "text-red-600 dark:text-red-400" : c.avgRisk >= 40 ? "text-amber-600 dark:text-amber-400" : "text-emerald-600 dark:text-emerald-400";
+                    const barColor = c.avgRisk >= 70 ? "bg-red-500" : c.avgRisk >= 40 ? "bg-amber-400" : "bg-emerald-500";
                     return (
-                      <div key={c.crop} className="space-y-1">
-                        <div className="flex items-center justify-between text-[11.5px]">
-                          <span className="font-medium text-[var(--color-text)]">{c.crop}</span>
-                          <div className="flex items-center gap-2.5">
-                            <span className="text-[var(--color-text-dim)]">{c.count} {c.count === 1 ? "policy" : "policies"} ({pct}%)</span>
-                            <span
-                              className={`tnum font-semibold text-[11px] ${
-                                c.avgRisk >= 70
-                                  ? "text-red-500"
-                                  : c.avgRisk >= 40
-                                  ? "text-amber-500"
-                                  : "text-emerald-500"
-                              }`}
-                            >
-                              {c.avgRisk}% avg risk
-                            </span>
-                          </div>
+                      <div key={c.crop} className="space-y-1.5">
+                        <div className="grid grid-cols-12 items-center text-[12px]">
+                          <span className="col-span-4 font-medium text-slate-800 dark:text-slate-200 truncate pr-2">{c.crop}</span>
+                          <span className="col-span-3 text-right tabular-nums text-slate-500 dark:text-slate-400">{c.count}</span>
+                          <span className="col-span-2 text-right tabular-nums text-slate-400">{pct}%</span>
+                          <span className={`col-span-3 text-right tabular-nums font-semibold ${riskColor}`}>{c.avgRisk}%</span>
                         </div>
-                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-[var(--color-surface-raised)]">
+                        <div className="h-1 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
                           <div
-                            className={`h-full rounded-full transition-all duration-500 ${
-                              c.avgRisk >= 70
-                                ? "bg-red-500"
-                                : c.avgRisk >= 40
-                                ? "bg-amber-500"
-                                : "bg-emerald-500"
-                            }`}
+                            className={`h-full rounded-full transition-all duration-500 ${barColor}`}
                             style={{ width: `${pct}%` }}
                           />
                         </div>
@@ -408,138 +486,159 @@ export default function OverviewPage() {
                   })}
                 </div>
               ) : (
-                <p className="text-[12px] text-[var(--color-text-dim)] py-4 text-center">No crop data available</p>
+                <p className="py-6 text-center text-[12px] text-slate-400">No crop data available.</p>
               )}
             </div>
 
-            {/* Right: Policy Status Breakdown */}
-            <div className="rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
-              <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-2.5 mb-3">
+            {/* Policy Status */}
+            <div className="rounded-[6px] border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 p-4">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
                 <div>
-                  <h3 className="text-[13px] font-semibold text-[var(--color-text)]">Policy Status Breakdown</h3>
-                  <p className="text-[11px] text-[var(--color-text-dim)]">Distribution by underwriting decision</p>
+                  <h3 className="text-[13px] font-semibold text-slate-800 dark:text-slate-200">Policy Status</h3>
+                  <p className="text-[11px] text-slate-400">Distribution by underwriting decision</p>
                 </div>
-                <span className="text-[11px] text-[var(--color-text-dim)]">{total} Total</span>
+                <span className="text-[11.5px] font-semibold tabular-nums text-slate-500">{total} Total</span>
               </div>
 
-              <div className="space-y-2.5 text-[12px]">
-                {/* Approved */}
-                <div className="flex items-center justify-between rounded-[5px] bg-[var(--color-surface-raised)] px-3 py-2 border border-[var(--color-border)]">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
-                    <span className="text-[var(--color-text)] font-medium">Approved / Active</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-[var(--color-text-dim)]">
-                      {total > 0 ? Math.round(((data?.summary.approvedPolicies || 0) / total) * 100) : 0}%
-                    </span>
-                    <span className="tnum font-bold text-[var(--color-text)]">{data?.summary.approvedPolicies || 0}</span>
-                  </div>
-                </div>
-
-                {/* Under Review */}
-                <div className="flex items-center justify-between rounded-[5px] bg-[var(--color-surface-raised)] px-3 py-2 border border-[var(--color-border)]">
-                  <div className="flex items-center gap-2">
-                    <Clock size={14} className="text-amber-500 shrink-0" />
-                    <span className="text-[var(--color-text)] font-medium">Under Review</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-[var(--color-text-dim)]">
-                      {total > 0 ? Math.round(((data?.summary.underReviewPolicies || 0) / total) * 100) : 0}%
-                    </span>
-                    <span className="tnum font-bold text-[var(--color-text)]">{data?.summary.underReviewPolicies || 0}</span>
-                  </div>
-                </div>
-
-                {/* Rejected */}
-                <div className="flex items-center justify-between rounded-[5px] bg-[var(--color-surface-raised)] px-3 py-2 border border-[var(--color-border)]">
-                  <div className="flex items-center gap-2">
-                    <XCircle size={14} className="text-red-500 shrink-0" />
-                    <span className="text-[var(--color-text)] font-medium">Rejected</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-[var(--color-text-dim)]">
-                      {total > 0 ? Math.round(((data?.summary.rejectedPolicies || 0) / total) * 100) : 0}%
-                    </span>
-                    <span className="tnum font-bold text-[var(--color-text)]">{data?.summary.rejectedPolicies || 0}</span>
-                  </div>
-                </div>
+              <div className="flex flex-col gap-2.5">
+                {[
+                  {
+                    label: "Approved",
+                    count: data?.summary.approvedPolicies || 0,
+                    icon: CheckCircle2,
+                    color: "text-emerald-600 dark:text-emerald-400",
+                    bg: "bg-emerald-50 dark:bg-emerald-950/20",
+                    border: "border-emerald-100 dark:border-emerald-900/40",
+                    dot: "bg-emerald-500",
+                  },
+                  {
+                    label: "Under Review",
+                    count: data?.summary.underReviewPolicies || 0,
+                    icon: Clock,
+                    color: "text-amber-600 dark:text-amber-400",
+                    bg: "bg-amber-50 dark:bg-amber-950/20",
+                    border: "border-amber-100 dark:border-amber-900/40",
+                    dot: "bg-amber-400",
+                  },
+                  {
+                    label: "Rejected",
+                    count: data?.summary.rejectedPolicies || 0,
+                    icon: XCircle,
+                    color: "text-red-600 dark:text-red-400",
+                    bg: "bg-red-50 dark:bg-red-950/20",
+                    border: "border-red-100 dark:border-red-900/40",
+                    dot: "bg-red-500",
+                  },
+                ].map((row) => {
+                  const pct = total > 0 ? Math.round((row.count / total) * 100) : 0;
+                  return (
+                    <div
+                      key={row.label}
+                      className={`flex items-center justify-between rounded-[5px] border ${row.border} ${row.bg} px-3.5 py-3`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className={`h-2 w-2 rounded-full shrink-0 ${row.dot}`} />
+                        <span className={`text-[12.5px] font-medium ${row.color}`}>{row.label}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-20 h-1 overflow-hidden rounded-full bg-white/60 dark:bg-black/20">
+                          <div
+                            className={`h-full rounded-full ${row.dot} transition-all duration-500`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <span className="text-[11.5px] text-slate-400 tabular-nums w-8 text-right">{pct}%</span>
+                        <span className={`text-[15px] font-bold tabular-nums w-6 text-right ${row.color}`}>
+                          {row.count}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          {/* ── 5. Recent Underwriting Activity Table ─────────────────── */}
-          <div className="rounded-[8px] border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden">
-            <div className="flex items-center justify-between border-b border-[var(--color-border)] px-4 py-3">
+          {/* ── 5. Recent Applications Table ─────────────────────────── */}
+          <div className="overflow-hidden rounded-[6px] border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 px-4 py-3">
               <div>
-                <h3 className="text-[13px] font-semibold text-[var(--color-text)]">Recent Underwriting Activity</h3>
-                <p className="text-[11px] text-[var(--color-text-dim)]">Latest policy assessments and decision status</p>
+                <h3 className="text-[13px] font-semibold text-slate-800 dark:text-slate-200">Recent Applications</h3>
+                <p className="text-[11px] text-slate-400">Latest policy assessments and underwriting decisions</p>
               </div>
               <Link
                 href="/policies"
-                className="inline-flex items-center gap-1 text-[11.5px] font-medium text-[var(--color-emerald)] hover:underline"
+                className="inline-flex items-center gap-1 text-[11.5px] font-medium text-emerald-600 hover:text-emerald-700 dark:text-emerald-400"
               >
-                <span>All Policies</span>
-                <ChevronRight size={12} />
+                All Policies <ChevronRight size={12} />
               </Link>
             </div>
 
-            <div className="scrollbar-thin overflow-x-auto">
+            <div className="overflow-x-auto">
               {data && data.recentAssessments.length > 0 ? (
-                <table className="w-full text-left text-[12px]">
+                <table className="w-full text-left">
                   <thead>
-                    <tr className="border-b border-[var(--color-border)] text-[10.5px] uppercase tracking-wider text-[var(--color-text-dim)]">
-                      <th className="px-4 py-2 font-medium">Policy ID</th>
-                      <th className="px-4 py-2 font-medium">Farm & Farmer</th>
-                      <th className="px-4 py-2 font-medium">Location</th>
-                      <th className="px-4 py-2 font-medium">Crop</th>
-                      <th className="px-4 py-2 font-medium">Risk Score</th>
-                      <th className="px-4 py-2 font-medium">Status</th>
-                      <th className="px-4 py-2 font-medium">Premium</th>
-                      <th className="px-4 py-2 font-medium">Date</th>
+                    <tr className="border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+                      {["Policy ID", "Applicant", "Crop", "Location", "Risk", "Status", "Premium", "Date"].map((h) => (
+                        <th
+                          key={h}
+                          className="px-4 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 whitespace-nowrap"
+                        >
+                          {h}
+                        </th>
+                      ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[var(--color-border)]">
+                  <tbody className="divide-y divide-slate-50 dark:divide-slate-800/50">
                     {data.recentAssessments.map((a) => (
-                      <tr key={a.id} className="hover:bg-[var(--color-surface-raised)] transition-colors">
-                        <td className="tnum px-4 py-2.5 font-semibold text-[var(--color-emerald)]">
-                          <Link href="/policies" className="hover:underline">
+                      <tr key={a.id} className="group hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <Link
+                            href={`/policies/${a.id}`}
+                            className="font-mono text-[11.5px] font-semibold text-emerald-700 dark:text-emerald-400 hover:underline"
+                          >
                             {a.id}
                           </Link>
                         </td>
-                        <td className="px-4 py-2.5">
-                          <span className="font-medium text-[var(--color-text)]">{a.farmName}</span>
-                          <span className="block text-[10.5px] text-[var(--color-text-dim)]">{a.farmerName}</span>
+                        <td className="px-4 py-3">
+                          <p className="text-[12.5px] font-medium text-slate-800 dark:text-slate-200">{a.farmerName}</p>
+                          <p className="text-[10.5px] text-slate-400">{a.farmName}</p>
                         </td>
-                        <td className="px-4 py-2.5 text-[var(--color-text-muted)] max-w-[130px] truncate" title={a.location}>
-                          {a.location}
+                        <td className="px-4 py-3">
+                          <p className="text-[12.5px] text-slate-700 dark:text-slate-300">{a.crop}</p>
+                          {a.cropVariety && <p className="text-[10.5px] text-slate-400">{a.cropVariety}</p>}
                         </td>
-                        <td className="px-4 py-2.5 text-[var(--color-text)]">
-                          <span>{a.crop}</span>
-                          {a.cropVariety && <span className="block text-[10px] text-[var(--color-text-dim)]">{a.cropVariety}</span>}
+                        <td className="px-4 py-3 max-w-[130px] truncate">
+                          <span className="text-[12px] text-slate-500 dark:text-slate-400" title={a.location}>
+                            {a.location}
+                          </span>
                         </td>
-                        <td className="px-4 py-2.5">
+                        <td className="px-4 py-3 whitespace-nowrap">
                           <div className="flex items-center gap-1.5">
-                            <span className="tnum font-bold text-[var(--color-text)]">{a.riskScore}%</span>
-                            <RiskBadge level={a.riskLevel} />
+                            <span className="tabular-nums text-[12.5px] font-semibold text-slate-800 dark:text-slate-200">
+                              {a.riskScore}%
+                            </span>
+                            <RiskPill level={a.riskLevel as "low" | "moderate" | "high"} />
                           </div>
                         </td>
-                        <td className="px-4 py-2.5">
-                          <StatusBadge status={a.status} />
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <StatusPill status={a.status} />
                         </td>
-                        <td className="tnum px-4 py-2.5 font-medium text-[var(--color-text)]">
-                          ₹{a.recommendedPremium.toLocaleString("en-IN")}
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className="tabular-nums text-[12.5px] font-semibold text-slate-800 dark:text-slate-200">
+                            ₹{a.recommendedPremium.toLocaleString("en-IN")}
+                          </span>
                         </td>
-                        <td className="tnum px-4 py-2.5 text-[10.5px] text-[var(--color-text-dim)] whitespace-nowrap">
-                          {a.dateFormatted}
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className="tabular-nums text-[11.5px] text-slate-400">{a.dateFormatted}</span>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               ) : (
-                <div className="py-8 text-center text-[var(--color-text-dim)] text-[11.5px]">
-                  No assessments match current filters.
+                <div className="py-10 text-center">
+                  <p className="text-[12px] text-slate-400">No assessments match the current filters.</p>
                 </div>
               )}
             </div>

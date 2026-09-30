@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { updateUnderwritingDecision } from "@/lib/underwriting/underwritingStore";
+import { updateUnderwritingDecision, getUnderwritingRecordById, saveUnderwritingRecord } from "@/lib/underwriting/underwritingStore";
 
 export async function POST(
   req: NextRequest,
@@ -8,6 +8,15 @@ export async function POST(
   try {
     const { id } = await params;
     const body = await req.json();
+
+    // If a regenerated boundary image is provided, update it first
+    if (body.boundaryImageBase64) {
+      const record = await getUnderwritingRecordById(id);
+      if (record) {
+        record.boundaryImageBase64 = body.boundaryImageBase64;
+        await saveUnderwritingRecord(record);
+      }
+    }
 
     const updated = await updateUnderwritingDecision({
       id,

@@ -129,7 +129,11 @@ export function RiskAnalysisWorkflow() {
           farmer: { name: details.farmName }, // mock
           farm: { name: details.farmName, region: parcel.displayName || "Unknown" },
           crop: details.crop,
-          location: { latitude: parcel.latitude, longitude: parcel.longitude },
+          location: { 
+            latitude: parcel.latitude, 
+            longitude: parcel.longitude,
+            boundaryImage: parcel.boundaryImage 
+          },
           geoPolygon: parcel.geoJson,
           area: parcel.areaAcres,
           environmentalData: {

@@ -16,6 +16,7 @@ export type FarmLocation = {
   isValid?: boolean;
   validationReason?: string;
   validationStatus?: "VALID" | "INVALID" | "VALIDATION_UNAVAILABLE";
+  boundaryImage?: string;
 };
 
 export type GeocodingResult = {

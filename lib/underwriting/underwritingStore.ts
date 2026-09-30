@@ -70,6 +70,10 @@ export type UnderwritingRecord = {
   // Timestamps & Audit
   submittedAt: string;
   auditTrail: AuditEvent[];
+
+  // Attachments
+  boundaryImageBase64?: string;
+  certificatePdf?: string;
 };
 
 const DATA_FILE_PATH = path.join(process.cwd(), "data", "underwriting_records.json");
@@ -152,6 +156,7 @@ export async function getAllUnderwritingRecords(): Promise<UnderwritingRecord[]>
           areaAcres: Number(farm?.areaAcres || snapshot.areaAcres || 5.0),
           areaHectares: Number(snapshot.areaHectares || (Number(farm?.areaAcres || 5.0) * 0.404686)),
           geoJson: farm?.boundaryGeoJson || snapshot.geoJson,
+          boundaryImageBase64: farm?.boundaryImage || snapshot.boundaryImageBase64,
 
           environmentalData: snapshot.environmentalData,
 
@@ -243,6 +248,7 @@ export async function saveUnderwritingRecord(record: UnderwritingRecord): Promis
       irrigationType: record.irrigationType,
       areaAcres: record.areaAcres.toString(),
       boundaryGeoJson: record.geoJson || null,
+      boundaryImage: record.boundaryImageBase64 || null,
       latitude: record.latitude.toString(),
       longitude: record.longitude.toString(),
     }).returning();

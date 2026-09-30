@@ -37,6 +37,7 @@ export const farms = pgTable("farms", {
   irrigationType: varchar("irrigation_type", { length: 60 }),
   areaAcres: numeric("area_acres", { precision: 8, scale: 2 }).notNull(),
   boundaryGeoJson: jsonb("boundary_geojson"),
+  boundaryImage: text("boundary_image"),
   latitude: numeric("latitude", { precision: 9, scale: 6 }).notNull(),
   longitude: numeric("longitude", { precision: 9, scale: 6 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -92,6 +93,7 @@ export const policies = pgTable("policies", {
   rejectionReason: text("rejection_reason"),
   assessmentSnapshot: jsonb("assessment_snapshot"),
   auditTrail: jsonb("audit_trail"),
+  certificatePdf: text("certificate_pdf"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

@@ -6,6 +6,7 @@ import { MapView } from "@/components/map/MapView";
 import { FarmLocation } from "@/lib/geocoding/types";
 import turfArea from "@turf/area";
 import turfCentroid from "@turf/centroid";
+import { toJpeg } from "html-to-image";
 
 interface VillageItem {
   code: string;
@@ -50,6 +51,7 @@ export function LocationStep({
   const [drawClearTrigger, setDrawClearTrigger] = useState(0);
 
   const villageRef = useRef<HTMLDivElement>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
   // Fetch districts on mount
   useEffect(() => {
@@ -182,14 +184,14 @@ export function LocationStep({
         onSelect(newLocation);
 
         if (result.isFallback) {
-          setErrorMsg(`Unable to locate this village automatically. Centered map on ${selectedTaluka} taluka. Please adjust the location on the map.`);
+          setErrorMsg(null);
         }
       } else {
-        setErrorMsg("Unable to locate this village automatically. Please adjust the location on the map.");
+        setErrorMsg(null);
       }
     } catch (err) {
       console.error("Geocoding failed:", err);
-      setErrorMsg("Unable to locate this village automatically. Please adjust the location on the map.");
+      setErrorMsg(null);
     } finally {
       setGeocoding(false);
     }
@@ -211,20 +213,45 @@ export function LocationStep({
       if (res.ok) {
         const data = await res.json();
         if (data.valid) {
+          setValidationMessage("Generating farm evidence image...");
+          let capturedImage: string | undefined = undefined;
+          
+          if (mapContainerRef.current) {
+            try {
+              // Hide Leaflet controls (zoom, drawing tools, attribution) for a clean satellite evidence image
+              const controls = mapContainerRef.current.querySelectorAll('.leaflet-control-container, .leaflet-top, .leaflet-bottom') as NodeListOf<HTMLElement>;
+              const typeSelector = mapContainerRef.current.parentElement?.querySelectorAll('button, div.z-\\[1001\\]') as NodeListOf<HTMLElement>;
+              
+              controls.forEach(c => { c.style.display = 'none'; });
+              typeSelector.forEach(c => { c.style.opacity = '0'; });
+
+              // Wait slightly for DOM to apply styles
+              await new Promise(r => setTimeout(r, 100));
+
+              capturedImage = await toJpeg(mapContainerRef.current, { quality: 0.8, pixelRatio: 2 });
+
+              // Restore UI
+              controls.forEach(c => { c.style.display = ''; });
+              typeSelector.forEach(c => { c.style.opacity = '1'; });
+            } catch (captureErr) {
+              console.error("Failed to capture map image:", captureErr);
+            }
+          }
+
+          if (!capturedImage) {
+            throw new Error("Failed to capture map interface.");
+          }
+
           const validated = {
             ...currentParcel,
             isValid: true,
             validationStatus: data.reason || ("VALID" as const),
+            boundaryImage: capturedImage,
           };
           setParcel(validated);
           onSelect(validated);
-          if (data.reason === "VALIDATION_UNAVAILABLE") {
-            setValidationMessage(data.error || "Land verification service is temporarily unavailable. The selected boundary can still be reviewed using satellite imagery.");
-            setValidationSuccessMessage(null);
-          } else {
-            setValidationSuccessMessage("Farm area verified");
-            setValidationMessage(null);
-          }
+          setValidationSuccessMessage("Farm boundary ready");
+          setValidationMessage(null);
         } else {
           const invalidated = {
             ...currentParcel,
@@ -239,26 +266,26 @@ export function LocationStep({
         }
       } else {
         const errorData = await res.json().catch(() => ({}));
-        const validated = {
+        const invalidated = {
           ...currentParcel,
-          isValid: true,
-          validationStatus: "VALIDATION_UNAVAILABLE" as const,
+          isValid: false,
+          validationStatus: "INVALID" as const,
         };
-        setParcel(validated);
-        onSelect(validated);
-        setValidationMessage(errorData.error || "Land verification service is temporarily unavailable. The selected boundary can still be reviewed using satellite imagery.");
+        setParcel(invalidated);
+        onSelect(invalidated);
+        setValidationMessage(errorData.error || "Failed to generate farm boundary image. Please try again.");
         setValidationSuccessMessage(null);
       }
     } catch (err) {
       console.error("Land validation request failed:", err);
-      const validated = {
+      const invalidated = {
         ...currentParcel,
-        isValid: true,
-        validationStatus: "VALIDATION_UNAVAILABLE" as const,
+        isValid: false,
+        validationStatus: "INVALID" as const,
       };
-      setParcel(validated);
-      onSelect(validated);
-      setValidationMessage("Land verification service is temporarily unavailable. The selected boundary can still be reviewed using satellite imagery.");
+      setParcel(invalidated);
+      onSelect(invalidated);
+      setValidationMessage("Failed to connect to validation service. Please check your internet connection.");
       setValidationSuccessMessage(null);
     } finally {
       setValidatingLand(false);
@@ -499,7 +526,7 @@ export function LocationStep({
       </div>
 
       {/* Map View */}
-      <div className="h-[380px] overflow-hidden rounded-[8px] border border-[var(--color-border)] relative z-0">
+      <div ref={mapContainerRef} className="h-[380px] overflow-hidden rounded-[8px] border border-[var(--color-border)] relative z-0">
         <MapView 
           center={mapCenter} 
           zoom={mapZoom} 
