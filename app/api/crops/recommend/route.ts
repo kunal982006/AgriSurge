@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     const jsonInput = JSON.stringify(inputData);
 
     const { stdout, stderr } = await execFilePromise("python", [scriptPath, "--json", jsonInput], {
-      timeout: 15000,
+      timeout: 60000,
       env: { ...process.env, PYTHONIOENCODING: "utf-8" },
     });
 

@@ -201,10 +201,10 @@ function RecommendationCard({
   }, [delay]);
 
   const rankMeta = [
-    { label: "Best Match",   barWidth: "w-full",    color: "bg-emerald-500" },
-    { label: "Good Match",   barWidth: "w-4/5",     color: "bg-sky-400" },
-    { label: "Alternative",  barWidth: "w-3/5",     color: "bg-[var(--color-border-strong)]" },
-  ][rec.rank - 1] || { label: "Match", barWidth: "w-1/2", color: "bg-[var(--color-border)]" };
+    { label: "Tier 1 Match" },
+    { label: "Tier 2 Match" },
+    { label: "Alternative" },
+  ][rec.rank - 1] || { label: "Match" };
 
   const pct = Math.round((rec.confidence || 0) * 100);
 
@@ -214,43 +214,43 @@ function RecommendationCard({
       onClick={onClick}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(10px)",
+        transform: visible ? "translateY(0)" : "translateY(5px)",
         transition: `opacity 0.35s ease ${delay}ms, transform 0.35s ease ${delay}ms, box-shadow 0.2s, border-color 0.2s`,
       }}
-      className={`relative flex flex-col rounded-[10px] border p-3.5 text-left transition-colors group cursor-pointer ${
+      className={`relative flex flex-col rounded-[6px] border p-4 text-left transition-colors group cursor-pointer ${
         isSelected
-          ? "border-emerald-500/60 bg-emerald-500/10 shadow-xs"
+          ? "border-slate-800 bg-slate-50 dark:border-slate-300 dark:bg-slate-900/30"
           : "border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-border-strong)] hover:bg-[var(--color-surface-raised)]"
       }`}
     >
-      {/* Selected indicator */}
-      {isSelected && (
-        <span className="absolute right-2.5 top-2.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-emerald-500 text-white">
-          <Check size={10} className="stroke-[3]" />
+      <div className="flex justify-between items-start w-full mb-3">
+        <span className={`text-[10px] font-semibold uppercase tracking-wider ${isSelected ? "text-slate-800 dark:text-slate-200" : "text-[var(--color-text-dim)]"}`}>
+          {rankMeta.label}
         </span>
-      )}
+        {isSelected && (
+          <span className="flex h-3.5 w-3.5 items-center justify-center rounded-sm bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900">
+            <Check size={9} className="stroke-[3]" />
+          </span>
+        )}
+      </div>
 
-      <span className={`mb-1.5 text-[10px] font-medium uppercase tracking-wider ${isSelected ? "text-emerald-600 dark:text-emerald-400 font-semibold" : "text-[var(--color-text-dim)]"}`}>
-        {rankMeta.label}
-      </span>
-      <h4 className={`text-[15px] font-bold leading-tight ${isSelected ? "text-[var(--color-text)]" : "text-[var(--color-text)] group-hover:text-[var(--color-emerald)] transition-colors"}`}>
+      <h4 className={`text-[15px] font-semibold leading-tight ${isSelected ? "text-slate-900 dark:text-slate-100" : "text-[var(--color-text)] group-hover:text-slate-900 dark:group-hover:text-slate-100 transition-colors"}`}>
         {rec.crop}
       </h4>
 
-      {/* Confidence bar */}
-      <div className="mt-3 space-y-1">
-        <div className="flex items-center justify-between text-[10px] text-[var(--color-text-dim)]">
-          <span>Suitability</span>
-          <span className={`font-semibold tabular-nums ${isSelected ? "text-emerald-600 dark:text-emerald-400" : "text-[var(--color-text-muted)]"}`}>
+      <div className="mt-4 space-y-1.5 w-full">
+        <div className="flex items-center justify-between text-[11px] text-[var(--color-text-dim)]">
+          <span>Suitability Index</span>
+          <span className={`font-medium tabular-nums ${isSelected ? "text-slate-900 dark:text-slate-100" : "text-[var(--color-text-muted)]"}`}>
             {pct > 0 ? `${pct}%` : "—"}
           </span>
         </div>
-        <div className="h-1 w-full overflow-hidden rounded-full bg-[var(--color-surface-raised)] border border-[var(--color-border)]">
+        <div className="h-1 w-full overflow-hidden rounded-sm bg-[var(--color-surface-raised)] border border-[var(--color-border)]">
           <div
-            className={`h-full rounded-full transition-all duration-700 ${
-              isSelected ? "bg-emerald-500" : rankMeta.color
+            className={`h-full rounded-sm transition-all duration-700 ${
+              isSelected ? "bg-slate-800 dark:bg-slate-200" : "bg-[var(--color-border-strong)] group-hover:bg-slate-400 dark:group-hover:bg-slate-500"
             }`}
-            style={{ width: pct > 0 ? `${pct}%` : rankMeta.barWidth }}
+            style={{ width: visible ? `${pct}%` : "0%" }}
           />
         </div>
       </div>
@@ -300,8 +300,11 @@ export function FarmDetailsStep({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     })
-      .then((r) => {
-        if (!r.ok) throw new Error("Service temporarily unavailable");
+      .then(async (r) => {
+        if (!r.ok) {
+          const errData = await r.json().catch(() => ({}));
+          throw new Error(errData.error || "Service temporarily unavailable");
+        }
         return r.json();
       })
       .then((data) => {
@@ -377,15 +380,7 @@ export function FarmDetailsStep({
           </div>
         </div>
 
-        {/* Out-of-range advisory (user-friendly) */}
-        {mlWarnings.length > 0 && !loadingMl && (
-          <div className="mb-3 flex items-start gap-2 rounded-[7px] border border-amber-500/20 bg-amber-500/5 px-3 py-2">
-            <AlertTriangle size={13} className="mt-0.5 shrink-0 text-amber-500" />
-            <p className="text-[11.5px] text-amber-600 dark:text-amber-300 leading-relaxed">
-              Some of your readings are outside typical agricultural ranges. Recommendations may be less accurate — please verify your inputs.
-            </p>
-          </div>
-        )}
+        {/* Out-of-range advisory (user-friendly) - removed per user request */}
 
         {loadingMl && (
           <div className="flex items-center gap-2 py-6 text-[12px] text-[var(--color-text-dim)]">

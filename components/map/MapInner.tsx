@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, FeatureGroup, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, FeatureGroup, Marker, Popup, useMap, GeoJSON } from "react-leaflet";
 import { EditControl } from "react-leaflet-draw";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -65,6 +65,8 @@ export type MapInnerProps = {
   enableDrawing?: boolean;
   onPolygonChange?: (geoJson: GeoJSON.FeatureCollection<GeoJSON.Polygon> | null) => void;
   drawClearTrigger?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  polygon?: any;
 };
 
 // Component to handle map center updates
@@ -84,17 +86,20 @@ export default function MapInner({
   enableDrawing = false,
   onPolygonChange,
   drawClearTrigger = 0,
+  polygon,
 }: MapInnerProps) {
   const featureGroupRef = useRef<L.FeatureGroup>(null);
-  const [mapType, setMapType] = useState<MapTypeId>("default");
+  const [mapType, setMapType] = useState<MapTypeId>("satellite");
   const [showTypeSelector, setShowTypeSelector] = useState(false);
   
   const currentProvider = TILE_PROVIDERS[mapType];
 
+  const prevDrawClearTrigger = useRef(drawClearTrigger);
   useEffect(() => {
-    if (drawClearTrigger > 0 && featureGroupRef.current) {
+    if (drawClearTrigger > prevDrawClearTrigger.current && featureGroupRef.current) {
       featureGroupRef.current.clearLayers();
       onPolygonChange?.(null);
+      prevDrawClearTrigger.current = drawClearTrigger;
     }
   }, [drawClearTrigger, onPolygonChange]);
 
@@ -159,6 +164,13 @@ export default function MapInner({
           </Marker>
         ))}
 
+        {polygon && (
+          <GeoJSON 
+            data={polygon} 
+            style={{ color: '#3b82f6', weight: 3, fillColor: '#3b82f6', fillOpacity: 0.25 }} 
+          />
+        )}
+
         {enableDrawing && (
           <FeatureGroup ref={featureGroupRef}>
             <EditControl
@@ -175,6 +187,12 @@ export default function MapInner({
                 polygon: {
                   allowIntersection: false,
                   showArea: true,
+                  shapeOptions: {
+                    color: '#3b82f6',
+                    weight: 3,
+                    fillColor: '#3b82f6',
+                    fillOpacity: 0.25
+                  }
                 },
               }}
             />

@@ -4,28 +4,114 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   AlertTriangle,
-  ArrowUpDown,
   CheckCircle2,
   Clock,
   ExternalLink,
-  FileCheck,
   FileSearch,
-  FileText,
-  Filter,
-  Layers,
-  MapPin,
   RefreshCw,
   Search,
-  ShieldCheck,
   XCircle,
 } from "lucide-react";
-import { Card } from "@/components/ui/primitives";
 import { UNDERWRITING_STATUS_CONFIG } from "@/lib/underwriting/status";
 
+// ─── Metric stat card ─────────────────────────────────────────────────
+function StatCard({
+  label,
+  count,
+  sub,
+  accent,
+  active,
+  onClick,
+}: {
+  label: string;
+  count: number;
+  sub: string;
+  accent: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`group flex flex-col items-start rounded-[6px] border p-4 text-left transition-all cursor-pointer ${
+        active
+          ? `${accent} shadow-sm`
+          : "border-slate-200 bg-white hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700"
+      }`}
+    >
+      <span className="text-[10.5px] font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
+        {label}
+      </span>
+      <span className="mt-2 text-[28px] font-bold tabular-nums leading-none text-slate-900 dark:text-slate-100">
+        {count}
+      </span>
+      <span className="mt-1 text-[11.5px] text-slate-400 dark:text-slate-500">{sub}</span>
+    </button>
+  );
+}
+
+// ─── Risk badge ───────────────────────────────────────────────────────
+function RiskBadge({ level, score }: { level: string; score: number }) {
+  const norm = level.toUpperCase();
+  if (norm === "HIGH")
+    return (
+      <span className="inline-flex items-center gap-1 rounded-[3px] bg-red-50 px-1.5 py-0.5 text-[11px] font-semibold text-red-700 dark:bg-red-950/40 dark:text-red-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-red-500 inline-block" />
+        {score}% High
+      </span>
+    );
+  if (norm === "MODERATE")
+    return (
+      <span className="inline-flex items-center gap-1 rounded-[3px] bg-amber-50 px-1.5 py-0.5 text-[11px] font-semibold text-amber-700 dark:bg-amber-950/40 dark:text-amber-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-amber-400 inline-block" />
+        {score}% Moderate
+      </span>
+    );
+  return (
+    <span className="inline-flex items-center gap-1 rounded-[3px] bg-emerald-50 px-1.5 py-0.5 text-[11px] font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
+      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block" />
+      {score}% Low
+    </span>
+  );
+}
+
+// ─── Status badge ─────────────────────────────────────────────────────
+function StatusBadge({ statusInfo }: { statusInfo: { label: string; badgeClass: string } }) {
+  return (
+    <span
+      className={`inline-flex items-center rounded-[3px] border px-2 py-0.5 text-[11px] font-semibold ${statusInfo.badgeClass}`}
+    >
+      {statusInfo.label}
+    </span>
+  );
+}
+
+// ─── Filter select ────────────────────────────────────────────────────
+function FilterSelect({
+  value,
+  onChange,
+  children,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <select
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className="rounded-[5px] border border-slate-200 bg-white px-2.5 py-1.5 text-[12px] text-slate-700 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+    >
+      {children}
+    </select>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────
 export default function PoliciesUnderwritingPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   const [records, setRecords] = useState<any[]>([]);
   const [counts, setCounts] = useState({
     total: 0,
@@ -38,7 +124,6 @@ export default function PoliciesUnderwritingPage() {
   const [availableCrops, setAvailableCrops] = useState<string[]>([]);
   const [availableRegions, setAvailableRegions] = useState<string[]>([]);
 
-  // Filter States
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [riskFilter, setRiskFilter] = useState("ALL");
@@ -77,296 +162,285 @@ export default function PoliciesUnderwritingPage() {
     fetchPolicies();
   }, [statusFilter, riskFilter, cropFilter, regionFilter, sortBy]);
 
-  // Debounced Search Trigger
   useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchPolicies();
-    }, 300);
+    const timer = setTimeout(() => fetchPolicies(), 300);
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
   return (
-    <div className="flex flex-col gap-6 text-[var(--color-text)]">
-      {/* HEADER SECTION */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
+    <div className="flex flex-col gap-6 text-slate-900 dark:text-slate-100">
+
+      {/* ── PAGE HEADER ────────────────────────────────────────────── */}
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-[20px] font-bold tracking-tight text-[var(--color-text)]">
-            Policies & Underwriting Workspace
+          <h1 className="text-[22px] font-bold tracking-tight text-slate-900 dark:text-white">
+            Underwriting Queue
           </h1>
-          <p className="mt-0.5 text-[12.5px] text-[var(--color-text-muted)]">
-            Review submitted risk assessments, evaluate pricing, and make underwriting decisions.
+          <p className="mt-0.5 text-[13px] text-slate-500 dark:text-slate-400">
+            Review submitted applications, evaluate risk and make binding decisions.
           </p>
         </div>
-
         <button
           onClick={fetchPolicies}
-          className="inline-flex items-center gap-1.5 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-3 py-1.5 text-[12px] font-medium text-[var(--color-text-muted)] hover:bg-[var(--color-surface)]"
+          className="inline-flex items-center gap-1.5 rounded-[5px] border border-slate-200 bg-white px-3 py-1.5 text-[12.5px] font-medium text-slate-600 shadow-sm hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
         >
-          <RefreshCw size={13} className={loading ? "animate-spin" : ""} /> Refresh Queue
+          <RefreshCw size={13} className={loading ? "animate-spin" : ""} />
+          Refresh
         </button>
       </div>
 
-      {/* METRIC SUMMARY CARDS (Actual Database Counts) */}
+      {/* ── STAT CARDS ──────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        <div
-          onClick={() => setStatusFilter("UNDER_REVIEW")}
-          className={`cursor-pointer rounded-[6px] border p-3.5 transition-all ${
-            statusFilter === "UNDER_REVIEW"
-              ? "border-amber-500 bg-amber-500/10"
-              : "border-[var(--color-border)] bg-[var(--color-surface-raised)] hover:border-amber-500/50"
-          }`}
-        >
-          <div className="flex items-center justify-between text-[11.5px] text-[var(--color-text-dim)]">
-            <span>UNDER REVIEW</span>
-            <Clock size={15} className="text-amber-400" />
-          </div>
-          <p className="tnum mt-2 text-[24px] font-bold text-amber-400">{counts.underReview || 0}</p>
-          <span className="text-[10.5px] text-[var(--color-text-dim)]">Awaiting Decision</span>
+        <StatCard
+          label="Under Review"
+          count={counts.underReview || 0}
+          sub="Awaiting decision"
+          accent="border-amber-300 bg-amber-50 dark:border-amber-700 dark:bg-amber-950/30"
+          active={statusFilter === "UNDER_REVIEW"}
+          onClick={() => setStatusFilter(statusFilter === "UNDER_REVIEW" ? "ALL" : "UNDER_REVIEW")}
+        />
+        <StatCard
+          label="Needs Information"
+          count={counts.needsInformation || 0}
+          sub="Info requested"
+          accent="border-blue-300 bg-blue-50 dark:border-blue-700 dark:bg-blue-950/30"
+          active={statusFilter === "NEEDS_INFORMATION"}
+          onClick={() => setStatusFilter(statusFilter === "NEEDS_INFORMATION" ? "ALL" : "NEEDS_INFORMATION")}
+        />
+        <StatCard
+          label="Approved"
+          count={counts.approved || 0}
+          sub="Bound policies"
+          accent="border-emerald-300 bg-emerald-50 dark:border-emerald-700 dark:bg-emerald-950/30"
+          active={statusFilter === "APPROVED"}
+          onClick={() => setStatusFilter(statusFilter === "APPROVED" ? "ALL" : "APPROVED")}
+        />
+        <StatCard
+          label="Rejected"
+          count={counts.rejected || 0}
+          sub="Declined risk"
+          accent="border-red-300 bg-red-50 dark:border-red-700 dark:bg-red-950/30"
+          active={statusFilter === "REJECTED"}
+          onClick={() => setStatusFilter(statusFilter === "REJECTED" ? "ALL" : "REJECTED")}
+        />
+        <StatCard
+          label="High Risk"
+          count={counts.highRisk || 0}
+          sub="Flagged for review"
+          accent="border-red-400 bg-red-50 dark:border-red-700 dark:bg-red-950/30"
+          active={riskFilter === "HIGH"}
+          onClick={() => setRiskFilter(riskFilter === "HIGH" ? "ALL" : "HIGH")}
+        />
+      </div>
+
+      {/* ── SEARCH + FILTERS ────────────────────────────────────────── */}
+      <div className="flex flex-wrap items-center gap-3 rounded-[6px] border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
+        {/* Search */}
+        <div className="relative min-w-[240px] flex-1">
+          <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            type="text"
+            placeholder="Search policy ID, farmer, crop, district…"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full rounded-[5px] border border-slate-200 bg-white py-1.5 pl-8 pr-3 text-[12.5px] text-slate-800 placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+          />
         </div>
 
-        <div
-          onClick={() => setStatusFilter("NEEDS_INFORMATION")}
-          className={`cursor-pointer rounded-[6px] border p-3.5 transition-all ${
-            statusFilter === "NEEDS_INFORMATION"
-              ? "border-blue-500 bg-blue-500/10"
-              : "border-[var(--color-border)] bg-[var(--color-surface-raised)] hover:border-blue-500/50"
-          }`}
-        >
-          <div className="flex items-center justify-between text-[11.5px] text-[var(--color-text-dim)]">
-            <span>PENDING INFO</span>
-            <FileSearch size={15} className="text-blue-400" />
-          </div>
-          <p className="tnum mt-2 text-[24px] font-bold text-blue-400">{counts.needsInformation || 0}</p>
-          <span className="text-[10.5px] text-[var(--color-text-dim)]">Info Requested</span>
-        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <FilterSelect value={statusFilter} onChange={setStatusFilter}>
+            <option value="ALL">All Statuses</option>
+            <option value="UNDER_REVIEW">Under Review</option>
+            <option value="NEEDS_INFORMATION">Needs Information</option>
+            <option value="APPROVED">Approved</option>
+            <option value="REJECTED">Rejected</option>
+          </FilterSelect>
 
-        <div
-          onClick={() => setStatusFilter("APPROVED")}
-          className={`cursor-pointer rounded-[6px] border p-3.5 transition-all ${
-            statusFilter === "APPROVED"
-              ? "border-[var(--color-emerald)] bg-[var(--color-emerald-dim)]/20"
-              : "border-[var(--color-border)] bg-[var(--color-surface-raised)] hover:border-[var(--color-emerald)]/50"
-          }`}
-        >
-          <div className="flex items-center justify-between text-[11.5px] text-[var(--color-text-dim)]">
-            <span>APPROVED</span>
-            <CheckCircle2 size={15} className="text-[var(--color-emerald)]" />
-          </div>
-          <p className="tnum mt-2 text-[24px] font-bold text-[var(--color-emerald)]">{counts.approved || 0}</p>
-          <span className="text-[10.5px] text-[var(--color-text-dim)]">Bound Policies</span>
-        </div>
+          <FilterSelect value={riskFilter} onChange={setRiskFilter}>
+            <option value="ALL">All Risk Levels</option>
+            <option value="LOW">Low Risk</option>
+            <option value="MODERATE">Moderate Risk</option>
+            <option value="HIGH">High Risk</option>
+          </FilterSelect>
 
-        <div
-          onClick={() => setStatusFilter("REJECTED")}
-          className={`cursor-pointer rounded-[6px] border p-3.5 transition-all ${
-            statusFilter === "REJECTED"
-              ? "border-[var(--color-red)] bg-[var(--color-red-dim)]/20"
-              : "border-[var(--color-border)] bg-[var(--color-surface-raised)] hover:border-[var(--color-red)]/50"
-          }`}
-        >
-          <div className="flex items-center justify-between text-[11.5px] text-[var(--color-text-dim)]">
-            <span>REJECTED</span>
-            <XCircle size={15} className="text-[var(--color-red)]" />
-          </div>
-          <p className="tnum mt-2 text-[24px] font-bold text-[var(--color-red)]">{counts.rejected || 0}</p>
-          <span className="text-[10.5px] text-[var(--color-text-dim)]">Declined Risk</span>
-        </div>
+          <FilterSelect value={cropFilter} onChange={setCropFilter}>
+            <option value="ALL">All Crops</option>
+            {availableCrops.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </FilterSelect>
 
-        <div
-          onClick={() => setRiskFilter("HIGH")}
-          className={`cursor-pointer rounded-[6px] border p-3.5 transition-all col-span-2 sm:col-span-1 ${
-            riskFilter === "HIGH"
-              ? "border-[var(--color-red)] bg-[var(--color-red-dim)]/20"
-              : "border-[var(--color-border)] bg-[var(--color-surface-raised)] hover:border-[var(--color-red)]/40"
-          }`}
-        >
-          <div className="flex items-center justify-between text-[11.5px] text-[var(--color-text-dim)]">
-            <span>HIGH RISK</span>
-            <AlertTriangle size={15} className="text-[var(--color-red)]" />
-          </div>
-          <p className="tnum mt-2 text-[24px] font-bold text-[var(--color-red)]">{counts.highRisk || 0}</p>
-          <span className="text-[10.5px] text-[var(--color-text-dim)]">High Risk Flagged</span>
+          <FilterSelect value={regionFilter} onChange={setRegionFilter}>
+            <option value="ALL">All Regions</option>
+            {availableRegions.map((r) => (
+              <option key={r} value={r}>{r}</option>
+            ))}
+          </FilterSelect>
+
+          <FilterSelect value={sortBy} onChange={setSortBy}>
+            <option value="default">Sort: Priority</option>
+            <option value="date">Newest First</option>
+            <option value="risk">Highest Risk</option>
+            <option value="premium">Highest Premium</option>
+            <option value="area">Largest Area</option>
+          </FilterSelect>
         </div>
       </div>
 
-      {/* FILTERS & SEARCH TOOLBAR */}
-      <Card className="flex flex-col gap-3 p-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          {/* Search Box */}
-          <div className="relative min-w-[260px] flex-1">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-dim)]" />
-            <input
-              type="text"
-              placeholder="Search Policy ID, Farmer, Farm, Village, District, Crop…"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] py-1.5 pl-8 pr-3 text-[12px] text-[var(--color-text)] focus:border-[var(--color-emerald)] focus:outline-none"
-            />
-          </div>
-
-          {/* Filters Group */}
-          <div className="flex flex-wrap items-center gap-2 text-[12px]">
-            {/* Status Filter */}
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1.5 text-[var(--color-text)] focus:border-[var(--color-emerald)] focus:outline-none"
-            >
-              <option value="ALL">All Statuses</option>
-              <option value="UNDER_REVIEW">Under Review</option>
-              <option value="NEEDS_INFORMATION">Needs Information</option>
-              <option value="APPROVED">Approved</option>
-              <option value="REJECTED">Rejected</option>
-            </select>
-
-            {/* Risk Filter */}
-            <select
-              value={riskFilter}
-              onChange={(e) => setRiskFilter(e.target.value)}
-              className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1.5 text-[var(--color-text)] focus:border-[var(--color-emerald)] focus:outline-none"
-            >
-              <option value="ALL">All Risk Levels</option>
-              <option value="LOW">Low Risk</option>
-              <option value="MODERATE">Moderate Risk</option>
-              <option value="HIGH">High Risk</option>
-            </select>
-
-            {/* Crop Filter */}
-            <select
-              value={cropFilter}
-              onChange={(e) => setCropFilter(e.target.value)}
-              className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1.5 text-[var(--color-text)] focus:border-[var(--color-emerald)] focus:outline-none"
-            >
-              <option value="ALL">All Crops</option>
-              {availableCrops.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-
-            {/* Region Filter */}
-            <select
-              value={regionFilter}
-              onChange={(e) => setRegionFilter(e.target.value)}
-              className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1.5 text-[var(--color-text)] focus:border-[var(--color-emerald)] focus:outline-none"
-            >
-              <option value="ALL">All Regions</option>
-              {availableRegions.map((r) => (
-                <option key={r} value={r}>
-                  {r}
-                </option>
-              ))}
-            </select>
-
-            {/* Sort Select */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1.5 text-[var(--color-text)] focus:border-[var(--color-emerald)] focus:outline-none"
-            >
-              <option value="default">Default Sort (Priority)</option>
-              <option value="date">Newest Date</option>
-              <option value="risk">Highest Risk Score</option>
-              <option value="premium">Highest Recommended Premium</option>
-              <option value="area">Largest Farm Area</option>
-            </select>
-          </div>
-        </div>
-      </Card>
-
-      {/* UNDERWRITING QUEUE TABLE */}
-      <Card className="overflow-hidden">
+      {/* ── QUEUE TABLE ─────────────────────────────────────────────── */}
+      <div className="overflow-hidden rounded-[6px] border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-12">
-            <RefreshCw size={24} className="animate-spin text-[var(--color-emerald)]" />
-            <p className="mt-2 text-[12.5px] text-[var(--color-text-dim)]">Loading underwriting applications…</p>
+          <div className="flex flex-col items-center justify-center py-16 gap-3">
+            <RefreshCw size={22} className="animate-spin text-emerald-500" />
+            <p className="text-[12.5px] text-slate-500">Loading applications…</p>
           </div>
         ) : error ? (
-          <div className="p-6 text-center text-[12.5px] text-[var(--color-red)]">{error}</div>
+          <div className="flex flex-col items-center justify-center py-12 gap-2">
+            <AlertTriangle size={20} className="text-red-500" />
+            <p className="text-[12.5px] text-red-600 dark:text-red-400">{error}</p>
+          </div>
         ) : records.length === 0 ? (
-          <div className="py-12 text-center text-[12.5px] text-[var(--color-text-muted)]">
-            No underwriting applications found matching selected filters.
+          <div className="flex flex-col items-center justify-center py-16 gap-2">
+            <FileSearch size={24} className="text-slate-300 dark:text-slate-600" />
+            <p className="text-[13px] font-medium text-slate-500">No applications found</p>
+            <p className="text-[12px] text-slate-400">Try adjusting your filters or search query.</p>
           </div>
         ) : (
-          <div className="scrollbar-thin overflow-x-auto">
-            <table className="w-full text-left text-[12.5px]">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-[var(--color-border)] text-[11px] uppercase tracking-wide text-[var(--color-text-dim)]">
-                  <th className="px-4 py-3 font-medium">Application ID</th>
-                  <th className="px-4 py-3 font-medium">Farm ID</th>
-                  <th className="px-4 py-3 font-medium">Farmer</th>
-                  <th className="px-4 py-3 font-medium">Location</th>
-                  <th className="px-4 py-3 font-medium">Crop</th>
-                  <th className="px-4 py-3 font-medium">Area</th>
-                  <th className="px-4 py-3 font-medium">Risk Score</th>
-                  <th className="px-4 py-3 font-medium">Rec. Premium</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
-                  <th className="px-4 py-3 font-medium">Submitted</th>
-                  <th className="px-4 py-3 font-medium text-right">Action</th>
+                <tr className="border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+                  {[
+                    "Policy ID",
+                    "Application Ref",
+                    "Applicant",
+                    "Location",
+                    "Crop",
+                    "Area",
+                    "Risk",
+                    "Premium",
+                    "Status",
+                    "Submitted",
+                    "",
+                  ].map((h) => (
+                    <th
+                      key={h}
+                      className="px-4 py-3 text-[10.5px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500 whitespace-nowrap"
+                    >
+                      {h}
+                    </th>
+                  ))}
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {records.map((r) => {
                   const normLevel = String(r.riskLevel).toUpperCase();
-                  const isHigh = normLevel === "HIGH";
-                  const isLow = normLevel === "LOW";
-                  const statusInfo = UNDERWRITING_STATUS_CONFIG[r.status as keyof typeof UNDERWRITING_STATUS_CONFIG] || {
-                    label: r.status,
-                    badgeClass: "bg-gray-500/10 text-gray-400 border-gray-500/30",
-                  };
+                  const statusInfo =
+                    UNDERWRITING_STATUS_CONFIG[r.status as keyof typeof UNDERWRITING_STATUS_CONFIG] || {
+                      label: r.status,
+                      badgeClass: "bg-slate-100 text-slate-500 border-slate-200",
+                    };
 
                   return (
                     <tr
                       key={r.id}
-                      className="border-b border-[var(--color-border)] last:border-0 hover:bg-[var(--color-surface-raised)]/60"
+                      className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                     >
-                      <td className="tnum px-4 py-3 font-semibold text-[var(--color-emerald)]">{r.id}</td>
-                      <td className="tnum px-4 py-3 text-[var(--color-text-muted)]">{r.farmCode}</td>
-                      <td className="px-4 py-3 font-medium text-[var(--color-text)]">{r.farmerName}</td>
-                      <td className="px-4 py-3 text-[var(--color-text-muted)]">
-                        {r.district || r.region}, MH
-                      </td>
-                      <td className="px-4 py-3 text-[var(--color-text)] font-medium">
-                        {r.crop} <span className="text-[11px] font-normal text-[var(--color-text-dim)]">({r.cropVariety || "Variety"})</span>
-                      </td>
-                      <td className="tnum px-4 py-3 text-[var(--color-text-muted)]">
-                        {r.areaAcres} ac <span className="text-[10.5px] text-[var(--color-text-dim)]">({r.areaHectares} ha)</span>
-                      </td>
-                      <td className="tnum px-4 py-3">
-                        <div className="flex items-center gap-1.5">
-                          <span
-                            className={`rounded-[4px] px-1.5 py-0.5 text-[11px] font-bold ${
-                              isHigh
-                                ? "bg-[var(--color-red-dim)] text-[var(--color-red)]"
-                                : isLow
-                                ? "bg-[var(--color-emerald-dim)] text-[var(--color-emerald)]"
-                                : "bg-amber-500/10 text-amber-400"
-                            }`}
-                          >
-                            {r.riskScore}% {normLevel}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="tnum px-4 py-3 font-bold text-[var(--color-text)]">
-                        ₹{Number(r.recommendedPremium).toLocaleString("en-IN")}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`rounded-[4px] border px-2 py-0.5 text-[11px] font-semibold ${statusInfo.badgeClass}`}>
-                          {statusInfo.label}
+                      {/* Policy ID */}
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <span className="font-mono text-[12px] font-semibold text-emerald-700 dark:text-emerald-400">
+                          {r.id}
                         </span>
                       </td>
-                      <td className="tnum px-4 py-3 text-[11.5px] text-[var(--color-text-dim)]">
-                        {new Date(r.submittedAt).toLocaleDateString("en-IN", {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        })}
+
+                      {/* Application Ref */}
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <span className="font-mono text-[11.5px] text-slate-400 dark:text-slate-500">
+                          {r.farmCode}
+                        </span>
                       </td>
-                      <td className="px-4 py-3 text-right">
+
+                      {/* Applicant */}
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <span className="text-[13px] font-medium text-slate-800 dark:text-slate-200">
+                          {r.farmerName}
+                        </span>
+                      </td>
+
+                      {/* Location */}
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <span className="text-[12.5px] text-slate-500 dark:text-slate-400">
+                          {r.district || r.region}, MH
+                        </span>
+                      </td>
+
+                      {/* Crop */}
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <div>
+                          <p className="text-[12.5px] font-medium text-slate-800 dark:text-slate-200">
+                            {r.crop}
+                          </p>
+                          {r.cropVariety && (
+                            <p className="text-[11px] text-slate-400 dark:text-slate-500">
+                              {r.cropVariety}
+                            </p>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* Area */}
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <p className="text-[12.5px] tabular-nums text-slate-700 dark:text-slate-300">
+                          {r.areaAcres} ac
+                        </p>
+                        <p className="text-[11px] tabular-nums text-slate-400">
+                          {r.areaHectares} ha
+                        </p>
+                      </td>
+
+                      {/* Risk */}
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <RiskBadge level={normLevel} score={r.riskScore} />
+                      </td>
+
+                      {/* Premium */}
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <span className="text-[13px] font-semibold tabular-nums text-slate-900 dark:text-slate-100">
+                          ₹{Number(r.recommendedPremium).toLocaleString("en-IN")}
+                        </span>
+                      </td>
+
+                      {/* Status */}
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <StatusBadge statusInfo={statusInfo} />
+                      </td>
+
+                      {/* Date */}
+                      <td className="px-4 py-3.5 whitespace-nowrap">
+                        <span className="text-[12px] tabular-nums text-slate-400 dark:text-slate-500">
+                          {new Date(r.submittedAt).toLocaleDateString("en-IN", {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </span>
+                      </td>
+
+                      {/* Action */}
+                      <td className="px-4 py-3.5 whitespace-nowrap text-right flex justify-end gap-2">
+                        {r.status === "APPROVED" && r.certificatePdf && (
+                          <a
+                            href={r.certificatePdf}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 rounded-[4px] border border-slate-200 bg-white px-3 py-1.5 text-[12px] font-medium text-emerald-700 shadow-sm hover:border-emerald-400 hover:text-emerald-800 dark:border-slate-700 dark:bg-slate-800 dark:text-emerald-400 dark:hover:border-emerald-500 transition-colors"
+                          >
+                            Certificate <ExternalLink size={11} />
+                          </a>
+                        )}
                         <Link
                           href={`/policies/${r.id}`}
-                          className="inline-flex items-center gap-1 rounded-[6px] bg-[var(--color-emerald)] px-3 py-1 text-[11.5px] font-semibold text-white hover:opacity-90"
+                          className="inline-flex items-center gap-1.5 rounded-[4px] border border-slate-200 bg-white px-3 py-1.5 text-[12px] font-medium text-slate-700 shadow-sm hover:border-emerald-400 hover:text-emerald-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-emerald-500 dark:hover:text-emerald-400 transition-colors"
                         >
                           Review <ExternalLink size={11} />
                         </Link>
@@ -376,9 +450,19 @@ export default function PoliciesUnderwritingPage() {
                 })}
               </tbody>
             </table>
+
+            {/* Table Footer */}
+            <div className="border-t border-slate-100 dark:border-slate-800 px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50">
+              <p className="text-[11.5px] text-slate-400 dark:text-slate-500">
+                Showing <span className="font-semibold text-slate-600 dark:text-slate-300">{records.length}</span> application{records.length !== 1 ? "s" : ""}
+                {counts.total > records.length ? (
+                  <> of <span className="font-semibold text-slate-600 dark:text-slate-300">{counts.total}</span> total</>
+                ) : null}
+              </p>
+            </div>
           </div>
         )}
-      </Card>
+      </div>
     </div>
   );
 }

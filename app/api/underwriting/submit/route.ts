@@ -49,6 +49,7 @@ export async function POST(req: Request) {
       areaAcres,
       areaHectares,
       geoJson: geoPolygon || null,
+      boundaryImageBase64: location?.boundaryImage || null,
 
       environmentalData: environmentalData || null,
 
