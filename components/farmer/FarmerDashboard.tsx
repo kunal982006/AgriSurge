@@ -17,7 +17,8 @@ import {
   Layers,
   Sparkles,
   History,
-  RotateCcw
+  RotateCcw,
+  AlertCircle
 } from "lucide-react";
 import { Language } from "@/lib/farmer/types";
 
@@ -211,7 +212,7 @@ export function FarmerDashboard({ onStartAssessment, onViewHistory, onViewDetail
                 <StepStatusRow
                   label={language === "mr" ? "AI पीक शिफारस" : language === "hi" ? "AI फसल सिफारिश" : "Crop Recommendation"}
                   done={hasCrop}
-                  detail={hasCrop ? (assessment.selectedCrop?.cropMr || assessment.selectedCrop?.cropEn) : null}
+                  detail={hasCrop ? ((assessment.selectedCrop?.cropMr || assessment.selectedCrop?.cropEn) ?? null) : null}
                   lang={language}
                 />
                 <StepStatusRow

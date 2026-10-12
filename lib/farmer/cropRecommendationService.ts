@@ -158,7 +158,7 @@ export function getCropRecommendations(input: CropRecommendationRequest): Recomm
       confidencePct: `${compositeScore}%`,
       isInsuranceEligible,
       isSoilCompatible,
-      soilCompatibilityStatus: isSoilCompatible ? "Soil Compatible" : "Compatibility Not Confirmed",
+      soilCompatibilityStatus: (isSoilCompatible ? "Soil Compatible" : "Compatibility Not Confirmed") as "Soil Compatible" | "Compatibility Not Confirmed",
       suitabilityNote: explanationMr,
       temperatureContext: tempContext,
       humidityContext: humContext,
