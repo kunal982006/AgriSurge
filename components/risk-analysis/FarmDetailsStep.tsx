@@ -303,7 +303,7 @@ export function FarmDetailsStep({
       .then(async (r) => {
         if (!r.ok) {
           const errData = await r.json().catch(() => ({}));
-          throw new Error(errData.error || "Service temporarily unavailable");
+          throw new Error(errData.error || "Crop recommendation service is busy. You can select your crop manually below.");
         }
         return r.json();
       })
@@ -312,7 +312,7 @@ export function FarmDetailsStep({
         setMlWarnings(data.warnings || []);
       })
       .catch((err) => {
-        setMlError(err.message || "Could not load recommendations");
+        setMlError(err.message || "Could not load recommendations. You can select your crop manually below.");
       })
       .finally(() => setLoadingMl(false));
   }, [sensorData]);

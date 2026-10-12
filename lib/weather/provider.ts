@@ -7,7 +7,19 @@ export async function getCurrentWeather(lat: number, lng: number): Promise<Curre
   const primaryProvider = hasWeatherKey ? openWeatherMapProvider : openMeteoProvider;
 
   try {
-    return await primaryProvider.getCurrentWeather(lat, lng);
+    const weather = await primaryProvider.getCurrentWeather(lat, lng);
+    
+    // If OWM doesn't return a forecast, fallback to fetching it from Open-Meteo
+    if (!weather.forecast && hasWeatherKey) {
+      try {
+        const meteoWeather = await openMeteoProvider.getCurrentWeather(lat, lng);
+        weather.forecast = meteoWeather.forecast;
+      } catch (err) {
+        console.warn("Fallback forecast fetch failed", err);
+      }
+    }
+    
+    return weather;
   } catch (err) {
     console.warn(`Primary weather provider (${primaryProvider.name}) failed, falling back to Open-Meteo:`, err);
     try {

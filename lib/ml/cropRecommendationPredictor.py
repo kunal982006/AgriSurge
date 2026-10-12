@@ -76,7 +76,25 @@ def main():
             max_val = feature_ranges[feat].get("max", 9999)
             if val < min_val or val > max_val:
                 out_of_bounds_count += 1
-                warnings.append(f"{feat} value ({val}) is outside observed training bounds [{min_val}, {max_val}]")
+                
+                # Format feat name and ranges
+                feat_display = feat.capitalize()
+                val_fmt = round(val, 1) if isinstance(val, float) else val
+                min_fmt = round(min_val, 1)
+                max_fmt = round(max_val, 1)
+                
+                if feat == "ph":
+                    feat_display = "pH"
+                    
+                unit = ""
+                if feat == "rainfall":
+                    unit = " mm"
+                elif feat == "temperature":
+                    unit = "°C"
+                elif feat == "humidity":
+                    unit = "%"
+                
+                warnings.append(f"{feat_display} ({val_fmt}{unit}) is outside the trained range of {min_fmt}–{max_fmt}{unit}.")
 
     if out_of_bounds_count == 0:
         reliability = "NORMAL"

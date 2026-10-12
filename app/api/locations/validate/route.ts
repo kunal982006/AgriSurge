@@ -98,11 +98,18 @@ export async function POST(req: NextRequest) {
     const overpassQuery = `[out:json][timeout:15];(way["building"](${south},${west},${north},${east});way["amenity"](${south},${west},${north},${east});way["waterway"](${south},${west},${north},${east});way["natural"="water"](${south},${west},${north},${east});way["landuse"~"commercial|retail|residential"](${south},${west},${north},${east}););out geom;`;
     const overpassUrl = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`;
 
+    // Use AbortController to timeout after 8s — Overpass can be very slow
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     const response = await fetch(overpassUrl, {
       headers: {
         "User-Agent": "AgriSurge/1.0",
       },
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`Overpass API request failed with status: ${response.status}`);

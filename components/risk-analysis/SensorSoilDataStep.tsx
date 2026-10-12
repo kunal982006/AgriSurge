@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Droplets,
   Thermometer,
@@ -28,6 +28,7 @@ export interface SensorData {
   humidity: number | string;
   soilPH: number | string;
   rainfall: number | string;
+  soilMoisture?: number | string;
   source: "manual" | "iot";
   deviceStatus?: "idle" | "searching" | "connecting" | "detected" | "reading" | "connected" | "failed";
   deviceName?: string;
@@ -42,6 +43,7 @@ export const DEFAULT_SENSOR_DATA: SensorData = {
   humidity: "",
   soilPH: "",
   rainfall: "",
+  soilMoisture: "",
   source: "manual",
   deviceStatus: "idle",
   deviceName: "AgriSurge Sensor Node",
@@ -105,6 +107,7 @@ export function SensorSoilDataStep({ data, onChange }: SensorSoilDataStepProps) 
         humidity: 80,
         soilPH: 6.5,
         rainfall: 200,
+        soilMoisture: 45,
         deviceName: "AgriSurge Demo Hardware #8421",
       };
     } else {
@@ -158,6 +161,7 @@ export function SensorSoilDataStep({ data, onChange }: SensorSoilDataStepProps) 
       humidity: hardwareValues?.humidity ?? 80,
       soilPH: hardwareValues?.soilPH ?? 6.5,
       rainfall: hardwareValues?.rainfall ?? 200,
+      soilMoisture: hardwareValues?.soilMoisture ?? "",
       source: "iot",
       deviceStatus: "connected",
       deviceName: hardwareValues?.deviceName || "AgriSurge Sensor Node",
@@ -167,9 +171,56 @@ export function SensorSoilDataStep({ data, onChange }: SensorSoilDataStepProps) 
 
   const handleRefreshData = async () => {
     setIsRefreshing(true);
-    await startIoTScan(data.deviceName?.includes("Demo") ?? true);
+    await startIoTScan(false);
     setIsRefreshing(false);
   };
+
+  // Continuous background heartbeat & live data sync while connected
+  useEffect(() => {
+    if (data.source !== "iot" || data.deviceStatus !== "connected") {
+      return;
+    }
+
+    // Do not poll if running in explicit demo simulation mode
+    if (data.deviceName?.includes("Demo")) {
+      return;
+    }
+
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch("/api/iot/detect", { method: "GET" }).catch(() => null);
+        if (!res || !res.ok) return;
+        const body = await res.json();
+        
+        if (body.connected && body.sensorData) {
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+          onChange({
+            ...data,
+            temperature: body.sensorData.temperature ?? data.temperature,
+            humidity: body.sensorData.humidity ?? data.humidity,
+            soilMoisture: body.sensorData.soilMoisture ?? data.soilMoisture,
+            nitrogen: body.sensorData.nitrogen ?? data.nitrogen,
+            phosphorus: body.sensorData.phosphorus ?? data.phosphorus,
+            potassium: body.sensorData.potassium ?? data.potassium,
+            soilPH: body.sensorData.soilPH ?? data.soilPH,
+            rainfall: body.sensorData.rainfall ?? data.rainfall,
+            lastSynced: `Live (${timeStr})`,
+          });
+        } else {
+          // Hardware disconnected / powered off
+          onChange({
+            ...data,
+            deviceStatus: "failed",
+          });
+        }
+      } catch {
+        // Network glitch, keep status
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [data.source, data.deviceStatus, data.deviceName]);
 
   const isIotConnected = data.source === "iot" && data.deviceStatus === "connected";
   const isIotLoading =
@@ -606,7 +657,7 @@ export function SensorSoilDataStep({ data, onChange }: SensorSoilDataStepProps) 
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {/* 7. Soil pH */}
             <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-3 focus-within:border-[var(--color-emerald)]">
               <div className="flex items-center justify-between pb-1.5">
@@ -629,6 +680,31 @@ export function SensorSoilDataStep({ data, onChange }: SensorSoilDataStepProps) 
                   placeholder="e.g. 6.5"
                 />
                 <span className="absolute right-3 text-[11px] text-[var(--color-text-muted)]">pH</span>
+              </div>
+            </div>
+
+            {/* 8. Soil Moisture (%) */}
+            <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-3 focus-within:border-[var(--color-emerald)]">
+              <div className="flex items-center justify-between pb-1.5">
+                <label className="text-[12px] font-medium text-[var(--color-text)] flex items-center gap-1.5">
+                  <Droplets size={14} className="text-[var(--color-emerald)]" />
+                  <span>Soil Moisture</span>
+                </label>
+                <span className="text-[10px] text-[var(--color-text-dim)]">% (Volumetric)</span>
+              </div>
+              <div className="relative mt-1 flex items-center">
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="1"
+                  disabled={data.source === "iot" && !isIotConnected}
+                  className={FIELD_CLASS}
+                  value={data.soilMoisture ?? ""}
+                  onChange={(e) => handleFieldChange("soilMoisture", e.target.value)}
+                  placeholder="e.g. 45"
+                />
+                <span className="absolute right-3 text-[11px] text-[var(--color-text-muted)]">%</span>
               </div>
             </div>
           </div>

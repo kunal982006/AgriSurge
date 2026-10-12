@@ -89,19 +89,24 @@ export default function MapInner({
   polygon,
 }: MapInnerProps) {
   const featureGroupRef = useRef<L.FeatureGroup>(null);
+  const onPolygonChangeRef = useRef(onPolygonChange);
+  const lastClearTriggerRef = useRef(drawClearTrigger);
   const [mapType, setMapType] = useState<MapTypeId>("satellite");
   const [showTypeSelector, setShowTypeSelector] = useState(false);
   
   const currentProvider = TILE_PROVIDERS[mapType];
 
-  const prevDrawClearTrigger = useRef(drawClearTrigger);
   useEffect(() => {
-    if (drawClearTrigger > prevDrawClearTrigger.current && featureGroupRef.current) {
-      featureGroupRef.current.clearLayers();
-      onPolygonChange?.(null);
-      prevDrawClearTrigger.current = drawClearTrigger;
+    onPolygonChangeRef.current = onPolygonChange;
+  }, [onPolygonChange]);
+
+  useEffect(() => {
+    if (drawClearTrigger > 0 && drawClearTrigger !== lastClearTriggerRef.current) {
+      lastClearTriggerRef.current = drawClearTrigger;
+      featureGroupRef.current?.clearLayers();
+      onPolygonChangeRef.current?.(null);
     }
-  }, [drawClearTrigger, onPolygonChange]);
+  }, [drawClearTrigger]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleCreated = (e: any) => {
@@ -118,19 +123,19 @@ export default function MapInner({
   };
 
   const updatePolygonData = () => {
-    if (!featureGroupRef.current || !onPolygonChange) return;
+    if (!featureGroupRef.current || !onPolygonChangeRef.current) return;
     
     const layers = featureGroupRef.current.getLayers();
     if (layers.length === 0) {
-      onPolygonChange(null);
+      onPolygonChangeRef.current(null);
       return;
     }
     
     const geoJson = featureGroupRef.current.toGeoJSON() as GeoJSON.FeatureCollection<GeoJSON.Polygon>;
     if (geoJson.features.length > 0) {
-      onPolygonChange(geoJson);
+      onPolygonChangeRef.current(geoJson);
     } else {
-      onPolygonChange(null);
+      onPolygonChangeRef.current(null);
     }
   };
 
