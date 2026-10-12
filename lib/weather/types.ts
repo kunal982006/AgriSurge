@@ -50,6 +50,8 @@ export type HistoricalImdReading = {
   rf7dPreharvestMm?: number | null;
   rf30dPreharvestMm?: number | null;
   rf90dPreharvestMm?: number | null;
+  monthlyRainfall?: { month: string; monthIndex: number; rainfallMm: number }[];
+  annualYoY?: { year: number; rainfallMm: number }[];
   sourceLabel?: string;
   error?: string;
   v2_features?: Record<string, number | null>;

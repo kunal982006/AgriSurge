@@ -1,7 +1,20 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isPublicPage =
+    pathname === "/" ||
+    pathname?.startsWith("/login") ||
+    pathname?.startsWith("/auth");
+
+  if (isPublicPage) {
+    return <main className="min-h-screen w-full">{children}</main>;
+  }
+
   return (
     <div className="flex h-screen w-full overflow-hidden">
       <Sidebar />

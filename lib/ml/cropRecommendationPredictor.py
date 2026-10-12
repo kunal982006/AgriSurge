@@ -125,7 +125,7 @@ def main():
     top_recommendations = []
     raw_debug_top = []
 
-    for rank_idx, i in enumerate(sorted_indices[:3]):
+    for rank_idx, i in enumerate(sorted_indices[:5]):
         crop_raw = str(classes[i])
         confidence = float(probs[i])
 

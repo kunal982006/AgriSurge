@@ -133,6 +133,30 @@ def get_grid_weather(lat: float, lng: float, crop: str = "RICE", season: str = "
         seasonal_rainfall = kharif_rf
         season_months_label = "Jun–Oct"
 
+    month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    monthly_series = ddf.groupby("month")["rain_mm"].sum()
+    monthly_rainfall = [
+        {"month": month_names[m - 1], "monthIndex": m, "rainfallMm": round(float(monthly_series.get(m, 0.0)), 1)}
+        for m in range(1, 13)
+    ]
+
+    # Multi-year YoY comparison across recent available IMD NetCDF years
+    recent_years = [y for y in [2020, 2021, 2022, 2023, 2024] if y in available_years]
+    yoy_rainfall = []
+    for y in recent_years:
+        ypath = os.path.join(IMD_DIR, f"RF25_ind{y}_rfp25.nc")
+        if os.path.exists(ypath):
+            try:
+                yds = xr.open_dataset(ypath, engine="netcdf4")
+                yrv = next((v for v in yds.data_vars if "rf" in v.lower() or "rain" in v.lower()), None)
+                if yrv:
+                    y_rain = yds[yrv].isel(**{lat_k: lat_idx, lon_k: lon_idx}).values.astype(float)
+                    y_rain[y_rain < 0] = np.nan
+                    yoy_rainfall.append({"year": y, "rainfallMm": round(float(np.nansum(y_rain)), 1)})
+                yds.close()
+            except Exception:
+                pass
+
     return {
         "available": True,
         "gridLat": grid_lat,
@@ -155,6 +179,8 @@ def get_grid_weather(lat: float, lng: float, crop: str = "RICE", season: str = "
         "rf7dPreharvestMm": round(rf_7d_preharvest, 1) if rf_7d_preharvest is not None else None,
         "rf30dPreharvestMm": round(rf_30d_preharvest, 1) if rf_30d_preharvest is not None else None,
         "rf90dPreharvestMm": round(rf_90d_preharvest, 1) if rf_90d_preharvest is not None else None,
+        "monthlyRainfall": monthly_rainfall,
+        "annualYoY": yoy_rainfall,
         "sourceLabel": f"IMD Grid ({grid_lat}°N, {grid_lon}°E)",
         # Full V2 ML Feature Map
         "v2_features": {
