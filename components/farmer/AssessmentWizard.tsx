@@ -19,7 +19,6 @@ import {
   ArrowRight,
   MapPin,
   Loader2,
-  Camera,
   X,
   CheckCircle2,
   Volume2,
@@ -42,14 +41,18 @@ import {
   RefreshCw,
   TrendingUp,
   BarChart3,
-  Compass
+  Compass,
+  Play,
+  Pause,
+  Square,
+  Bug,
+  Scissors
 } from "lucide-react";
 
 // ── Step sequence ───────────────────────────────────────────────────────────
 const STEPS = [
   "details",
   "location",
-  "photos",
   "weather",
   "soil",
   "crops",
@@ -62,7 +65,6 @@ const STEP_LABELS: Record<Language, Record<StepId, string>> = {
   mr: {
     details: "शेतकरी माहिती",
     location: "शेत स्थान (GPS)",
-    photos: "शेताचे फोटो",
     weather: "हवामान माहिती",
     soil: "शेत व माती",
     crops: "पीक शिफारस",
@@ -72,7 +74,6 @@ const STEP_LABELS: Record<Language, Record<StepId, string>> = {
   hi: {
     details: "किसान जानकारी",
     location: "खेत स्थान (GPS)",
-    photos: "खेत की फोटो",
     weather: "मौसम जानकारी",
     soil: "खेत और मिट्टी",
     crops: "फसल सिफारिश",
@@ -82,7 +83,6 @@ const STEP_LABELS: Record<Language, Record<StepId, string>> = {
   en: {
     details: "Farmer Details",
     location: "Farm GPS",
-    photos: "Farm Photos",
     weather: "Weather Intelligence",
     soil: "Farm & Soil",
     crops: "Crop Advice",
@@ -94,7 +94,6 @@ const STEP_LABELS: Record<Language, Record<StepId, string>> = {
 const STEP_ICONS: Record<StepId, React.ComponentType<{ size?: number; className?: string }>> = {
   details: User,
   location: MapPin,
-  photos: Camera,
   weather: CloudSun,
   soil: Layers,
   crops: Sprout,
@@ -294,9 +293,6 @@ export function AssessmentWizard({ onExit }: Props) {
               )}
               {currentStep === "location" && (
                 <LocationStep language={language} onNext={next} />
-              )}
-              {currentStep === "photos" && (
-                <PhotosStep language={language} onNext={next} />
               )}
               {currentStep === "weather" && (
                 <WeatherStep language={language} onNext={next} />
@@ -721,169 +717,8 @@ function LocationStep({ language: lang, onNext }: { language: Language; onNext: 
 }
 
 // ═══════════════════════════════════════════════════════════
-// STEP 3 — Upload Two Farm Photos
 // ═══════════════════════════════════════════════════════════
-function PhotosStep({ language: lang, onNext }: { language: Language; onNext: () => void }) {
-  const { assessment, updateAssessment, t } = useFarmer();
-  const [farmPreview, setFarmPreview] = useState<string | null>(null);
-  const [soilPreview, setSoilPreview] = useState<string | null>(null);
-  const [farmError, setFarmError] = useState("");
-  const [soilError, setSoilError] = useState("");
-  const farmRef = useRef<HTMLInputElement>(null);
-  const soilRef = useRef<HTMLInputElement>(null);
-
-  const handleFile = (
-    file: File | null,
-    setPreview: (s: string | null) => void,
-    setError: (s: string) => void,
-    key: "farmImageFile" | "soilImageFile"
-  ) => {
-    if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      setError(lang === "mr" ? "फक्त फोटो फाइल निवडा." : lang === "hi" ? "केवल फोटो फाइल चुनें।" : "Image file required.");
-      return;
-    }
-    setError("");
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreview(reader.result as string);
-      updateAssessment({
-        photos: { ...assessment.photos, [key]: file },
-      });
-    };
-    reader.readAsDataURL(file);
-  };
-
-  return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h2 className="text-xl font-extrabold text-[var(--color-text)] sm:text-2xl">{t.photosTitle}</h2>
-        <p className="mt-1 text-xs text-[var(--color-text-dim)]">
-          {lang === "mr"
-            ? "शेताच्या नोंदीसाठी शेताचा एक विहंगम फोटो आणि मातीचा जवळून एक स्पष्ट फोटो जोडा."
-            : lang === "hi"
-            ? "खेत के रिकॉर्ड के लिए खेत का एक दृश्य फोटो और मिट्टी का एक स्पष्ट फोटो जोड़ें।"
-            : "Upload two clear photos: a landscape farm view and a close-up soil sample."}
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* Farm Photo */}
-        <PhotoUploadBox
-          title={t.farmPhotoLabel}
-          preview={farmPreview}
-          error={farmError}
-          inputRef={farmRef}
-          onFile={(f) => handleFile(f, setFarmPreview, setFarmError, "farmImageFile")}
-          onRemove={() => { setFarmPreview(null); updateAssessment({ photos: { ...assessment.photos, farmImageFile: undefined } }); }}
-          lang={lang}
-        />
-
-        {/* Soil Photo */}
-        <PhotoUploadBox
-          title={t.soilPhotoLabel}
-          preview={soilPreview}
-          error={soilError}
-          inputRef={soilRef}
-          onFile={(f) => handleFile(f, setSoilPreview, setSoilError, "soilImageFile")}
-          onRemove={() => { setSoilPreview(null); updateAssessment({ photos: { ...assessment.photos, soilImageFile: undefined } }); }}
-          lang={lang}
-        />
-      </div>
-
-      <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-4 text-xs text-[var(--color-text-dim)] flex items-start gap-2">
-        <Info size={16} className="text-emerald-700 shrink-0 mt-0.5" />
-        <p>
-          {lang === "mr"
-            ? "हे फोटो शेत ओळख व दृश्य नोंदीसाठी आहेत. मातीतील रासायनिक घटक या फोटोवरून ठरवले जात नाहीत."
-            : lang === "hi"
-            ? "ये फोटो खेत पहचान व दृश्य रिकॉर्ड के लिए हैं। मिट्टी के रासायनिक तत्व फोटो से नहीं तय किए जाते।"
-            : "These photographs serve as visual verification records for your farm parcel."}
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-2 pt-2">
-        <WizardButton disabled={!farmPreview || !soilPreview} onClick={onNext} label={t.continueBtn} />
-        {(!farmPreview || !soilPreview) && (
-          <button
-            onClick={onNext}
-            className="text-center text-xs font-semibold text-[var(--color-text-dim)] hover:text-[var(--color-text)] transition py-2"
-          >
-            {lang === "mr" ? "फोटो नंतर जोडा (पुढे जा)" : lang === "hi" ? "फोटो बाद में जोड़ें (आगे बढ़ें)" : "Continue for now without photos"}
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function PhotoUploadBox({
-  title,
-  preview,
-  error,
-  inputRef,
-  onFile,
-  onRemove,
-  lang,
-}: {
-  title: string;
-  preview: string | null;
-  error: string;
-  inputRef: React.RefObject<HTMLInputElement | null>;
-  onFile: (f: File) => void;
-  onRemove: () => void;
-  lang: Language;
-}) {
-  return (
-    <div className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-5 flex flex-col justify-between">
-      <div>
-        <h3 className="text-sm font-bold text-[var(--color-text)] flex items-center gap-2">
-          <Camera size={16} className="text-emerald-700" />
-          <span>{title}</span>
-        </h3>
-
-        <div className="mt-3">
-          {preview ? (
-            <div className="relative rounded-2xl overflow-hidden border border-[var(--color-border)]">
-              <img src={preview} alt={title} className="h-48 w-full object-cover" />
-              <button
-                onClick={onRemove}
-                className="absolute top-2 right-2 h-7 w-7 rounded-full bg-red-600 text-white flex items-center justify-center shadow-md hover:bg-red-500 transition"
-              >
-                <X size={14} />
-              </button>
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => inputRef.current?.click()}
-              className="flex h-48 w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-dim)] hover:border-emerald-600 hover:text-emerald-700 transition"
-            >
-              <Camera size={32} />
-              <span className="text-xs font-bold">
-                {lang === "mr" ? "कॅमेरा किंवा गॅलरीतून फोटो जोडा" : lang === "hi" ? "कैमरा या गैलरी से फोटो जोड़ें" : "Upload or Take Photo"}
-              </span>
-            </button>
-          )}
-
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/*"
-            capture="environment"
-            className="hidden"
-            onChange={(e) => { if (e.target.files?.[0]) onFile(e.target.files[0]); }}
-          />
-
-          {error && <p className="mt-2 text-xs font-bold text-red-600">{error}</p>}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════
-// STEP 4 — Weather Information Step (Rich Environmental Dashboard)
+// STEP 3 — Weather Information Step (Rich Environmental Dashboard)
 // ═══════════════════════════════════════════════════════════
 function WeatherStep({ language: lang, onNext }: { language: Language; onNext: () => void }) {
   const { assessment, updateAssessment, t } = useFarmer();
@@ -1207,7 +1042,7 @@ function MiniStatBox({ label, val, sub }: { label: string; val: string; sub: str
 }
 
 // ═══════════════════════════════════════════════════════════
-// STEP 5 — Farm & Soil Information (Only Area, Irrigation, Soil Type)
+// STEP 4 — Farm & Soil Information (Only Area, Irrigation, Soil Type)
 // ═══════════════════════════════════════════════════════════
 const IRRIGATION_CHOICES = [
   { key: "Rainfed", mr: "कोरडवाहू (पावसावर अवलंबून)", hi: "वर्षा आधारित (Rainfed)", en: "Rainfed (Monsoon Dependent)" },
@@ -1351,20 +1186,15 @@ function SoilStep({ language: lang, onNext }: { language: Language; onNext: () =
 }
 
 // ═══════════════════════════════════════════════════════════
-// STEP 6 — Top 5 Crop Recommendations (AI Model & Agronomic Evidence)
+// STEP 5 — Top 5 Crop Recommendations (AI Model & Agronomic Evidence)
 // ═══════════════════════════════════════════════════════════
 function CropsStep({ language: lang, onNext }: { language: Language; onNext: () => void }) {
   const { assessment, updateAssessment, t, farmer } = useFarmer();
-  const [analyzing, setAnalyzing] = useState(false);
+  const [analyzing, setAnalyzing] = useState(true);
   const [error, setError] = useState("");
-  const [fetched, setFetched] = useState(false);
 
   useEffect(() => {
-    if (!fetched && assessment.recommendations.length === 0) {
-      fetchRecommendations();
-    } else if (assessment.recommendations.length > 0) {
-      setFetched(true);
-    }
+    fetchRecommendations();
   }, []);
 
   const fetchRecommendations = async () => {
@@ -1399,15 +1229,14 @@ function CropsStep({ language: lang, onNext }: { language: Language; onNext: () 
         return;
       }
 
-      // Enforce approximately 5.2s duration for smooth AI animation
+      // Enforce 5.5s (5500ms) duration for the AI analysis animations
       const elapsed = Date.now() - startTime;
-      const minDuration = 5200;
+      const minDuration = 5500;
       if (elapsed < minDuration) {
         await new Promise((r) => setTimeout(r, minDuration - elapsed));
       }
 
       updateAssessment({ recommendations: data.topRecommendations || [] });
-      setFetched(true);
     } catch {
       setError(
         lang === "mr"
@@ -1558,163 +1387,521 @@ function CropsStep({ language: lang, onNext }: { language: Language; onNext: () 
 }
 
 // ═══════════════════════════════════════════════════════════
-// STEP 7 — Crop Guidance & Text-to-Speech (TTS)
+// STEP 6 — Crop Guidance & Text-to-Speech (TTS)
 // ═══════════════════════════════════════════════════════════
-function GuidanceStep({ language: lang, onNext }: { language: Language; onNext: () => void }) {
-  const { assessment, t } = useFarmer();
+type GuidanceSectionItem = {
+  id: string;
+  title: string;
+  content: string;
+};
+
+const SECTION_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  requirements: Sprout,
+  land_preparation: Layers,
+  irrigation: Droplets,
+  fertilizer: Calendar,
+  growth_stages: Clock,
+  pest_disease: Bug,
+  weather_precautions: CloudSun,
+  harvesting: Scissors,
+};
+
+function GuidanceStep({ language: initialLang, onNext }: { language: Language; onNext: () => void }) {
+  const { assessment, t, farmer } = useFarmer();
   const crop = assessment.selectedCrop;
-  const guidance = crop ? CROP_GUIDANCE[crop.cropKey] : null;
-  const [speaking, setSpeaking] = useState(false);
 
-  const cropName = crop ? (lang === "mr" ? crop.cropMr : lang === "hi" ? crop.cropHi : crop.cropEn) : "";
+  // 1. Language Selection (Independent from wizard UI language, farmer can toggle anytime)
+  const [activeLang, setActiveLang] = useState<Language>(initialLang);
 
-  // Full spoken speech string
-  const fullText = guidance
-    ? [
-        `${cropName}.`,
-        guidance.whySuitable[lang],
-        guidance.waterManagement[lang],
-        guidance.fertilizerTiming[lang],
-        guidance.growthStageCare[lang],
-        guidance.weatherPrecautions[lang],
-        guidance.nextSteps[lang],
-      ].join(" ")
-    : crop
-    ? getFallbackGuidance(crop.cropEn, lang)
+  // 2. Guidance State & Caching (Avoid refetching when switching languages)
+  const [guidanceCache, setGuidanceCache] = useState<Record<Language, { sections: GuidanceSectionItem[]; source: string } | null>>({
+    mr: null,
+    hi: null,
+    en: null,
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // 3. Speech Synthesis State (Play, Pause, Stop + Voice verification)
+  const [speechState, setSpeechState] = useState<"idle" | "playing" | "paused">("idle");
+  const [voiceNotice, setVoiceNotice] = useState<string | null>(null);
+  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
+
+  // Inspect browser voices and wait for SpeechSynthesis to populate them
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+
+    const loadVoices = () => {
+      const v = window.speechSynthesis.getVoices();
+      if (v && v.length > 0) {
+        setAvailableVoices(v);
+      }
+    };
+
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+
+    // Additional poll fallback for browsers where onvoiceschanged does not fire promptly
+    const interval = setInterval(() => {
+      const v = window.speechSynthesis.getVoices();
+      if (v && v.length > 0) {
+        setAvailableVoices(v);
+        clearInterval(interval);
+      }
+    }, 250);
+
+    return () => {
+      clearInterval(interval);
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
+  // Fetch guidance whenever activeLang or crop changes
+  useEffect(() => {
+    if (!crop) return;
+    if (guidanceCache[activeLang]) return; // Cache hit: reuse without regenerating
+
+    let isMounted = true;
+    const fetchGuidance = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const cropNameLocal = activeLang === "mr" ? crop.cropMr : activeLang === "hi" ? crop.cropHi : crop.cropEn;
+        const res = await fetch("/api/crops/guidance", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            cropKey: crop.cropKey,
+            cropNameEn: crop.cropEn,
+            cropNameLocal,
+            language: activeLang,
+            farmerDetails: {
+              district: farmer?.district,
+              taluka: farmer?.taluka,
+              village: farmer?.village,
+            },
+            soil: assessment.soilInputs,
+            weather: assessment.weather,
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error(`Guidance service responded with status ${res.status}`);
+        }
+
+        const data = await res.json();
+        if (isMounted) {
+          if (data.sections && Array.isArray(data.sections)) {
+            setGuidanceCache((prev) => ({
+              ...prev,
+              [activeLang]: {
+                sections: data.sections,
+                source: data.source || "gemini",
+              },
+            }));
+          } else {
+            throw new Error("Invalid guidance response structure");
+          }
+        }
+      } catch (err) {
+        if (isMounted) {
+          console.warn("[GuidanceStep] Fallback triggered due to error:", err);
+          // Fallback to static package of practices
+          const fallback = CROP_GUIDANCE[crop.cropKey];
+          if (fallback) {
+            const fallbackSections: GuidanceSectionItem[] = [
+              { id: "requirements", title: activeLang === "mr" ? "पीक परिचय आणि मूलभूत गरजा" : activeLang === "hi" ? "फसल परिचय" : "Crop Requirements", content: fallback.whySuitable[activeLang] },
+              { id: "land_preparation", title: activeLang === "mr" ? "जमीन तयारी आणि पेरणी" : activeLang === "hi" ? "खेत तैयारी व बुवाई" : "Land Preparation", content: fallback.nextSteps[activeLang] },
+              { id: "irrigation", title: activeLang === "mr" ? "सिंचन आणि पाणी व्यवस्थापन" : activeLang === "hi" ? "जल प्रबंधन व सिंचाई" : "Water Management", content: fallback.waterManagement[activeLang] },
+              { id: "fertilizer", title: activeLang === "mr" ? "खत आणि पोषण व्यवस्थापन" : activeLang === "hi" ? "उर्वरक समय सारणी" : "Fertilizer Schedule", content: fallback.fertilizerTiming[activeLang] },
+              { id: "growth_stages", title: activeLang === "mr" ? "वाढीचे महत्त्वाचे टप्पे" : activeLang === "hi" ? "विकास के प्रमुख चरण" : "Growth Stages", content: fallback.growthStageCare[activeLang] },
+              { id: "pest_disease", title: activeLang === "mr" ? "कीड व रोग नियंत्रण" : activeLang === "hi" ? "कीट एवं रोग नियंत्रण" : "Pest & Disease Control", content: fallback.keyRisks[activeLang] },
+              { id: "weather_precautions", title: activeLang === "mr" ? "हवामान विषयक दक्षता" : activeLang === "hi" ? "मौसम संबंधी सावधानी" : "Weather Precautions", content: fallback.weatherPrecautions[activeLang] },
+              { id: "harvesting", title: activeLang === "mr" ? "काढणी व साठवणूक" : activeLang === "hi" ? "कटाई एवं भंडारण" : "Harvesting & Storage", content: getFallbackGuidance(crop.cropEn, activeLang) },
+            ];
+            setGuidanceCache((prev) => ({
+              ...prev,
+              [activeLang]: { sections: fallbackSections, source: "knowledge_base" },
+            }));
+          } else {
+            setError(
+              activeLang === "mr"
+                ? "कृषी सल्ला लोड करताना त्रुटी आली. कृपया पुन्हा प्रयत्न करा."
+                : activeLang === "hi"
+                ? "फसल सलाह लोड करने में त्रुटि आई. कृपया पुनः प्रयास करें।"
+                : "Unable to retrieve crop advisory. Please retry."
+            );
+          }
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchGuidance();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [activeLang, crop, farmer, assessment.soilInputs, assessment.weather]);
+
+  // Current active guidance content
+  const activeData = guidanceCache[activeLang];
+  const currentSections = activeData?.sections || [];
+  const cropDisplayName = crop
+    ? activeLang === "mr"
+      ? crop.cropMr
+      : activeLang === "hi"
+      ? crop.cropHi
+      : crop.cropEn
     : "";
 
-  const langCodes: Record<Language, string> = { mr: "mr-IN", hi: "hi-IN", en: "en-IN" };
+  // Assemble clean full speech string
+  const fullTextToSpeak = `${cropDisplayName}. ` + currentSections.map((s) => `${s.title}. ${s.content}`).join(" ");
 
-  const speak = () => {
-    if (!window.speechSynthesis || !fullText) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(fullText);
-    u.lang = langCodes[lang];
-    u.rate = 0.85;
-    u.onend = () => setSpeaking(false);
-    u.onerror = () => setSpeaking(false);
-    window.speechSynthesis.speak(u);
-    setSpeaking(true);
+  // Find appropriate native voice for the selected language
+  const getMatchingVoice = (l: Language, voiceList: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null => {
+    if (!voiceList || voiceList.length === 0) return null;
+
+    if (l === "mr") {
+      // Must strictly be a Marathi voice
+      return (
+        voiceList.find(
+          (v) =>
+            v.lang.toLowerCase() === "mr-in" ||
+            v.lang.toLowerCase() === "mr_in" ||
+            v.lang.toLowerCase().startsWith("mr") ||
+            v.name.toLowerCase().includes("marathi")
+        ) || null
+      );
+    }
+
+    if (l === "hi") {
+      // Must strictly be a Hindi voice
+      return (
+        voiceList.find(
+          (v) =>
+            v.lang.toLowerCase() === "hi-in" ||
+            v.lang.toLowerCase() === "hi_in" ||
+            v.lang.toLowerCase().startsWith("hi") ||
+            v.name.toLowerCase().includes("hindi") ||
+            v.name.toLowerCase().includes("kalpana") ||
+            v.name.toLowerCase().includes("hemant")
+        ) || null
+      );
+    }
+
+    // English: Prefer en-IN, then any English voice (en-US, en-GB, etc.)
+    return (
+      voiceList.find((v) => v.lang.toLowerCase() === "en-in" || v.lang.toLowerCase() === "en_in") ||
+      voiceList.find((v) => v.name.toLowerCase().includes("india") && v.lang.toLowerCase().startsWith("en")) ||
+      voiceList.find((v) => v.lang.toLowerCase().startsWith("en")) ||
+      null
+    );
   };
 
+  // Stop speech when switching language or leaving step
   const stopSpeech = () => {
-    window.speechSynthesis?.cancel();
-    setSpeaking(false);
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+    setSpeechState("idle");
+    setVoiceNotice(null);
   };
 
-  const sections = guidance
-    ? [
-        {
-          title: lang === "mr" ? "हे पीक का निवडावे?" : lang === "hi" ? "यह फसल क्यों चुनें?" : "Why This Crop?",
-          text: guidance.whySuitable[lang],
-          icon: Sprout,
-        },
-        {
-          title: lang === "mr" ? "पाणी व्यवस्थापन व सिंचन" : lang === "hi" ? "जल प्रबंधन व सिंचाई" : "Water Management",
-          text: guidance.waterManagement[lang],
-          icon: Droplets,
-        },
-        {
-          title: lang === "mr" ? "खत वेळापत्रक व पोषण" : lang === "hi" ? "उर्वरक समय सारणी" : "Fertilizer Schedule",
-          text: guidance.fertilizerTiming[lang],
-          icon: Layers,
-        },
-        {
-          title: lang === "mr" ? "वाढीचे महत्त्वाचे टप्पे" : lang === "hi" ? "महत्वपूर्ण विकास चरण" : "Growth Stages",
-          text: guidance.growthStageCare[lang],
-          icon: Calendar,
-        },
-        {
-          title: lang === "mr" ? "हवामान विषयक दक्षता" : lang === "hi" ? "मौसम संबंधी सावधानी" : "Weather Precautions",
-          text: guidance.weatherPrecautions[lang],
-          icon: CloudSun,
-        },
-        {
-          title: lang === "mr" ? "पुढील पाऊल व कृषी कृती" : lang === "hi" ? "अगला कदम" : "Next Agronomic Steps",
-          text: guidance.nextSteps[lang],
-          icon: CheckCircle2,
-        },
-      ]
-    : [];
+  // Play / Speak
+  const handlePlay = () => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      setVoiceNotice(
+        activeLang === "mr"
+          ? "आपल्या ब्राउझरमध्ये Text-to-Speech उपलब्ध नाही. कृपया मजकूर वाचा."
+          : activeLang === "hi"
+          ? "आपके ब्राउज़र में Text-to-Speech समर्थित नहीं है। कृपया पाठ पढ़ें।"
+          : "Voice speech is not supported in this browser. Please read the advisory."
+      );
+      return;
+    }
+
+    if (!fullTextToSpeak || !currentSections.length) return;
+
+    // Resume if paused
+    if (speechState === "paused" && window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+      setSpeechState("playing");
+      return;
+    }
+
+    // Always cancel any previous speech before starting new playback
+    window.speechSynthesis.cancel();
+
+    // Query voices fresh
+    const freshVoices = window.speechSynthesis.getVoices();
+    const voicesPool = freshVoices.length > 0 ? freshVoices : availableVoices;
+    const matchedVoice = getMatchingVoice(activeLang, voicesPool);
+
+    // If voice for Marathi or Hindi is not installed, inform clearly instead of silently reading in English
+    if (!matchedVoice) {
+      if (activeLang === "mr") {
+        setVoiceNotice(
+          "आपल्या डिव्हाइस / ब्राउझरवर मराठी (mr-IN) व्हॉइस स्थापित नाही. इंग्रजी आवाजात चुकीचे वाचन टाळण्यासाठी ऑडिओ थांबवला आहे. कृपया Windows Settings > Time & Language > Speech मधून 'Marathi' व्हॉइस जोडा किंवा Edge/Chrome ब्राउझर वापरा."
+        );
+      } else if (activeLang === "hi") {
+        setVoiceNotice(
+          "आपकी डिवाइस / ब्राउज़र पर हिंदी (hi-IN) वॉयस स्थापित नहीं है। अंग्रेजी आवाज़ में गलत उच्चारण रोकने के लिए ऑडियो रोक दिया गया है। कृपया Windows Settings > Time & Language > Speech से 'Hindi' वॉयस जोड़ें या Edge/Chrome ब्राउज़र का उपयोग करें।"
+        );
+      } else {
+        setVoiceNotice(
+          "English voice not found in browser speech synthesis. Please check your browser audio/speech settings."
+        );
+      }
+      setSpeechState("idle");
+      return;
+    }
+
+    setVoiceNotice(null);
+
+    const utterance = new SpeechSynthesisUtterance(fullTextToSpeak);
+    utterance.voice = matchedVoice;
+    utterance.lang = matchedVoice.lang || (activeLang === "mr" ? "mr-IN" : activeLang === "hi" ? "hi-IN" : "en-IN");
+    utterance.rate = 0.88;
+
+    utterance.onstart = () => {
+      setSpeechState("playing");
+      setVoiceNotice(null);
+    };
+    utterance.onend = () => {
+      setSpeechState("idle");
+    };
+    utterance.onerror = (e) => {
+      console.warn("[SpeechSynthesis] Error:", e);
+      setSpeechState("idle");
+    };
+
+    window.speechSynthesis.speak(utterance);
+  };
+
+  // Pause
+  const handlePause = () => {
+    if (typeof window !== "undefined" && "speechSynthesis" in window && speechState === "playing") {
+      window.speechSynthesis.pause();
+      setSpeechState("paused");
+    }
+  };
+
+  // Language switch handler
+  const handleLanguageChange = (newLang: Language) => {
+    if (newLang === activeLang) return;
+    stopSpeech();
+    setActiveLang(newLang);
+  };
 
   return (
     <div className="flex flex-col gap-6">
       {/* Top Header Card */}
-      <div className="flex items-center justify-between gap-4 flex-wrap border-b border-[var(--color-border)] pb-5">
+      <div className="flex items-start justify-between gap-4 flex-wrap border-b border-[var(--color-border)] pb-5">
         <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-700 text-white shadow-md">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-700 text-white shadow-md shrink-0">
             <Sprout size={24} />
           </div>
           <div>
-            <h2 className="text-xl font-black text-[var(--color-text)] sm:text-2xl">{cropName}</h2>
-            <p className="text-xs text-[var(--color-text-dim)]">{t.guidanceTitle} ({crop?.cropEn})</p>
+            <div className="flex items-center gap-2">
+              <h2 className="text-xl font-black text-[var(--color-text)] sm:text-2xl">{cropDisplayName}</h2>
+              {activeData?.source && (
+                <span className="flex items-center gap-1 rounded-full bg-emerald-100 dark:bg-emerald-950/80 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-800 dark:text-emerald-300 border border-emerald-600/30">
+                  <Sparkles size={11} className="text-emerald-600 dark:text-emerald-400" />
+                  <span>AgriSurge AI</span>
+                </span>
+              )}
+            </div>
+            <p className="text-xs text-[var(--color-text-dim)]">
+              {t.guidanceTitle} ({crop?.cropEn})
+            </p>
           </div>
         </div>
 
-        {/* Text to Speech Button */}
-        <button
-          type="button"
-          onClick={speaking ? stopSpeech : speak}
-          className={`flex items-center gap-2.5 rounded-2xl px-5 py-3 text-xs font-extrabold shadow-md transition active:scale-[0.98] ${
-            speaking
-              ? "bg-red-600 text-white hover:bg-red-500 animate-pulse"
-              : "bg-emerald-700 text-white hover:bg-emerald-600"
-          }`}
-        >
-          {speaking ? <VolumeX size={18} /> : <Volume2 size={18} />}
-          <span>
-            {speaking
-              ? (lang === "mr" ? "मार्गदर्शन थांबवा" : lang === "hi" ? "सलाह रोकें" : "Stop Audio")
-              : t.listenBtn}
-          </span>
-        </button>
+        {/* 1. Language Selector Pills: मराठी, हिंदी, English */}
+        <div className="flex items-center gap-1.5 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-1">
+          {(
+            [
+              { code: "mr", label: "मराठी" },
+              { code: "hi", label: "हिंदी" },
+              { code: "en", label: "English" },
+            ] as const
+          ).map((l) => {
+            const isSelected = activeLang === l.code;
+            return (
+              <button
+                key={l.code}
+                type="button"
+                onClick={() => handleLanguageChange(l.code)}
+                className={`rounded-xl px-3.5 py-1.5 text-xs font-bold transition ${
+                  isSelected
+                    ? "bg-emerald-700 text-white shadow-sm"
+                    : "text-[var(--color-text-dim)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface)]"
+                }`}
+              >
+                {l.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Structured Guidance Cards (2-column Desktop Grid) */}
-      {guidance ? (
+      {/* 2. Voice Audio Control Bar: Play, Pause / Resume, Stop */}
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-600/20 bg-emerald-50/50 dark:bg-emerald-950/20 p-4">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-700 text-white">
+            <Volume2 size={18} />
+          </div>
+          <div>
+            <p className="text-xs font-bold text-[var(--color-text)]">
+              {activeLang === "mr" ? "ध्वनी मार्गदर्शन (Voice Guidance)" : activeLang === "hi" ? "ध्वनि सलाह (Voice Guidance)" : "Audio Guidance (Voice Readout)"}
+            </p>
+            <p className="text-[11px] text-[var(--color-text-dim)]">
+              {speechState === "playing"
+                ? activeLang === "mr" ? "सध्या वाचन चालू आहे..." : activeLang === "hi" ? "वाचन प्रगति पर है..." : "Speaking in progress..."
+                : speechState === "paused"
+                ? activeLang === "mr" ? "वाचन थांबवले आहे (Pause)" : activeLang === "hi" ? "वाचन रुका हुआ है (Pause)" : "Audio paused"
+                : activeLang === "mr" ? "मार्गदर्शन ऐकण्यासाठी Play दाबा" : activeLang === "hi" ? "सलाह सुनने के लिए Play दबाएं" : "Press Play to listen to guidance"}
+            </p>
+          </div>
+        </div>
+
+        {/* Controls: Play, Pause, Stop */}
+        <div className="flex items-center gap-2">
+          {speechState === "playing" ? (
+            <button
+              type="button"
+              onClick={handlePause}
+              disabled={loading}
+              className="flex items-center gap-1.5 rounded-xl bg-amber-600 px-3.5 py-2 text-xs font-extrabold text-white shadow hover:bg-amber-500 transition"
+              title="Pause"
+            >
+              <Pause size={14} />
+              <span>{activeLang === "mr" ? "थांबवा" : activeLang === "hi" ? "रोकें" : "Pause"}</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handlePlay}
+              disabled={loading || !currentSections.length}
+              className="flex items-center gap-1.5 rounded-xl bg-emerald-700 px-4 py-2 text-xs font-extrabold text-white shadow hover:bg-emerald-600 transition disabled:opacity-50"
+              title="Play"
+            >
+              <Play size={14} className="fill-white" />
+              <span>{speechState === "paused" ? (activeLang === "mr" ? "पुढे ऐका" : activeLang === "hi" ? "जारी रखें" : "Resume") : (activeLang === "mr" ? "ऐका" : activeLang === "hi" ? "सुनें" : "Play")}</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={stopSpeech}
+            disabled={speechState === "idle"}
+            className="flex items-center gap-1.5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-xs font-bold text-[var(--color-text-dim)] hover:text-red-600 hover:border-red-400 disabled:opacity-40 transition"
+            title="Stop"
+          >
+            <Square size={13} className="fill-current" />
+            <span>{activeLang === "mr" ? "बंद करा" : activeLang === "hi" ? "बंद करें" : "Stop"}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Voice Fallback / Info Notice (if TTS lacks specific accent) */}
+      {voiceNotice && (
+        <div className="rounded-xl border border-amber-500/30 bg-amber-50 dark:bg-amber-950/20 p-3 text-xs text-amber-800 dark:text-amber-300 flex items-start gap-2">
+          <Info size={15} className="text-amber-600 shrink-0 mt-0.5" />
+          <p>{voiceNotice}</p>
+        </div>
+      )}
+
+      {/* Loading state while AgriSurge AI generates guidance */}
+      {loading && (
+        <div className="flex flex-col items-center justify-center py-16 gap-3 rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface-raised)]">
+          <Loader2 size={32} className="animate-spin text-emerald-700" />
+          <p className="text-xs font-bold text-[var(--color-text)]">
+            {activeLang === "mr"
+              ? "AgriSurge AI शेती व पीक माहितीचे विश्लेषण करत आहे..."
+              : activeLang === "hi"
+              ? "AgriSurge AI कृषि व फसल जानकारी का विश्लेषण कर रहा है..."
+              : "AgriSurge AI is analyzing crop and farm parameters..."}
+          </p>
+          <p className="text-[11px] text-[var(--color-text-dim)]">
+            {activeLang === "mr"
+              ? "हवामान, माती आणि कृषी पद्धतींनुसार वैयक्तिकृत मार्गदर्शन तयार होत आहे."
+              : activeLang === "hi"
+              ? "मौसम, मिट्टी और कृषि पद्धतियों के अनुसार अनुकूलित सलाह तैयार हो रही है।"
+              : "Preparing tailored recommendations based on local microclimate and soil conditions."}
+          </p>
+        </div>
+      )}
+
+      {/* Error state */}
+      {error && !loading && (
+        <div className="rounded-3xl border border-red-500/30 bg-red-50 dark:bg-red-950/20 p-5 text-xs text-red-700 dark:text-red-300 flex items-start gap-3">
+          <AlertCircle size={18} className="shrink-0 mt-0.5" />
+          <div>
+            <p className="font-bold">{error}</p>
+            <button
+              onClick={() => {
+                setGuidanceCache((prev) => ({ ...prev, [activeLang]: null }));
+              }}
+              className="mt-2 font-black underline text-emerald-700"
+            >
+              {activeLang === "mr" ? "पुन्हा प्रयत्न करा" : activeLang === "hi" ? "पुनः प्रयास करें" : "Retry"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 3. Structured Guidance Cards (8 Sections) */}
+      {!loading && currentSections.length > 0 && (
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-          {sections.map((s) => {
-            const Icon = s.icon;
+          {currentSections.map((s) => {
+            const IconComponent = SECTION_ICONS[s.id] || Sprout;
             return (
               <div
-                key={s.title}
-                className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-sm"
+                key={s.id}
+                className="flex flex-col justify-between rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-sm hover:border-emerald-600/40 transition"
               >
-                <div className="flex items-center gap-2.5 mb-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                    <Icon size={16} />
+                <div>
+                  <div className="flex items-center gap-2.5 mb-2.5">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 shrink-0">
+                      <IconComponent size={16} />
+                    </div>
+                    <h3 className="text-xs font-extrabold text-[var(--color-text)] uppercase tracking-wider">
+                      {s.title}
+                    </h3>
                   </div>
-                  <h3 className="text-xs font-extrabold text-[var(--color-text)] uppercase tracking-wider">{s.title}</h3>
+                  <p className="text-xs leading-relaxed text-[var(--color-text-muted)] font-medium">
+                    {s.content}
+                  </p>
                 </div>
-                <p className="text-xs leading-relaxed text-[var(--color-text-muted)] font-medium">
-                  {s.text}
-                </p>
               </div>
             );
           })}
         </div>
-      ) : (
-        <div className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 text-sm leading-relaxed text-[var(--color-text-muted)]">
-          {fullText}
-        </div>
       )}
 
+      {/* Disclaimer Card */}
       <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-raised)] p-4 text-xs text-[var(--color-text-dim)] flex items-start gap-2">
         <Info size={16} className="text-emerald-700 shrink-0 mt-0.5" />
         <p>
-          {lang === "mr"
-            ? "हे मार्गदर्शन कृषी विद्यापीठाच्या पॅकेज ऑफ प्रॅक्टिसेसवर आधारित आहे. शेतातील विशेष परिस्थितीसाठी स्थानिक कृषी सहाय्यकांचा सल्ला घ्यावा."
-            : lang === "hi"
-            ? "यह मार्गदर्शन कृषि विश्वविद्यालय के पैकेज ऑफ प्रैक्टिसेज पर आधारित है। विशेष स्थिति में स्थानीय कृषि अधिकारी से सलाह लें।"
-            : "This advisory synthesizes agricultural university packages of practices with your local weather conditions."}
+          {activeLang === "mr"
+            ? "हे मार्गदर्शन कृषी विद्यापीठाच्या पॅकेज ऑफ प्रॅक्टिसेस व स्थानिक हवामानावर आधारित आहे. शेतातील विशेष परिस्थितीसाठी स्थानिक कृषी सहाय्यक किंवा KVK शी संपर्क साधावा."
+            : activeLang === "hi"
+            ? "यह मार्गदर्शन कृषि विश्वविद्यालय के पैकेज ऑफ प्रैक्टिसेज एवं स्थानीय मौसम पर आधारित है। विशेष परिस्थितियों में स्थानीय कृषि अधिकारी या KVK से संपर्क करें।"
+            : "This advisory is based on Agricultural University Packages of Practices (MPKV/PDKV/ICAR) tailored to observed microclimate. Consult your local KVK for farm-specific prescriptions."}
         </p>
       </div>
 
+      {/* Navigation Button */}
       <div className="pt-2">
         <WizardButton
-          disabled={false}
+          disabled={loading}
           onClick={() => {
-            if (speaking) stopSpeech();
+            stopSpeech();
             onNext();
           }}
           label={t.continueBtn}
@@ -1725,7 +1912,7 @@ function GuidanceStep({ language: lang, onNext }: { language: Language; onNext: 
 }
 
 // ═══════════════════════════════════════════════════════════
-// STEP 8 — Estimated Insurance Premium (Deterministic Pricing Engine)
+// STEP 7 — Estimated Insurance Premium (Deterministic Pricing Engine)
 // ═══════════════════════════════════════════════════════════
 type PremiumProps = {
   language: Language;
