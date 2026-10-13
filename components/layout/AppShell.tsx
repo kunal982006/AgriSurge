@@ -6,13 +6,14 @@ import { Header } from "./Header";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isPublicPage =
+  const isStandalone =
     pathname === "/" ||
     pathname?.startsWith("/login") ||
-    pathname?.startsWith("/auth");
+    pathname?.startsWith("/auth") ||
+    pathname?.startsWith("/admin");
 
-  if (isPublicPage) {
-    return <main className="min-h-screen w-full">{children}</main>;
+  if (isStandalone) {
+    return <>{children}</>;
   }
 
   return (

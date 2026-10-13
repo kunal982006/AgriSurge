@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
+import { getDb } from "@/db";
+import { insuranceAccounts } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export interface InsuranceAccount {
   phone: string;
@@ -100,6 +103,21 @@ export async function POST(req: NextRequest) {
         isDefault: false,
         createdAt: new Date().toISOString(),
       };
+
+      // Persist to Neon DB
+      try {
+        const db = getDb();
+        await db.insert(insuranceAccounts).values({
+          phone: newAccount.phone,
+          name: newAccount.name,
+          role: newAccount.role,
+          organization: newAccount.organization,
+          isDefault: false,
+          password: cleanPassword,
+        });
+      } catch (dbErr) {
+        console.warn("[Insurance Auth] DB insert warning:", dbErr);
+      }
 
       insurers.push(newAccount);
       saveInsurers(insurers);

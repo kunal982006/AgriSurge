@@ -359,3 +359,34 @@ export const farmerAssessments = pgTable("farmer_assessments", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
+
+/**
+ * 🏢 ENTITY 8: INSURANCE ACCOUNTS (Insurance Carriers & Underwriters)
+ * Stores registered insurance company officers and underwriter profiles.
+ */
+export const insuranceAccounts = pgTable("insurance_accounts", {
+  id: serial("id").primaryKey(),
+  phone: varchar("phone", { length: 20 }).notNull().unique(),
+  name: varchar("name", { length: 120 }).notNull(),
+  role: varchar("role", { length: 80 }).default("Underwriter").notNull(),
+  organization: varchar("organization", { length: 160 }).notNull(),
+  isDefault: boolean("is_default").default(false).notNull(),
+  password: text("password"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+/**
+ * 🛡️ ENTITY 9: ADMINS (Platform Management)
+ * Stores internal AgriSurge administrators for dashboard analytics access.
+ */
+export const admins = pgTable("admins", {
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 80 }).notNull().unique(),
+  name: varchar("name", { length: 120 }).notNull(),
+  email: varchar("email", { length: 120 }),
+  passwordHash: text("password_hash").notNull(),
+  role: varchar("role", { length: 50 }).default("admin").notNull(),
+  lastLoginAt: timestamp("last_login_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
