@@ -16,10 +16,18 @@ export async function GET(req: NextRequest) {
     const regionFilter = searchParams.get("region") || "ALL";
     const cropFilter   = searchParams.get("crop")   || "ALL";
     const riskFilter   = searchParams.get("risk")   || "ALL";
+    const userPhone    = searchParams.get("userPhone");
+    const isDefaultParam = searchParams.get("isDefault");
     // type=map returns only the map-ready farms for the farm-map page
     const type = searchParams.get("type") || "full";
 
     let records = await getAllUnderwritingRecords();
+
+    // Account isolation: non-default registered users only see their own records
+    const isDefaultUser = isDefaultParam === "true" || userPhone === "8767476106";
+    if (userPhone && !isDefaultUser) {
+      records = records.filter((r) => r.createdByPhone === userPhone);
+    }
 
     // Collect available filter options BEFORE filtering
     const availableRegions = Array.from(

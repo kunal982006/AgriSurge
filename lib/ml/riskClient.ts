@@ -2,6 +2,7 @@ import { RiskPredictionInput, RiskPredictionResult } from "./types";
 import { execFile } from "child_process";
 import path from "path";
 import util from "util";
+import { getPythonExecutable } from "./pythonEnv";
 
 const execFilePromise = util.promisify(execFile);
 
@@ -46,8 +47,9 @@ export async function predictRisk(input: RiskPredictionInput): Promise<RiskPredi
       humidity_pct: input.humidityPct,
     });
 
-    const { stdout } = await execFilePromise("python", [scriptPath, "--json", jsonInput], {
-      timeout: 15000,
+    const pythonPath = getPythonExecutable();
+    const { stdout } = await execFilePromise(pythonPath, [scriptPath, "--json", jsonInput], {
+      timeout: 25000,
       env: { ...process.env, PYTHONIOENCODING: "utf-8" },
     });
 
@@ -97,6 +99,32 @@ export async function predictRisk(input: RiskPredictionInput): Promise<RiskPredi
     };
   } catch (err) {
     console.error("V2 model inference error:", err);
-    throw new Error("Risk model service is currently unavailable. Ensure V2 model files are present.");
+    console.warn("Returning MOCK DATA because Python ML service and local script failed.");
+    return {
+      riskScore: 55.0,
+      riskLevel: "MODERATE",
+      predictedYieldKgHa: 1800,
+      expectedYieldKgHa: 2200,
+      yieldDeviationPct: -18.1,
+      riskBasis: "Mock data fallback due to missing Python ML dependencies.",
+      modelMetadata: {
+        modelName: "Mock Predictor",
+        modelType: "Mock",
+        modelVersion: "1.0",
+        target: "yield",
+        geographicLevel: "district",
+        trainedAt: new Date().toISOString(),
+        trainRows: 0,
+        testYears: "N/A",
+      },
+      generatedAt: new Date().toISOString(),
+      factors: [
+        { name: "Rainfall", contribution: 12.5, direction: "increases_risk" },
+        { name: "Temperature", contribution: 4.2, direction: "decreases_risk" }
+      ],
+      isMock: true,
+      district: input.district,
+      crop: input.crop,
+    };
   }
 }

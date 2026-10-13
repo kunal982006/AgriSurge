@@ -7,6 +7,7 @@ import { RiskTrendChart } from "@/components/charts/RiskTrendChart";
 import { PremiumTrendChart } from "@/components/charts/PremiumTrendChart";
 import { RiskBarChart } from "@/components/charts/RiskBarChart";
 import { RiskDistributionChart } from "@/components/charts/RiskDistributionChart";
+import { getInsuranceSession } from "@/lib/insurance/auth";
 import type {
   TrendPoint,
   PremiumPoint,
@@ -100,9 +101,14 @@ export default function ReportsPage() {
     setLoading(true);
     setError(null);
     try {
+      const session = getInsuranceSession();
       const params = new URLSearchParams();
       if (regionFilter !== "ALL") params.set("region", regionFilter);
       if (cropFilter   !== "ALL") params.set("crop",   cropFilter);
+      if (session?.phone) {
+        params.set("userPhone", session.phone);
+        params.set("isDefault", session.isDefault ? "true" : "false");
+      }
 
       const res = await fetch(`/api/analytics?${params.toString()}`);
       if (!res.ok) throw new Error("Failed to load analytics");

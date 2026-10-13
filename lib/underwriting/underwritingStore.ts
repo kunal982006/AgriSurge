@@ -71,6 +71,9 @@ export type UnderwritingRecord = {
   submittedAt: string;
   auditTrail: AuditEvent[];
 
+  // User / Account isolation
+  createdByPhone?: string;
+
   // Attachments
   boundaryImageBase64?: string;
   certificatePdf?: string;

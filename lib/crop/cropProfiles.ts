@@ -530,9 +530,10 @@ const CROP_PROFILES: CropProfile[] = [
 
 /** Lookup a CropProfile by raw ML model class key (e.g. "rice", "banana") */
 export function getCropProfile(cropKey: string): CropProfile | undefined {
+  if (!cropKey || typeof cropKey !== "string") return undefined;
   const normalized = cropKey.toLowerCase().trim();
   return CROP_PROFILES.find(
-    (p) => p.key === normalized || p.name.toLowerCase() === normalized
+    (p) => (p.key && p.key.toLowerCase() === normalized) || (p.name && p.name.toLowerCase() === normalized)
   );
 }
 
@@ -543,6 +544,7 @@ export function getAllCropProfiles(): CropProfile[] {
 
 /** Infer AgriSurge crop category from crop name */
 export function inferCropCategory(cropName: string): string {
+  if (!cropName || typeof cropName !== "string") return "Cereals";
   const profile = getCropProfile(cropName);
   if (profile) return profile.category;
 

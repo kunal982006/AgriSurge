@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Check } from "lucide-react";
 import { Card } from "@/components/ui/primitives";
 import { SensorSoilDataStep, SensorData, DEFAULT_SENSOR_DATA } from "./SensorSoilDataStep";
@@ -14,6 +14,7 @@ import { RiskPredictionResult } from "@/lib/ml/types";
 import { PremiumBreakdown } from "@/lib/pricing/types";
 import { CurrentWeather, HistoricalImdReading } from "@/lib/weather/types";
 import { NdviReading } from "@/lib/satellite/types";
+import { getInsuranceSession } from "@/lib/insurance/auth";
 
 const STEPS = [
   "Sensor & soil data",
@@ -69,7 +70,7 @@ export function RiskAnalysisWorkflow() {
     true,
   ];
 
-  const runAssessment = async () => {
+  const runAssessment = useCallback(async () => {
     if (!parcel || !envData?.weather) return;
     setAssessing(true);
     setAssessmentError(null);
@@ -108,7 +109,7 @@ export function RiskAnalysisWorkflow() {
     } finally {
       setAssessing(false);
     }
-  };
+  }, [parcel, envData, details, sensorData]);
 
   const goNext = () => {
     if (step === 3) {
@@ -126,12 +127,21 @@ export function RiskAnalysisWorkflow() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          farmer: { name: details.farmName }, // mock
-          farm: { name: details.farmName, region: parcel.displayName || "Unknown" },
+          farmer: { name: details.farmerName || details.farmName || "Farmer" },
+          farm: { name: details.farmName || "Farm #1", region: parcel.displayName || "Unknown" },
           crop: details.crop,
+          cropVariety: details.cropVariety === "Other" ? details.customCropVariety : details.cropVariety,
+          cropCategory: details.cropCategory,
+          sowingDate: details.sowingDate,
+          growthStage: details.growthStage,
+          irrigationType: details.irrigationType,
+          soilType: details.soilType,
           location: { 
             latitude: parcel.latitude, 
             longitude: parcel.longitude,
+            district: parcel.district,
+            taluka: parcel.taluka,
+            village: parcel.village,
             boundaryImage: parcel.boundaryImage 
           },
           geoPolygon: parcel.geoJson,
@@ -149,11 +159,20 @@ export function RiskAnalysisWorkflow() {
             yieldDeviationPct: prediction.yieldDeviationPct,
           },
           premiumRecommendation: pricing,
+          createdByPhone: getInsuranceSession()?.phone || undefined,
         }),
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to submit for underwriting.");
+
+      if (typeof window !== "undefined") {
+        const session = getInsuranceSession();
+        // Clear fresh flag for the logged in insurance user so they immediately see their submitted policies
+        if (session?.phone) {
+          localStorage.removeItem(`agrisurge_insurance_fresh_${session.phone}`);
+        }
+      }
 
       setSubmissionResult({
         assessmentId: data.assessmentId,
@@ -177,6 +196,7 @@ export function RiskAnalysisWorkflow() {
             return (
               <li key={label}>
                 <button
+                  type="button"
                   onClick={() => i <= step && setStep(i)}
                   disabled={i > step}
                   className={`flex w-full items-center gap-2 rounded-[6px] px-2 py-2 text-left text-[12px] ${
@@ -243,6 +263,7 @@ export function RiskAnalysisWorkflow() {
 
         <div className="mt-6 flex justify-between border-t border-[var(--color-border)] pt-4">
           <button
+            type="button"
             onClick={() => setStep((s) => Math.max(0, s - 1))}
             disabled={step === 0}
             className="rounded-[6px] border border-[var(--color-border)] px-3.5 py-2 text-[12.5px] text-[var(--color-text-muted)] disabled:opacity-40 cursor-pointer"
@@ -251,6 +272,7 @@ export function RiskAnalysisWorkflow() {
           </button>
           {step < STEPS.length - 1 && (
             <button
+              type="button"
               onClick={goNext}
               disabled={!canAdvance[step]}
               className="rounded-[6px] bg-[var(--color-emerald)] px-3.5 py-2 text-[12.5px] font-medium text-white disabled:opacity-40 cursor-pointer hover:opacity-95"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Calendar,
   CloudRain,
@@ -110,6 +110,10 @@ export function EnvironmentalDataStep({
   const [loadingLive, setLoadingLive] = useState(false);
   const [loadingImd, setLoadingImd] = useState(false);
 
+  // Ref to avoid onData in useEffect deps (prevents infinite re-render loop)
+  const onDataRef = useRef(onData);
+  onDataRef.current = onData;
+
   const crop = farmDetails?.crop || "RICE";
   const season = farmDetails?.growthStage?.toLowerCase().includes("rabi")
     ? "Rabi"
@@ -169,10 +173,10 @@ export function EnvironmentalDataStep({
     setNdvi(notConfiguredNdvi);
   }, [lat, lng, crop, season]);
 
-  // Pass ready features to parent workflow
+  // Pass ready features to parent workflow (use ref to avoid infinite loop)
   useEffect(() => {
     if (weather || historicalImd) {
-      onData({
+      onDataRef.current({
         weather,
         ndvi,
         soilMoisturePct: null,
@@ -180,7 +184,7 @@ export function EnvironmentalDataStep({
         v2Features: historicalImd?.v2_features ?? null,
       });
     }
-  }, [weather, historicalImd, ndvi, onData]);
+  }, [weather, historicalImd, ndvi]);
 
   if (lat === null || lng === null) {
     return (

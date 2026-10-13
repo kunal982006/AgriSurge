@@ -21,6 +21,7 @@ import {
 import { RiskDistributionChart } from "@/components/charts/RiskDistributionChart";
 import { RegionalRiskMap } from "@/components/map/RegionalRiskMap";
 import type { OverviewDashboardPayload } from "@/lib/analytics/overviewAnalytics";
+import { getInsuranceSession } from "@/lib/insurance/auth";
 
 // ─── Inline Risk Badge (no emojis, professional dot indicator) ─────────
 function RiskPill({ level }: { level: "low" | "moderate" | "high" }) {
@@ -167,12 +168,15 @@ export default function OverviewPage() {
     async (forceRefresh = false) => {
       if (forceRefresh) setRefreshing(true);
       else setLoading(true);
-      setError(null);
-
       try {
+        const session = getInsuranceSession();
         const params = new URLSearchParams();
         if (regionFilter !== "ALL") params.set("region", regionFilter);
         if (statusFilter !== "ALL") params.set("status", statusFilter);
+        if (session?.phone) {
+          params.set("userPhone", session.phone);
+          params.set("isDefault", session.isDefault ? "true" : "false");
+        }
 
         const res = await fetch(`/api/overview?${params.toString()}`);
         if (!res.ok) throw new Error("Failed to fetch overview analytics.");

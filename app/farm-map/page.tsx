@@ -5,6 +5,7 @@ import { List, Map as MapIcon, MapPin, RefreshCw } from "lucide-react";
 import { RiskBadge } from "@/components/ui/primitives";
 import { RegionalRiskMap } from "@/components/map/RegionalRiskMap";
 import type { MapFarm } from "@/lib/policy/policyDataAdapter";
+import { getInsuranceSession } from "@/lib/insurance/auth";
 
 // ─── Risk badge normalisation ─────────────────────────────────────────────────
 type RiskLevel = "low" | "moderate" | "high";
@@ -98,7 +99,14 @@ export default function FarmMapPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("/api/analytics?type=map")
+    const session = getInsuranceSession();
+    const params = new URLSearchParams({ type: "map" });
+    if (session?.phone) {
+      params.set("userPhone", session.phone);
+      params.set("isDefault", session.isDefault ? "true" : "false");
+    }
+
+    fetch(`/api/analytics?${params.toString()}`)
       .then((r) => r.json())
       .then((d) => {
         setFarms(d.mapFarms || []);

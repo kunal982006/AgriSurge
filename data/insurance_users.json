@@ -1,0 +1,29 @@
+[
+  {
+    "phone": "9321136453",
+    "password": "password123",
+    "name": "Ramesh Deshmukh",
+    "role": "Underwriter",
+    "organization": "National crop agency",
+    "isDefault": false,
+    "createdAt": "2026-10-12T18:25:21.593Z"
+  },
+  {
+    "phone": "9987201016",
+    "password": "rONIT@2006",
+    "name": "Ronit Madage",
+    "role": "Underwriter",
+    "organization": "Bhartiya Vidhya Bhavan Sardar Patel Institute of Technology",
+    "isDefault": false,
+    "createdAt": "2026-10-13T15:05:32.483Z"
+  },
+  {
+    "phone": "9876543210",
+    "password": "Ronit@2006",
+    "name": "RonitM",
+    "role": "Underwriter",
+    "organization": "Bhartiya Vidhya Bhavan Sardar Patel Institute of Technology",
+    "isDefault": false,
+    "createdAt": "2026-10-13T15:56:09.152Z"
+  }
+]

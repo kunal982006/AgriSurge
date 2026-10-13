@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { PRICING_MODEL_VERSION } from "@/lib/pricing/pricingConfig";
 import {
   AlertCircle,
@@ -148,6 +149,17 @@ export function PremiumRecommendationStep({
           <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-[var(--color-text-dim)]">
             <Info size={13} className="text-[var(--color-emerald)] shrink-0" />
             <span>Policy record stored in database with immutable pricing model version v2.0.</span>
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href="/policies"
+              className="inline-flex items-center gap-2 rounded-[6px] bg-[var(--color-emerald)] px-5 py-2.5 text-[13px] font-semibold text-white shadow-sm hover:opacity-90 transition active:scale-[0.98]"
+            >
+              <FileCheck size={16} />
+              <span>Go to Underwriting Policies Queue</span>
+              <ChevronRight size={15} />
+            </Link>
           </div>
         </div>
       </div>

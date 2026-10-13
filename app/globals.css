@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, [data-theme="dark"], .dark *, [data-theme="dark"] *));
+
 @theme {
   --font-sans: var(--font-plex-sans, "IBM Plex Sans"), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-plex-mono, "IBM Plex Mono"), ui-monospace, SFMono-Regular, Menlo, monospace;

@@ -13,6 +13,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { UNDERWRITING_STATUS_CONFIG } from "@/lib/underwriting/status";
+import { getInsuranceSession } from "@/lib/insurance/auth";
 
 // ─── Metric stat card ─────────────────────────────────────────────────
 function StatCard({
@@ -135,6 +136,7 @@ export default function PoliciesUnderwritingPage() {
     setLoading(true);
     setError(null);
     try {
+      const session = getInsuranceSession();
       const params = new URLSearchParams();
       if (statusFilter !== "ALL") params.set("status", statusFilter);
       if (riskFilter !== "ALL") params.set("risk", riskFilter);
@@ -142,6 +144,10 @@ export default function PoliciesUnderwritingPage() {
       if (regionFilter !== "ALL") params.set("region", regionFilter);
       if (searchQuery) params.set("q", searchQuery);
       if (sortBy !== "default") params.set("sortBy", sortBy);
+      if (session?.phone) {
+        params.set("userPhone", session.phone);
+        params.set("isDefault", session.isDefault ? "true" : "false");
+      }
 
       const res = await fetch(`/api/policies?${params.toString()}`);
       if (!res.ok) throw new Error("Failed to load underwriting policies.");

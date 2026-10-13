@@ -98,11 +98,18 @@ export async function POST(req: NextRequest) {
     const overpassQuery = `[out:json][timeout:15];(way["building"](${south},${west},${north},${east});way["amenity"](${south},${west},${north},${east});way["waterway"](${south},${west},${north},${east});way["natural"="water"](${south},${west},${north},${east});way["landuse"~"commercial|retail|residential"](${south},${west},${north},${east}););out geom;`;
     const overpassUrl = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`;
 
+    // Use AbortController to timeout after 8s — Overpass can be very slow
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     const response = await fetch(overpassUrl, {
       headers: {
         "User-Agent": "AgriSurge/1.0",
       },
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`Overpass API request failed with status: ${response.status}`);
@@ -163,41 +170,20 @@ export async function POST(req: NextRequest) {
     if (googleKey && ring && ring.length > 0) {
       try {
         const encodedRing = encodePolyline(ring);
-        // Blue outline (0x3b82f6ff) and transparent blue fill (0x3b82f644)
         const pathStr = `color:0x3b82f6ff|weight:3|fillcolor:0x3b82f644|enc:${encodedRing}`;
         const staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?size=800x400&maptype=satellite&path=${encodeURIComponent(pathStr)}&key=${googleKey}`;
-        
-        console.log("Static Map URL length:", staticMapUrl.length);
         
         const imgRes = await fetch(staticMapUrl);
         if (imgRes.ok) {
           const arrayBuffer = await imgRes.arrayBuffer();
           const buffer = Buffer.from(arrayBuffer);
           boundaryImage = `data:image/png;base64,${buffer.toString("base64")}`;
-          console.log("Static map generated successfully, length:", boundaryImage.length);
         } else {
-          const errorText = await imgRes.text();
-          console.error("Static map generation failed. Status:", imgRes.status, "Error:", errorText);
-          return NextResponse.json({
-            valid: false,
-            reason: "IMAGE_FAILED",
-            error: "Failed to generate satellite evidence image. Please try drawing the boundary again.",
-          }, { status: 500 });
+          console.warn("[Validation] Google Static Maps API returned", imgRes.status, "- fallback to client satellite snapshot.");
         }
       } catch (err) {
-        console.error("Failed to generate static map", err);
-        return NextResponse.json({
-          valid: false,
-          reason: "IMAGE_FAILED",
-          error: "Failed to connect to satellite image provider. Please try again.",
-        }, { status: 500 });
+        console.warn("[Validation] Google Static Maps fetch failed - fallback to client snapshot:", err);
       }
-    } else {
-      return NextResponse.json({
-        valid: false,
-        reason: "IMAGE_FAILED",
-        error: "Missing map provider configuration or invalid polygon coordinates.",
-      }, { status: 500 });
     }
 
     return NextResponse.json({

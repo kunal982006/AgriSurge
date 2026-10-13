@@ -11,10 +11,14 @@ import {
   Layers,
   MapPin,
   RefreshCw,
-  Scale,
   ShieldCheck,
   TrendingDown,
   TrendingUp,
+  Sparkles,
+  FileText,
+  Check,
+  Copy,
+  Bot,
 } from "lucide-react";
 import { RiskPredictionResult } from "@/lib/ml/types";
 import { getRiskBadgeStyles } from "@/lib/risk/thresholds";
@@ -108,6 +112,66 @@ export function RiskAssessmentStep({
   onRetry?: () => void;
 }) {
   const [analysisStepIndex, setAnalysisStepIndex] = useState(0);
+  const [synthesis, setSynthesis] = useState<any>(null);
+  const [loadingSynthesis, setLoadingSynthesis] = useState(false);
+  const [synthesisError, setSynthesisError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const generateSynthesis = async () => {
+    if (!result) return;
+    setLoadingSynthesis(true);
+    setSynthesisError(null);
+    try {
+      const res = await fetch("/api/ai/underwrite-synthesis", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          crop: result.crop,
+          riskScore: result.riskScore,
+          riskLevel: result.riskLevel,
+          predictedYieldKgHa: result.predictedYieldKgHa,
+          expectedYieldKgHa: result.expectedYieldKgHa,
+          yieldDeviationPct: result.yieldDeviationPct,
+          riskFactors: result.factors,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Failed to generate underwriting memo");
+      }
+      setSynthesis(data.synthesis);
+    } catch (err: any) {
+      setSynthesisError(err.message || "Synthesis generation failed");
+    } finally {
+      setLoadingSynthesis(false);
+    }
+  };
+
+  const copyMemo = () => {
+    if (!synthesis) return;
+    const memoText = `AGRISURGE ACTUARIAL UNDERWRITING MEMORANDUM (Gemini 3.8 Flash)
+Verdict: ${synthesis.verdictLabel} (${synthesis.underwritingVerdict})
+Crop: ${result?.crop} | Risk Score: ${result?.riskScore}% (${result?.riskLevel})
+
+EXECUTIVE SUMMARY:
+${synthesis.executiveSummary}
+
+CLIMATE & PERIL VULNERABILITY:
+${synthesis.climateVulnerabilityAnalysis}
+
+YIELD VARIABILITY ASSESSMENT:
+${synthesis.yieldVariabilityAssessment}
+
+RECOMMENDED MITIGATIONS:
+${synthesis.keyMitigationsRecommended?.map((m: string) => `• ${m}`).join("\n")}
+
+SUGGESTED POLICY CLAUSES & ENDORSEMENTS:
+${synthesis.suggestedPolicyClauses?.map((c: string) => `• ${c}`).join("\n")}
+`;
+    navigator.clipboard.writeText(memoText);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   // Analysis sequence stage simulation when loading
   useEffect(() => {
@@ -274,6 +338,164 @@ export function RiskAssessmentStep({
             Based on the selected crop ({result.crop || "Crop"}), historical district yield behavior ({result.expectedYieldKgHa} kg/ha baseline), and IMD environmental features, the V2 ML model estimates a predicted yield of <strong>{result.predictedYieldKgHa} kg/ha</strong> ({isPositiveDev ? `+${result.yieldDeviationPct}% above` : `${result.yieldDeviationPct}% below`} historical expected yield). This yields a <strong>{result.riskLevel.toUpperCase()}</strong> agricultural risk profile ({result.riskScore}% score).
           </p>
         </div>
+      </div>
+
+      {/* GEMINI 3.8 FLASH ACTUARIAL SYNTHESIS MEMO */}
+      <div className="rounded-[6px] border border-emerald-500/30 bg-[var(--color-surface-raised)] p-4 shadow-sm">
+        <div className="flex items-center justify-between border-b border-[var(--color-border)] pb-3 flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-[5px] bg-emerald-500/10 text-emerald-400">
+              <Bot size={16} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h4 className="text-[12.5px] font-bold uppercase tracking-wider text-[var(--color-text)]">
+                  Actuarial Risk Synthesis Memo
+                </h4>
+                <span className="flex items-center gap-1 rounded-[4px] bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-400 border border-emerald-500/20">
+                  <Sparkles size={11} />
+                  <span>Gemini 3.8 Flash</span>
+                </span>
+              </div>
+              <p className="text-[11px] text-[var(--color-text-dim)]">
+                Parametric underwriting review, climate vulnerability, and policy endorsements
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {synthesis && (
+              <button
+                type="button"
+                onClick={copyMemo}
+                className="flex items-center gap-1.5 rounded-[4px] border border-[var(--color-border)] bg-[var(--color-surface)] px-2.5 py-1.5 text-[11px] font-semibold text-[var(--color-text)] hover:border-[var(--color-border-strong)] transition"
+              >
+                {copied ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                <span>{copied ? "Copied" : "Copy Memo"}</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={generateSynthesis}
+              disabled={loadingSynthesis}
+              className="flex items-center gap-1.5 rounded-[4px] bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 text-[11px] font-bold text-white shadow-sm transition disabled:opacity-50"
+            >
+              <RefreshCw size={12} className={loadingSynthesis ? "animate-spin" : ""} />
+              <span>
+                {loadingSynthesis
+                  ? "Synthesizing Memo…"
+                  : synthesis
+                  ? "Regenerate AI Memo"
+                  : "Synthesize Actuarial Memo"}
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {synthesisError && (
+          <div className="mt-3 rounded-[4px] border border-red-500/30 bg-red-500/10 p-3 text-[11.5px] text-red-400">
+            {synthesisError}
+          </div>
+        )}
+
+        {!synthesis && !loadingSynthesis && !synthesisError && (
+          <div className="mt-3 flex items-center justify-between rounded-[4px] border border-dashed border-[var(--color-border)] p-4 text-[11.5px] text-[var(--color-text-dim)]">
+            <p>
+              Click <strong>&quot;Synthesize Actuarial Memo&quot;</strong> to generate an institutional parametric underwriting assessment with Google Gemini 3.8 Flash, integrating V2 model yield risk, IMD meteorological exposure, and PMFBY actuarial guidelines.
+            </p>
+          </div>
+        )}
+
+        {loadingSynthesis && (
+          <div className="mt-4 flex flex-col items-center justify-center py-6 text-center">
+            <RefreshCw size={22} className="animate-spin text-emerald-400 mb-2" />
+            <p className="text-[12px] font-semibold text-[var(--color-text)]">
+              Synthesizing Actuarial Portfolio Memo with Gemini 3.8…
+            </p>
+            <p className="text-[11px] text-[var(--color-text-dim)] mt-1">
+              Evaluating parametric trigger thresholds, yield basis risk, and climate perils.
+            </p>
+          </div>
+        )}
+
+        {synthesis && !loadingSynthesis && (
+          <div className="mt-4 space-y-4 text-[11.5px] text-[var(--color-text)]">
+            {/* Verdict Banner */}
+            <div className="flex items-center justify-between flex-wrap gap-2 rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] p-3">
+              <span className="text-[11px] uppercase tracking-wider text-[var(--color-text-dim)] font-semibold">
+                Underwriting Verdict:
+              </span>
+              <span
+                className={`rounded-[4px] px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider border ${
+                  synthesis.underwritingVerdict === "APPROVE_STANDARD"
+                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
+                    : synthesis.underwritingVerdict === "APPROVE_WITH_SURCHARGE"
+                    ? "bg-amber-500/10 text-amber-400 border-amber-500/30"
+                    : synthesis.underwritingVerdict === "REQUIRE_INSPECTION"
+                    ? "bg-orange-500/10 text-orange-400 border-orange-500/30"
+                    : "bg-red-500/10 text-red-400 border-red-500/30"
+                }`}
+              >
+                {synthesis.verdictLabel || synthesis.underwritingVerdict}
+              </span>
+            </div>
+
+            {/* Executive Summary */}
+            <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)]/70 p-3 leading-relaxed">
+              <span className="font-bold uppercase tracking-wider text-[10.5px] text-[var(--color-text-dim)] block mb-1">
+                Executive Actuarial Summary
+              </span>
+              <p className="text-[var(--color-text-muted)]">{synthesis.executiveSummary}</p>
+            </div>
+
+            {/* Two column breakdown: Climate vulnerability & Yield Variability */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 leading-relaxed">
+                <span className="font-bold uppercase tracking-wider text-[10.5px] text-amber-400 block mb-1">
+                  Climate & Peril Exposure
+                </span>
+                <p className="text-[var(--color-text-muted)] text-[11px]">{synthesis.climateVulnerabilityAnalysis}</p>
+              </div>
+
+              <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] p-3 leading-relaxed">
+                <span className="font-bold uppercase tracking-wider text-[10.5px] text-cyan-400 block mb-1">
+                  Yield Variability & Basis Risk
+                </span>
+                <p className="text-[var(--color-text-muted)] text-[11px]">{synthesis.yieldVariabilityAssessment}</p>
+              </div>
+            </div>
+
+            {/* Recommended Mitigations & Policy Clauses */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {synthesis.keyMitigationsRecommended && synthesis.keyMitigationsRecommended.length > 0 && (
+                <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] p-3">
+                  <span className="font-bold uppercase tracking-wider text-[10.5px] text-emerald-400 block mb-1.5">
+                    Actuarial Risk Mitigations
+                  </span>
+                  <ul className="space-y-1 text-[11px] text-[var(--color-text-dim)] list-disc pl-4">
+                    {synthesis.keyMitigationsRecommended.map((m: string, idx: number) => (
+                      <li key={idx}>{m}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {synthesis.suggestedPolicyClauses && synthesis.suggestedPolicyClauses.length > 0 && (
+                <div className="rounded-[6px] border border-[var(--color-border)] bg-[var(--color-surface)] p-3">
+                  <span className="font-bold uppercase tracking-wider text-[10.5px] text-indigo-400 block mb-1.5">
+                    Recommended Policy Endorsements
+                  </span>
+                  <ul className="space-y-1 text-[11px] text-[var(--color-text-dim)] list-disc pl-4">
+                    {synthesis.suggestedPolicyClauses.map((c: string, idx: number) => (
+                      <li key={idx}>{c}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* CONTRIBUTING FACTORS / MODEL EXPLAINABILITY */}

@@ -10,10 +10,18 @@ export async function GET(req: NextRequest) {
     const regionFilter = searchParams.get("region") || "ALL";
     const searchQuery = (searchParams.get("q") || "").trim().toLowerCase();
     const sortBy = searchParams.get("sortBy") || "default"; // default | date | risk | premium | area
+    const userPhone = searchParams.get("userPhone");
+    const isDefaultParam = searchParams.get("isDefault");
 
     let records: UnderwritingRecord[] = await getAllUnderwritingRecords();
 
-    // Summary Counts (from ALL database records)
+    // If a specific non-default user account is requesting, isolate records to only those created by that user
+    const isDefaultUser = isDefaultParam === "true" || userPhone === "8767476106";
+    if (userPhone && !isDefaultUser) {
+      records = records.filter((r) => r.createdByPhone === userPhone);
+    }
+
+    // Summary Counts (scoped to the account)
     const counts = {
       total: records.length,
       underReview: records.filter((r) => r.status === "UNDER_REVIEW").length,

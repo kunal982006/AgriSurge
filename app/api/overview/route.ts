@@ -8,8 +8,16 @@ export async function GET(req: NextRequest) {
     const region = searchParams.get("region") || "ALL";
     const crop = searchParams.get("crop") || "ALL";
     const status = searchParams.get("status") || "ALL";
+    const userPhone = searchParams.get("userPhone");
+    const isDefaultParam = searchParams.get("isDefault");
 
-    const records = await getAllUnderwritingRecords();
+    let records = await getAllUnderwritingRecords();
+
+    // Account isolation for non-default users
+    const isDefaultUser = isDefaultParam === "true" || userPhone === "8767476106";
+    if (userPhone && !isDefaultUser) {
+      records = records.filter((r) => r.createdByPhone === userPhone);
+    }
 
     const payload = buildOverviewAnalytics(records, {
       region: region !== "ALL" ? region : undefined,

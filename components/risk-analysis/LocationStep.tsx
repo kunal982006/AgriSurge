@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Search, MapPin, AlertCircle, HelpCircle } from "lucide-react";
 import { MapView } from "@/components/map/MapView";
 import { FarmLocation } from "@/lib/geocoding/types";
@@ -20,6 +20,8 @@ export function LocationStep({
   onSelect: (parcel: FarmLocation | null) => void;
 }) {
   const [parcel, setParcel] = useState<FarmLocation | null>(null);
+  const parcelRef = useRef<FarmLocation | null>(null);
+  parcelRef.current = parcel;
 
   // Hierarchical lists & states
   const [districts, setDistricts] = useState<string[]>([]);
@@ -197,7 +199,7 @@ export function LocationStep({
     }
   };
 
-  const validateFarmLand = async (feature: GeoJSON.Feature<GeoJSON.Polygon>, currentParcel: FarmLocation) => {
+  const validateFarmLand = useCallback(async (feature: GeoJSON.Feature<GeoJSON.Polygon>, currentParcel: FarmLocation) => {
     setValidatingLand(true);
     setValidationMessage(null);
     setValidationSuccessMessage(null);
@@ -238,15 +240,13 @@ export function LocationStep({
             }
           }
 
-          if (!capturedImage) {
-            throw new Error("Failed to capture map interface.");
-          }
+          const finalBoundaryImage = capturedImage || data.boundaryImage || "";
 
           const validated = {
             ...currentParcel,
             isValid: true,
             validationStatus: data.reason || ("VALID" as const),
-            boundaryImage: capturedImage,
+            boundaryImage: finalBoundaryImage,
           };
           setParcel(validated);
           onSelect(validated);
@@ -290,45 +290,45 @@ export function LocationStep({
     } finally {
       setValidatingLand(false);
     }
-  };
+  }, [onSelect]);
 
-  const clearPolygon = () => {
+  const clearPolygon = useCallback(() => {
     setDrawClearTrigger((prev) => prev + 1);
     setValidationMessage(null);
     setValidationSuccessMessage(null);
-    if (parcel) {
-      const updated = { ...parcel };
+    const current = parcelRef.current;
+    if (!current || !current.geoJson) return;
+    const updated = { ...current };
+    delete updated.geoJson;
+    delete updated.areaAcres;
+    delete updated.areaHectares;
+    delete updated.areaSqMeters;
+    delete updated.isValid;
+    delete updated.validationReason;
+    // Revert farm coordinates to village coordinates when cleared
+    updated.latitude = updated.villageLatitude || updated.latitude;
+    updated.longitude = updated.villageLongitude || updated.longitude;
+    setParcel(updated);
+    onSelect(updated);
+  }, [onSelect]);
+
+  const handlePolygonChange = useCallback((geoJson: GeoJSON.FeatureCollection<GeoJSON.Polygon> | null) => {
+    if (!geoJson || geoJson.features.length === 0) {
+      setValidationMessage(null);
+      setValidationSuccessMessage(null);
+      const current = parcelRef.current;
+      if (!current || !current.geoJson) return;
+      const updated = { ...current };
       delete updated.geoJson;
       delete updated.areaAcres;
       delete updated.areaHectares;
       delete updated.areaSqMeters;
       delete updated.isValid;
       delete updated.validationReason;
-      // Revert farm coordinates to village coordinates when cleared
       updated.latitude = updated.villageLatitude || updated.latitude;
       updated.longitude = updated.villageLongitude || updated.longitude;
       setParcel(updated);
       onSelect(updated);
-    }
-  };
-
-  const handlePolygonChange = (geoJson: GeoJSON.FeatureCollection<GeoJSON.Polygon> | null) => {
-    if (!geoJson || geoJson.features.length === 0) {
-      setValidationMessage(null);
-      setValidationSuccessMessage(null);
-      if (parcel) {
-        const updated = { ...parcel };
-        delete updated.geoJson;
-        delete updated.areaAcres;
-        delete updated.areaHectares;
-        delete updated.areaSqMeters;
-        delete updated.isValid;
-        delete updated.validationReason;
-        updated.latitude = updated.villageLatitude || updated.latitude;
-        updated.longitude = updated.villageLongitude || updated.longitude;
-        setParcel(updated);
-        onSelect(updated);
-      }
       return;
     }
 
@@ -341,9 +341,10 @@ export function LocationStep({
     const centroidLng = center.geometry.coordinates[0];
     const centroidLat = center.geometry.coordinates[1];
 
-    if (parcel) {
+    const current = parcelRef.current;
+    if (current) {
       const updatedParcel: FarmLocation = {
-        ...parcel,
+        ...current,
         latitude: centroidLat,
         longitude: centroidLng,
         geoJson: feature,
@@ -356,7 +357,7 @@ export function LocationStep({
       onSelect(updatedParcel); // initially block Continue
       validateFarmLand(feature, updatedParcel);
     }
-  };
+  }, [onSelect, validateFarmLand]);
 
   const markers = parcel?.villageLatitude && parcel?.villageLongitude
     ? [{ id: "village-center", position: [parcel.villageLatitude, parcel.villageLongitude] as [number, number] }]

@@ -303,16 +303,35 @@ export function FarmDetailsStep({
       .then(async (r) => {
         if (!r.ok) {
           const errData = await r.json().catch(() => ({}));
-          throw new Error(errData.error || "Service temporarily unavailable");
+          throw new Error(errData.error || "Crop recommendation service is busy. You can select your crop manually below.");
         }
         return r.json();
       })
       .then((data) => {
-        setRecommendations(data.topRecommendations || []);
+        const rawRecs: any[] = data.topRecommendations || [];
+        const normalizedRecs: RecommendationItem[] = rawRecs.map((r, idx) => {
+          const cropName = r.crop || r.cropEn || r.cropKey || "Unknown";
+          const conf = typeof r.confidence === "number"
+            ? r.confidence
+            : typeof r.suitabilityScore === "number"
+            ? r.suitabilityScore / 100
+            : 0;
+          return {
+            rank: r.rank || idx + 1,
+            crop: cropName,
+            crop_raw: r.crop_raw || r.cropKey || cropName.toLowerCase(),
+            cropKey: r.cropKey,
+            cropEn: r.cropEn,
+            confidence: conf,
+            confidence_pct: r.confidence_pct || (r.suitabilityScore ? `${r.suitabilityScore}%` : `${Math.round(conf * 100)}%`),
+            agrisurgeStatus: r.agrisurgeStatus || "SUPPORTED_BY_AGRISURGE",
+          };
+        });
+        setRecommendations(normalizedRecs);
         setMlWarnings(data.warnings || []);
       })
       .catch((err) => {
-        setMlError(err.message || "Could not load recommendations");
+        setMlError(err.message || "Could not load recommendations. You can select your crop manually below.");
       })
       .finally(() => setLoadingMl(false));
   }, [sensorData]);
@@ -356,6 +375,7 @@ export function FarmDetailsStep({
     onChange({ ...details, crop, cropVariety: "", customCropVariety: "" });
 
   const selectRecommended = (cropName: string) => {
+    if (!cropName) return;
     const category = inferCropCategory(cropName);
     onChange({ ...details, cropCategory: category, crop: cropName, cropVariety: "", customCropVariety: "" });
   };
@@ -398,15 +418,19 @@ export function FarmDetailsStep({
 
         {!loadingMl && !mlError && recommendations.length > 0 && (
           <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
-            {recommendations.map((rec, i) => (
-              <RecommendationCard
-                key={rec.crop}
-                rec={rec}
-                isSelected={details.crop.toLowerCase() === rec.crop.toLowerCase()}
-                onClick={() => selectRecommended(rec.crop)}
-                delay={i * 80}
-              />
-            ))}
+            {recommendations.map((rec, i) => {
+              const cropName = rec.crop || rec.cropEn || `Crop-${i}`;
+              const isSel = Boolean(details?.crop && cropName && details.crop.toLowerCase() === cropName.toLowerCase());
+              return (
+                <RecommendationCard
+                  key={`rec-${cropName}-${rec.rank || i}`}
+                  rec={{ ...rec, crop: cropName }}
+                  isSelected={isSel}
+                  onClick={() => selectRecommended(cropName)}
+                  delay={i * 80}
+                />
+              );
+            })}
           </div>
         )}
 

@@ -18,6 +18,7 @@ export async function POST(req: Request) {
       environmentalData,
       riskAssessment,
       premiumRecommendation,
+      createdByPhone,
     } = data;
 
     if (!farm || !location || !riskAssessment || !premiumRecommendation) {
@@ -70,6 +71,7 @@ export async function POST(req: Request) {
 
       status: "UNDER_REVIEW",
       submittedAt: new Date().toISOString(),
+      createdByPhone: createdByPhone ? String(createdByPhone).replace(/\D/g, "").slice(-10) : undefined,
       auditTrail: [
         {
           id: `aud-${Date.now()}-1`,

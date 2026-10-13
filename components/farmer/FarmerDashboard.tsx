@@ -17,7 +17,10 @@ import {
   Layers,
   Sparkles,
   History,
-  RotateCcw
+  RotateCcw,
+  AlertCircle,
+  Bot,
+  MessageSquare
 } from "lucide-react";
 import { Language } from "@/lib/farmer/types";
 
@@ -33,9 +36,10 @@ type Props = {
   onStartAssessment: () => void;
   onViewHistory: () => void;
   onViewDetail: (id: number | string) => void;
+  onOpenChat?: () => void;
 };
 
-export function FarmerDashboard({ onStartAssessment, onViewHistory, onViewDetail }: Props) {
+export function FarmerDashboard({ onStartAssessment, onViewHistory, onViewDetail, onOpenChat }: Props) {
   const { farmer, logout, language, setLanguage, assessment, resetAssessment } = useFarmer();
   const [savedAssessments, setSavedAssessments] = useState<any[]>([]);
   const [loadingSaved, setLoadingSaved] = useState(true);
@@ -211,7 +215,7 @@ export function FarmerDashboard({ onStartAssessment, onViewHistory, onViewDetail
                 <StepStatusRow
                   label={language === "mr" ? "AI पीक शिफारस" : language === "hi" ? "AI फसल सिफारिश" : "Crop Recommendation"}
                   done={hasCrop}
-                  detail={hasCrop ? (assessment.selectedCrop?.cropMr || assessment.selectedCrop?.cropEn) : null}
+                  detail={hasCrop ? ((assessment.selectedCrop?.cropMr || assessment.selectedCrop?.cropEn) ?? null) : null}
                   lang={language}
                 />
                 <StepStatusRow
@@ -243,6 +247,42 @@ export function FarmerDashboard({ onStartAssessment, onViewHistory, onViewDetail
               </div>
               <ArrowRight size={16} className="text-[var(--color-text-dim)]" />
             </button>
+
+            {/* Krishi Mitra AI Assistant Card (Google Gemini 3.8 Flash) */}
+            <div className="rounded-3xl border border-emerald-500/30 bg-gradient-to-br from-emerald-950/20 via-[var(--color-surface)] to-[var(--color-surface)] p-5 shadow-sm">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-700 to-teal-500 text-white shadow-sm">
+                    <Bot size={18} />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-[var(--color-text)]">
+                      AgriSurge AI Advisor
+                    </h3>
+                    <p className="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                      <Sparkles size={10} />
+                      <span>Smart Agronomic Advisor</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <p className="text-[11px] text-[var(--color-text-dim)] leading-relaxed mb-3">
+                {language === "mr"
+                  ? "पिकावरील कीड, खत व्यवस्थापन, सिंचन किंवा हवामानाविषयी आपल्या भाषेत थेट बोला."
+                  : language === "hi"
+                  ? "फसल कीट, खाद प्रबंधन, सिंचाई या मौसम के बारे में अपनी भाषा में सीधे पूछें।"
+                  : "Instant 24/7 localized guidance on crop protection, nutrition, and weather resilience."}
+              </p>
+              <button
+                onClick={onOpenChat}
+                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-700 hover:bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white shadow-md transition active:scale-[0.98]"
+              >
+                <MessageSquare size={14} />
+                <span>
+                  {language === "mr" ? "AI मित्राशी बोला" : language === "hi" ? "AI मित्र से पूछें" : "Chat with AI Advisor"}
+                </span>
+              </button>
+            </div>
           </div>
 
           {/* RIGHT COLUMN: Active Assessment Banner, Insights, Advisory (Desktop: 8 cols) */}
