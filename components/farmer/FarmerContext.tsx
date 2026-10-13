@@ -18,7 +18,7 @@ const SESSION_KEY = "agrisurge_farmer_session";
 
 type FarmerCtx = {
   farmer: FarmerProfile | null;
-  setFarmer: (f: FarmerProfile | null) => void;
+  setFarmer: (f: FarmerProfile | null, fresh?: boolean) => void;
   language: Language;
   setLanguage: (l: Language) => void;
   t: UIStrings;
@@ -88,10 +88,14 @@ export function FarmerProvider({ children }: { children: React.ReactNode }) {
     }
   }, [farmer, language, assessment, hydrated]);
 
-  const setFarmer = useCallback((f: FarmerProfile | null) => {
+  const setFarmer = useCallback((f: FarmerProfile | null, fresh = false) => {
     setFarmerState(f);
-    if (f && !assessment) {
-      setAssessment(emptyAssessment(f));
+    if (f) {
+      if (fresh || !assessment) {
+        setAssessment(emptyAssessment(f));
+      }
+    } else {
+      setAssessment(null);
     }
   }, [assessment]);
 

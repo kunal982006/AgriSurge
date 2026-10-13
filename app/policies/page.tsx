@@ -13,6 +13,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { UNDERWRITING_STATUS_CONFIG } from "@/lib/underwriting/status";
+import { getInsuranceSession } from "@/lib/insurance/auth";
 
 // ─── Metric stat card ─────────────────────────────────────────────────
 function StatCard({
@@ -142,6 +143,28 @@ export default function PoliciesUnderwritingPage() {
       if (regionFilter !== "ALL") params.set("region", regionFilter);
       if (searchQuery) params.set("q", searchQuery);
       if (sortBy !== "default") params.set("sortBy", sortBy);
+
+      const session = getInsuranceSession();
+      const isFresh =
+        session?.phone &&
+        typeof window !== "undefined" &&
+        localStorage.getItem(`agrisurge_insurance_fresh_${session.phone}`) === "true";
+
+      if (isFresh) {
+        setRecords([]);
+        setCounts({
+          total: 0,
+          underReview: 0,
+          needsInformation: 0,
+          approved: 0,
+          rejected: 0,
+          highRisk: 0,
+        });
+        setAvailableCrops([]);
+        setAvailableRegions([]);
+        setLoading(false);
+        return;
+      }
 
       const res = await fetch(`/api/policies?${params.toString()}`);
       if (!res.ok) throw new Error("Failed to load underwriting policies.");

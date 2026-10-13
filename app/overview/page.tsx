@@ -21,6 +21,7 @@ import {
 import { RiskDistributionChart } from "@/components/charts/RiskDistributionChart";
 import { RegionalRiskMap } from "@/components/map/RegionalRiskMap";
 import type { OverviewDashboardPayload } from "@/lib/analytics/overviewAnalytics";
+import { getInsuranceSession } from "@/lib/insurance/auth";
 
 // ─── Inline Risk Badge (no emojis, professional dot indicator) ─────────
 function RiskPill({ level }: { level: "low" | "moderate" | "high" }) {
@@ -173,6 +174,39 @@ export default function OverviewPage() {
         const params = new URLSearchParams();
         if (regionFilter !== "ALL") params.set("region", regionFilter);
         if (statusFilter !== "ALL") params.set("status", statusFilter);
+
+        const session = getInsuranceSession();
+        const isFresh =
+          session?.phone &&
+          typeof window !== "undefined" &&
+          localStorage.getItem(`agrisurge_insurance_fresh_${session.phone}`) === "true";
+
+        if (isFresh) {
+          // New registered account starts from zero
+          setData({
+            success: true,
+            summary: {
+              totalPolicies: 0,
+              totalCoverageINR: 0,
+              totalPremiumINR: 0,
+              averageRiskScore: 0,
+              highRiskCount: 0,
+              approvedCount: 0,
+              underReviewCount: 0,
+              needsInfoCount: 0,
+              rejectedCount: 0,
+            },
+            riskTiers: { low: 0, moderate: 0, high: 0 },
+            regionalSummary: [],
+            cropDistribution: [],
+            recentAssessments: [],
+            availableRegions: [],
+            availableCrops: [],
+          } as unknown as OverviewDashboardPayload);
+          setLoading(false);
+          setRefreshing(false);
+          return;
+        }
 
         const res = await fetch(`/api/overview?${params.toString()}`);
         if (!res.ok) throw new Error("Failed to fetch overview analytics.");

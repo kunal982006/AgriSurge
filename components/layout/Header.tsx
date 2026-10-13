@@ -1,16 +1,34 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Bell, Sun, Moon } from "lucide-react";
 import { NAV_ITEMS } from "@/lib/nav";
 import { useTheme } from "@/components/theme/ThemeProvider";
+import { getInsuranceSession, DEFAULT_INSURANCE_USER, InsuranceUser } from "@/lib/insurance/auth";
 
 export function Header() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const [user, setUser] = useState<InsuranceUser>(DEFAULT_INSURANCE_USER);
+
+  useEffect(() => {
+    const session = getInsuranceSession();
+    if (session) {
+      setUser(session);
+    }
+  }, []);
+
   const current = NAV_ITEMS.find(
     (item) => pathname === item.href || pathname?.startsWith(item.href + "/")
   );
+
+  const initials = (user.name || "RA")
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-[var(--color-border)] bg-[var(--color-surface)] px-6 transition-colors">
@@ -48,8 +66,11 @@ export function Header() {
           <Bell size={15} strokeWidth={1.8} />
           <span className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-[var(--color-red)]" />
         </button>
-        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-surface-raised)] text-[11px] font-semibold text-[var(--color-text-muted)] border border-[var(--color-border)]">
-          RA
+        <div
+          title={`${user.name} (${user.role} · ${user.organization})`}
+          className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-surface-raised)] text-[11px] font-semibold text-[var(--color-text-muted)] border border-[var(--color-border)] cursor-default"
+        >
+          {initials}
         </div>
       </div>
     </header>

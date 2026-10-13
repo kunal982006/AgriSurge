@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useFarmer } from "./FarmerContext";
+import { useVoiceGuide } from "./VoiceGuideProvider";
+import { VoiceGuideOverlay } from "./VoiceGuideOverlay";
+import { SpeechInput } from "./SpeechInput";
 import {
   CROP_TRANSLATIONS,
   INSURANCE_ELIGIBLE_CROPS,
@@ -11,6 +14,7 @@ import {
   WeatherData
 } from "@/lib/farmer/types";
 import { CROP_GUIDANCE, getFallbackGuidance } from "@/lib/farmer/cropGuidance";
+import { speakText, stopSpeech as stopGlobalSpeech } from "@/lib/farmer/speechHelper";
 import { calculateAgriSurgePremium } from "@/lib/pricing/pricingConfig";
 import { MonthlyRainfallChart, AnnualYoYRainfallChart } from "./WeatherCharts";
 import { CropAiAnalysis } from "./CropAiAnalysis";
@@ -105,18 +109,59 @@ const STEP_ICONS: Record<StepId, React.ComponentType<{ size?: number; className?
 // ── Main Wizard Component ───────────────────────────────────────────────────
 type Props = { onExit: () => void };
 
+const WIZARD_STEP_KEY = "agrisurge_farmer_wizard_step";
+
 export function AssessmentWizard({ onExit }: Props) {
   const { farmer, language, assessment, updateAssessment } = useFarmer();
-  const [stepIdx, setStepIdx] = useState(0);
+  const { setActiveStep } = useVoiceGuide();
+
+  const [stepIdx, setStepIdx] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem(WIZARD_STEP_KEY);
+        if (saved !== null) {
+          const parsed = parseInt(saved, 10);
+          if (!isNaN(parsed) && parsed >= 0 && parsed < STEPS.length) return parsed;
+        }
+      } catch {
+        // ignore
+      }
+    }
+    return 0;
+  });
+
   const [saving, setSaving] = useState(false);
   const [saveResult, setSaveResult] = useState<{ success: boolean; id?: string; error?: string } | null>(null);
 
   const currentStep = STEPS[stepIdx];
   const stepLabels = STEP_LABELS[language];
 
+  // Persist current step to localStorage so page refresh/retry stays on same step
+  useEffect(() => {
+    try {
+      localStorage.setItem(WIZARD_STEP_KEY, String(stepIdx));
+    } catch {
+      // ignore
+    }
+  }, [stepIdx]);
+
+  // Sync active step to Voice Guide for auto-narration across screens
+  useEffect(() => {
+    setActiveStep(currentStep);
+  }, [currentStep, setActiveStep]);
+
+  const handleExit = () => {
+    try {
+      localStorage.removeItem(WIZARD_STEP_KEY);
+    } catch {
+      // ignore
+    }
+    onExit();
+  };
+
   const next = () => setStepIdx((i) => Math.min(i + 1, STEPS.length - 1));
   const back = () => {
-    if (stepIdx === 0) onExit();
+    if (stepIdx === 0) handleExit();
     else setStepIdx((i) => i - 1);
   };
 
@@ -156,7 +201,7 @@ export function AssessmentWizard({ onExit }: Props) {
               {stepIdx + 1} / {STEPS.length}
             </span>
             <button
-              onClick={onExit}
+              onClick={handleExit}
               className="text-xs font-semibold text-[var(--color-text-dim)] hover:text-[var(--color-text)] transition hidden sm:inline"
             >
               {language === "mr" ? "बाहेर पडा" : language === "hi" ? "बाहर निकलें" : "Exit"}
@@ -358,7 +403,7 @@ export function AssessmentWizard({ onExit }: Props) {
                       setSaving(false);
                     }
                   }}
-                  onExit={onExit}
+                  onExit={handleExit}
                 />
               )}
             </div>
@@ -433,13 +478,16 @@ function DetailsStep({ language: lang, onNext }: { language: Language; onNext: (
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         {/* Name */}
         <FormField label={t.nameLabel}>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder={t.namePlaceholder}
-            className="farmer-input"
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={t.namePlaceholder}
+              className="farmer-input flex-1"
+            />
+            <SpeechInput onResult={(txt) => setName(txt)} />
+          </div>
         </FormField>
 
         {/* State */}
@@ -483,13 +531,16 @@ function DetailsStep({ language: lang, onNext }: { language: Language; onNext: (
       {/* Village Search */}
       {taluka && (
         <FormField label={t.villageLabel}>
-          <input
-            type="text"
-            value={villageQuery}
-            onChange={(e) => { setVillageQuery(e.target.value); setVillage(""); }}
-            placeholder={lang === "mr" ? "गाव शोधा किंवा निवडा..." : lang === "hi" ? "गाँव खोजें या चुनें..." : "Search village..."}
-            className="farmer-input mb-2"
-          />
+          <div className="flex gap-2 mb-2">
+            <input
+              type="text"
+              value={villageQuery}
+              onChange={(e) => { setVillageQuery(e.target.value); setVillage(""); }}
+              placeholder={lang === "mr" ? "गाव शोधा किंवा निवडा..." : lang === "hi" ? "गाँव खोजें या चुनें..." : "Search village..."}
+              className="farmer-input flex-1"
+            />
+            <SpeechInput onResult={(txt) => { setVillageQuery(txt); setVillage(""); }} />
+          </div>
           {villages.length > 0 && !village && (
             <div className="max-h-48 overflow-y-auto rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] shadow-md">
               {villages.slice(0, 40).map((v) => (
@@ -1561,44 +1612,83 @@ function CropsStep({ language: lang, onNext }: { language: Language; onNext: () 
 // STEP 7 — Crop Guidance & Text-to-Speech (TTS)
 // ═══════════════════════════════════════════════════════════
 function GuidanceStep({ language: lang, onNext }: { language: Language; onNext: () => void }) {
-  const { assessment, t } = useFarmer();
+  const { assessment, t, farmer } = useFarmer();
   const crop = assessment.selectedCrop;
-  const guidance = crop ? CROP_GUIDANCE[crop.cropKey] : null;
+  const initialGuidance = crop ? CROP_GUIDANCE[crop.cropKey] : null;
+
+  const [guidance, setGuidance] = useState<any>(initialGuidance);
+  const [isAiGenerated, setIsAiGenerated] = useState(false);
+  const [loadingAi, setLoadingAi] = useState(false);
   const [speaking, setSpeaking] = useState(false);
 
   const cropName = crop ? (lang === "mr" ? crop.cropMr : lang === "hi" ? crop.cropHi : crop.cropEn) : "";
+
+  // Dynamic fetch to Gemini 3.8 Flash API
+  const fetchAiGuidance = async () => {
+    if (!crop) return;
+    setLoadingAi(true);
+    try {
+      const res = await fetch("/api/ai/guidance", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cropName: crop.cropEn,
+          cropKey: crop.cropKey,
+          district: farmer?.district,
+          village: farmer?.village,
+          soilType: assessment.soilInputs.soilType,
+          irrigationType: assessment.soilInputs.irrigationType,
+          areaAcres: assessment.soilInputs.areaAcres,
+          temperatureC: assessment.weather?.temperatureC,
+          humidityPct: assessment.weather?.humidityPct,
+          rainfallMm: assessment.weather?.rainfallMm,
+          preferredLanguage: lang,
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.guidance) {
+        setGuidance(data.guidance);
+        setIsAiGenerated(true);
+      }
+    } catch (err) {
+      console.warn("Failed to fetch live Gemini advisory:", err);
+    } finally {
+      setLoadingAi(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAiGuidance();
+  }, [crop?.cropKey, lang]);
 
   // Full spoken speech string
   const fullText = guidance
     ? [
         `${cropName}.`,
-        guidance.whySuitable[lang],
-        guidance.waterManagement[lang],
-        guidance.fertilizerTiming[lang],
-        guidance.growthStageCare[lang],
-        guidance.weatherPrecautions[lang],
-        guidance.nextSteps[lang],
-      ].join(" ")
+        guidance.whySuitable?.[lang] || guidance.whySuitable?.["en"] || "",
+        guidance.waterManagement?.[lang] || guidance.waterManagement?.["en"] || "",
+        guidance.fertilizerTiming?.[lang] || guidance.fertilizerTiming?.["en"] || "",
+        guidance.growthStageCare?.[lang] || guidance.growthStageCare?.["en"] || "",
+        guidance.weatherPrecautions?.[lang] || guidance.weatherPrecautions?.["en"] || "",
+        guidance.nextSteps?.[lang] || guidance.nextSteps?.["en"] || "",
+      ].filter(Boolean).join(" ")
     : crop
     ? getFallbackGuidance(crop.cropEn, lang)
     : "";
 
-  const langCodes: Record<Language, string> = { mr: "mr-IN", hi: "hi-IN", en: "en-IN" };
-
   const speak = () => {
-    if (!window.speechSynthesis || !fullText) return;
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(fullText);
-    u.lang = langCodes[lang];
-    u.rate = 0.85;
-    u.onend = () => setSpeaking(false);
-    u.onerror = () => setSpeaking(false);
-    window.speechSynthesis.speak(u);
+    if (!fullText) return;
     setSpeaking(true);
+    speakText(fullText, {
+      lang,
+      rate: 0.85,
+      onEnd: () => setSpeaking(false),
+      onError: () => setSpeaking(false),
+    });
   };
 
   const stopSpeech = () => {
-    window.speechSynthesis?.cancel();
+    stopGlobalSpeech();
     setSpeaking(false);
   };
 
@@ -1606,32 +1696,32 @@ function GuidanceStep({ language: lang, onNext }: { language: Language; onNext: 
     ? [
         {
           title: lang === "mr" ? "हे पीक का निवडावे?" : lang === "hi" ? "यह फसल क्यों चुनें?" : "Why This Crop?",
-          text: guidance.whySuitable[lang],
+          text: guidance.whySuitable?.[lang] || guidance.whySuitable?.["en"] || "",
           icon: Sprout,
         },
         {
           title: lang === "mr" ? "पाणी व्यवस्थापन व सिंचन" : lang === "hi" ? "जल प्रबंधन व सिंचाई" : "Water Management",
-          text: guidance.waterManagement[lang],
+          text: guidance.waterManagement?.[lang] || guidance.waterManagement?.["en"] || "",
           icon: Droplets,
         },
         {
           title: lang === "mr" ? "खत वेळापत्रक व पोषण" : lang === "hi" ? "उर्वरक समय सारणी" : "Fertilizer Schedule",
-          text: guidance.fertilizerTiming[lang],
+          text: guidance.fertilizerTiming?.[lang] || guidance.fertilizerTiming?.["en"] || "",
           icon: Layers,
         },
         {
           title: lang === "mr" ? "वाढीचे महत्त्वाचे टप्पे" : lang === "hi" ? "महत्वपूर्ण विकास चरण" : "Growth Stages",
-          text: guidance.growthStageCare[lang],
+          text: guidance.growthStageCare?.[lang] || guidance.growthStageCare?.["en"] || "",
           icon: Calendar,
         },
         {
           title: lang === "mr" ? "हवामान विषयक दक्षता" : lang === "hi" ? "मौसम संबंधी सावधानी" : "Weather Precautions",
-          text: guidance.weatherPrecautions[lang],
+          text: guidance.weatherPrecautions?.[lang] || guidance.weatherPrecautions?.["en"] || "",
           icon: CloudSun,
         },
         {
           title: lang === "mr" ? "पुढील पाऊल व कृषी कृती" : lang === "hi" ? "अगला कदम" : "Next Agronomic Steps",
-          text: guidance.nextSteps[lang],
+          text: guidance.nextSteps?.[lang] || guidance.nextSteps?.["en"] || "",
           icon: CheckCircle2,
         },
       ]
@@ -1646,28 +1736,70 @@ function GuidanceStep({ language: lang, onNext }: { language: Language; onNext: 
             <Sprout size={24} />
           </div>
           <div>
-            <h2 className="text-xl font-black text-[var(--color-text)] sm:text-2xl">{cropName}</h2>
+            <div className="flex items-center gap-2 flex-wrap">
+              <h2 className="text-xl font-black text-[var(--color-text)] sm:text-2xl">{cropName}</h2>
+              <span className="flex items-center gap-1 rounded-full bg-emerald-100 dark:bg-emerald-950 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-800 dark:text-emerald-300 border border-emerald-600/30">
+                <Sparkles size={11} className="text-emerald-600" />
+                <span>{isAiGenerated ? "Gemini 3.8 AI Advisory" : "AI Agronomic Advisory"}</span>
+              </span>
+            </div>
             <p className="text-xs text-[var(--color-text-dim)]">{t.guidanceTitle} ({crop?.cropEn})</p>
           </div>
         </div>
 
-        {/* Text to Speech Button */}
-        <button
-          type="button"
-          onClick={speaking ? stopSpeech : speak}
-          className={`flex items-center gap-2.5 rounded-2xl px-5 py-3 text-xs font-extrabold shadow-md transition active:scale-[0.98] ${
-            speaking
-              ? "bg-red-600 text-white hover:bg-red-500 animate-pulse"
-              : "bg-emerald-700 text-white hover:bg-emerald-600"
-          }`}
-        >
-          {speaking ? <VolumeX size={18} /> : <Volume2 size={18} />}
+        {/* Action Buttons: AI Refresh + Text-to-Speech */}
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={fetchAiGuidance}
+            disabled={loadingAi}
+            title="Refresh AI Advisory with live conditions"
+            className="flex items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-raised)] px-3.5 py-3 text-xs font-bold text-[var(--color-text)] hover:border-emerald-600 transition active:scale-95 disabled:opacity-50"
+          >
+            <RefreshCw size={14} className={loadingAi ? "animate-spin text-emerald-700" : ""} />
+            <span className="hidden sm:inline">
+              {loadingAi
+                ? (lang === "mr" ? "तयार करत आहे..." : lang === "hi" ? "तैयार हो रहा है..." : "Generating...")
+                : (lang === "mr" ? "AI सल्ला अपडेट करा" : lang === "hi" ? "AI सलाह अपडेट करें" : "Refresh AI Advisory")}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={speaking ? stopSpeech : speak}
+            className={`flex items-center gap-2.5 rounded-2xl px-5 py-3 text-xs font-extrabold shadow-md transition active:scale-[0.98] ${
+              speaking
+                ? "bg-red-600 text-white hover:bg-red-500 animate-pulse"
+                : "bg-emerald-700 text-white hover:bg-emerald-600"
+            }`}
+          >
+            {speaking ? <VolumeX size={18} /> : <Volume2 size={18} />}
+            <span>
+              {speaking
+                ? (lang === "mr" ? "मार्गदर्शन थांबवा" : lang === "hi" ? "सलाह रोकें" : "Stop Audio")
+                : t.listenBtn}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {/* AI Intelligence Context Banner */}
+      <div className="flex items-center justify-between flex-wrap gap-2 rounded-2xl border border-emerald-500/20 bg-emerald-50/60 dark:bg-emerald-950/20 px-4 py-2.5 text-[11px] text-[var(--color-text-dim)]">
+        <div className="flex items-center gap-2">
+          <Sparkles size={14} className="text-emerald-700 dark:text-emerald-400 shrink-0" />
           <span>
-            {speaking
-              ? (lang === "mr" ? "मार्गदर्शन थांबवा" : lang === "hi" ? "सलाह रोकें" : "Stop Audio")
-              : t.listenBtn}
+            {lang === "mr"
+              ? `शेताचे स्थान (${farmer?.district || "महाराष्ट्र"}), माती (${assessment.soilInputs.soilType}), आणि हवामान (${assessment.weather?.temperatureC.toFixed(0) || 27}°C, ${assessment.weather?.humidityPct || 65}% आर्द्रता) यानुसार Gemini AI द्वारे वैयक्तिकृत.`
+              : lang === "hi"
+              ? `खेत का स्थान (${farmer?.district || "महाराष्ट्र"}), मिट्टी (${assessment.soilInputs.soilType}), और मौसम (${assessment.weather?.temperatureC.toFixed(0) || 27}°C, ${assessment.weather?.humidityPct || 65}% आर्द्रता) के अनुसार Gemini AI द्वारा अनुकूलित।`
+              : `Synthesized by Google Gemini 3.8 Flash using your farm's GPS, ${assessment.soilInputs.soilType} soil, and micro-climate observations.`}
           </span>
-        </button>
+        </div>
+        {isAiGenerated && (
+          <span className="font-mono text-[10px] font-bold text-emerald-800 dark:text-emerald-300">
+            ✓ Live AI Response
+          </span>
+        )}
       </div>
 
       {/* Structured Guidance Cards (2-column Desktop Grid) */}
@@ -1678,7 +1810,7 @@ function GuidanceStep({ language: lang, onNext }: { language: Language; onNext: 
             return (
               <div
                 key={s.title}
-                className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-sm"
+                className="rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5 shadow-sm transition hover:border-emerald-600/40"
               >
                 <div className="flex items-center gap-2.5 mb-2.5">
                   <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
@@ -1703,10 +1835,10 @@ function GuidanceStep({ language: lang, onNext }: { language: Language; onNext: 
         <Info size={16} className="text-emerald-700 shrink-0 mt-0.5" />
         <p>
           {lang === "mr"
-            ? "हे मार्गदर्शन कृषी विद्यापीठाच्या पॅकेज ऑफ प्रॅक्टिसेसवर आधारित आहे. शेतातील विशेष परिस्थितीसाठी स्थानिक कृषी सहाय्यकांचा सल्ला घ्यावा."
+            ? "हे मार्गदर्शन कृषी विद्यापीठाच्या पॅकेज ऑफ प्रॅक्टिसेस व Google Gemini AI मॉडेलवर आधारित आहे. शेतातील विशेष परिस्थितीसाठी स्थानिक कृषी सहाय्यकांचा सल्ला घ्यावा."
             : lang === "hi"
-            ? "यह मार्गदर्शन कृषि विश्वविद्यालय के पैकेज ऑफ प्रैक्टिसेज पर आधारित है। विशेष स्थिति में स्थानीय कृषि अधिकारी से सलाह लें।"
-            : "This advisory synthesizes agricultural university packages of practices with your local weather conditions."}
+            ? "यह मार्गदर्शन कृषि विश्वविद्यालय के पैकेज ऑफ प्रैक्टिसेज और Google Gemini AI मॉडल पर आधारित है। विशेष स्थिति में स्थानीय कृषि अधिकारी से सलाह लें।"
+            : "This advisory synthesizes agricultural university packages of practices and Google Gemini 3.8 Flash AI with your local micro-climate conditions."}
         </p>
       </div>
 

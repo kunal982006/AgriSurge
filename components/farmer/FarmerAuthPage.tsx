@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFarmer } from "./FarmerContext";
+import { useVoiceGuide } from "./VoiceGuideProvider";
+import { SpeechInput } from "./SpeechInput";
 import { BackgroundVideo } from "@/components/landing/BackgroundVideo";
-import { Leaf, Phone, User, ArrowRight, ArrowLeft, Globe } from "lucide-react";
+import { Leaf, Phone, User, Lock, ArrowRight, ArrowLeft, Globe } from "lucide-react";
 import Link from "next/link";
 import { Language } from "@/lib/farmer/types";
 
@@ -16,44 +18,56 @@ const LANG_OPTIONS: { code: Language; label: string; native: string }[] = [
 type AuthMode = "choose" | "login" | "register";
 
 export function FarmerAuthPage() {
-  const { setFarmer, setLanguage, language } = useFarmer();
+  const { setFarmer, setLanguage, language, resetAssessment } = useFarmer();
+  const { setActiveStep } = useVoiceGuide();
   const [mode, setMode] = useState<AuthMode>("choose");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Sync active step to Voice Guide on mode change
+  useEffect(() => {
+    const key = mode === "choose" ? "auth_choose" : mode === "login" ? "auth_login" : "auth_register";
+    setActiveStep(key);
+  }, [mode, setActiveStep]);
 
   const ui = {
     mr: {
       title: "शेतकरी पोर्टल",
       subtitle: "AI-आधारित पीक शिफारस आणि विमा प्रीमियम माहिती",
       loginBtn: "लॉगिन करा",
-      registerBtn: "नोंदणी करा",
-      loginTitle: "लॉगिन",
-      registerTitle: "नोंदणी",
+      registerBtn: "नवीन नोंदणी करा",
+      loginTitle: "शेतकरी लॉगिन",
+      registerTitle: "नवीन शेतकरी नोंदणी",
       phonePlaceholder: "मोबाईल नंबर (10 अंक)",
       namePlaceholder: "तुमचे पूर्ण नाव",
+      passwordPlaceholder: "तुमचा पासवर्ड टाका",
       submit: "सुरू करा",
       back: "मागे जा",
-      phoneHint: "नोंदणीकृत मोबाईल नंबर टाका",
+      phoneHint: "मोबाईल नंबर टाका",
       nameHint: "आपले संपूर्ण नाव लिहा",
-      noAccount: "नोंदणी नाही? नोंदणी करा →",
+      passwordHint: "खाते पासवर्ड",
+      noAccount: "नोंदणी नाही? नवीन खाते तयार करा →",
       hasAccount: "आधीच नोंदणी आहे? लॉगिन करा →",
     },
     hi: {
       title: "किसान पोर्टल",
       subtitle: "AI आधारित फसल सिफारिश और बीमा प्रीमियम जानकारी",
       loginBtn: "लॉगिन करें",
-      registerBtn: "पंजीकरण करें",
-      loginTitle: "लॉगिन",
-      registerTitle: "पंजीकरण",
+      registerBtn: "नया पंजीकरण करें",
+      loginTitle: "किसान लॉगिन",
+      registerTitle: "नया किसान पंजीकरण",
       phonePlaceholder: "मोबाइल नंबर (10 अंक)",
       namePlaceholder: "आपका पूरा नाम",
+      passwordPlaceholder: "अपना पासवर्ड दर्ज करें",
       submit: "शुरू करें",
       back: "वापस जाएं",
-      phoneHint: "पंजीकृत मोबाइल नंबर दर्ज करें",
+      phoneHint: "मोबाइल नंबर दर्ज करें",
       nameHint: "अपना पूरा नाम लिखें",
-      noAccount: "पंजीकरण नहीं? अभी पंजीकरण करें →",
+      passwordHint: "खाता पासवर्ड",
+      noAccount: "पंजीकरण नहीं? नया खाता बनाएं →",
       hasAccount: "पहले से पंजीकृत? लॉगिन करें →",
     },
     en: {
@@ -61,15 +75,17 @@ export function FarmerAuthPage() {
       subtitle: "AI-powered crop recommendations and insurance premium guidance",
       loginBtn: "Login",
       registerBtn: "Register",
-      loginTitle: "Login",
-      registerTitle: "Register",
+      loginTitle: "Farmer Login",
+      registerTitle: "New Farmer Registration",
       phonePlaceholder: "Mobile number (10 digits)",
       namePlaceholder: "Your full name",
+      passwordPlaceholder: "Enter your password",
       submit: "Get Started",
       back: "Go Back",
-      phoneHint: "Enter your registered mobile number",
+      phoneHint: "Enter mobile number",
       nameHint: "Enter your full name",
-      noAccount: "Not registered? Register now →",
+      passwordHint: "Account password",
+      noAccount: "Not registered? Create a new account →",
       hasAccount: "Already registered? Login →",
     },
   };
@@ -80,73 +96,87 @@ export function FarmerAuthPage() {
     setError(null);
     const cleanPhone = phone.replace(/\D/g, "");
     if (cleanPhone.length < 10) {
-      setError(language === "mr" ? "१० अंकी मोबाईल नंबर टाका." : language === "hi" ? "10 अंकों का नंबर दर्ज करें।" : "Enter a valid 10-digit mobile number.");
+      setError(
+        language === "mr"
+          ? "१० अंकी मोबाईल नंबर टाका."
+          : language === "hi"
+          ? "10 अंकों का नंबर दर्ज करें।"
+          : "Enter a valid 10-digit mobile number."
+      );
+      return;
+    }
+
+    if (!password.trim()) {
+      setError(
+        language === "mr"
+          ? "पासवर्ड टाकणे आवश्यक आहे."
+          : language === "hi"
+          ? "पासवर्ड दर्ज करना आवश्यक है।"
+          : "Password is required."
+      );
       return;
     }
 
     if (mode === "register" && name.trim().length < 2) {
-      setError(language === "mr" ? "तुमचे नाव टाका." : language === "hi" ? "अपना नाम दर्ज करें।" : "Enter your name.");
+      setError(
+        language === "mr"
+          ? "तुमचे नाव टाका."
+          : language === "hi"
+          ? "अपना नाम दर्ज करें।"
+          : "Enter your name."
+      );
       return;
     }
 
     setLoading(true);
 
     try {
-      if (mode === "login") {
-        // Lookup farmer by phone
-        const lookupRes = await fetch(`/api/farmer/auth?phone=${cleanPhone}`);
-        const lookupData = await lookupRes.json();
-
-        if (!lookupData.found || !lookupData.farmer) {
-          setError(
-            language === "mr"
-              ? "हा मोबाईल नंबर नोंदणीकृत नाही. कृपया प्रथम नोंदणी करा."
-              : language === "hi"
-              ? "यह मोबाइल नंबर पंजीकृत नहीं है। पहले पंजीकरण करें।"
-              : "This mobile number is not registered. Please register first."
-          );
-          setLoading(false);
-          return;
-        }
-
-        setFarmer({
-          id: lookupData.farmer.id,
-          name: lookupData.farmer.name,
+      const res = await fetch("/api/farmer/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: mode === "register" ? "register" : "login",
+          name: name.trim(),
           phone: cleanPhone,
-          district: lookupData.farmer.region || "",
-          taluka: "",
-          village: "",
-          language,
-        });
-      } else {
-        // Register — POST to auth API
-        const regRes = await fetch("/api/farmer/auth", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: name.trim(), phone: cleanPhone }),
-        });
+          password: password.trim(),
+        }),
+      });
 
-        if (!regRes.ok) {
-          const errData = await regRes.json();
-          setError(errData.error || "Registration failed. Please try again.");
-          setLoading(false);
-          return;
-        }
+      const data = await res.json();
 
-        const regData = await regRes.json();
-        setFarmer({
-          id: regData.farmer.id,
-          name: regData.farmer.name,
-          phone: cleanPhone,
-          district: "",
-          taluka: "",
-          village: "",
-          language,
-        });
+      if (!res.ok || !data.success) {
+        setError(data.error || "Authentication failed. Please check your credentials.");
+        setLoading(false);
+        return;
       }
+
+      // If user registers fresh new account: restart all assessment and progress details from zero
+      const isFresh = mode === "register" || Boolean(data.isNew);
+      if (isFresh) {
+        resetAssessment();
+      }
+
+      setFarmer(
+        {
+          id: data.farmer.id,
+          name: data.farmer.name,
+          phone: cleanPhone,
+          district: data.farmer.region || "",
+          taluka: "",
+          village: "",
+          language,
+        },
+        isFresh
+      );
     } catch (err) {
       console.error("Auth error:", err);
-      setError(language === "mr" ? "काहीतरी चूक झाली. पुन्हा प्रयत्न करा." : language === "hi" ? "कुछ गलत हुआ। पुनः प्रयास करें।" : "Something went wrong. Please try again.");
+      setError(
+        language === "mr"
+          ? "काहीतरी चूक झाली. पुन्हा प्रयत्न करा."
+          : language === "hi"
+          ? "कुछ गलत हुआ। पुनः प्रयास करें।"
+          : "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -186,7 +216,7 @@ export function FarmerAuthPage() {
 
       {/* Center Content */}
       <div className="relative z-20 flex flex-1 flex-col items-center justify-center px-4 py-8">
-        <div className="w-full max-w-lg rounded-3xl border border-emerald-500/20 bg-slate-950/70 p-6 sm:p-8 shadow-2xl backdrop-blur-md">
+        <div className="w-full max-w-lg rounded-3xl border border-emerald-500/20 bg-slate-950/75 p-6 sm:p-8 shadow-2xl backdrop-blur-md">
           {/* Title */}
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-extrabold tracking-tight text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.95)] sm:text-4xl">
@@ -201,16 +231,22 @@ export function FarmerAuthPage() {
           {mode === "choose" && (
             <div className="flex flex-col gap-4">
               <button
-                onClick={() => setMode("login")}
-                className="flex items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-bold text-white shadow-[0_4px_20px_rgba(5,150,105,0.4)] transition hover:bg-emerald-500 active:scale-[0.98]"
+                onClick={() => {
+                  setMode("login");
+                  setError(null);
+                }}
+                className="flex items-center justify-center gap-3 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-bold text-white shadow-[0_4px_20px_rgba(5,150,105,0.4)] transition hover:bg-emerald-500 active:scale-[0.98] cursor-pointer"
               >
                 <Phone size={20} />
                 <span>{s.loginBtn}</span>
                 <ArrowRight size={18} />
               </button>
               <button
-                onClick={() => setMode("register")}
-                className="flex items-center justify-center gap-3 rounded-2xl bg-white/10 border border-white/20 px-6 py-4 text-base font-bold text-white shadow-lg backdrop-blur-xs transition hover:bg-white/20 active:scale-[0.98]"
+                onClick={() => {
+                  setMode("register");
+                  setError(null);
+                }}
+                className="flex items-center justify-center gap-3 rounded-2xl bg-white/10 border border-white/20 px-6 py-4 text-base font-bold text-white shadow-lg backdrop-blur-xs transition hover:bg-white/20 active:scale-[0.98] cursor-pointer"
               >
                 <User size={20} />
                 <span>{s.registerBtn}</span>
@@ -232,9 +268,14 @@ export function FarmerAuthPage() {
           {/* Login / Register Form */}
           {(mode === "login" || mode === "register") && (
             <div className="flex flex-col gap-4">
-              <h2 className="text-xl font-bold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
-                {mode === "login" ? s.loginTitle : s.registerTitle}
-              </h2>
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
+                  {mode === "login" ? s.loginTitle : s.registerTitle}
+                </h2>
+                <span className="text-[11px] font-medium text-emerald-300/80">
+                  {mode === "register" ? "Fresh Account" : "Secure Login"}
+                </span>
+              </div>
 
               {mode === "register" && (
                 <div>
@@ -250,6 +291,9 @@ export function FarmerAuthPage() {
                     className="w-full rounded-xl bg-white/15 border border-white/25 px-4 py-3.5 text-sm font-medium text-white placeholder-white/50 backdrop-blur-xs outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30 transition"
                     autoComplete="name"
                   />
+                  <div className="mt-1.5">
+                    <SpeechInput onResult={(t) => setName(t)} className="border-white/25 text-white hover:border-emerald-400 hover:text-emerald-300" />
+                  </div>
                 </div>
               )}
 
@@ -268,6 +312,24 @@ export function FarmerAuthPage() {
                   autoComplete="tel"
                   inputMode="numeric"
                 />
+                <div className="mt-1.5">
+                  <SpeechInput onResult={(t) => setPhone(t.replace(/\D/g, ""))} className="border-white/25 text-white hover:border-emerald-400 hover:text-emerald-300" />
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-1.5 block text-xs font-semibold text-emerald-200 drop-shadow-sm">
+                  <Lock size={13} className="inline mr-1.5" />
+                  {s.passwordHint}
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder={s.passwordPlaceholder}
+                  className="w-full rounded-xl bg-white/15 border border-white/25 px-4 py-3.5 text-sm font-medium text-white placeholder-white/50 backdrop-blur-xs outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30 transition"
+                  autoComplete="current-password"
+                />
               </div>
 
               {error && (
@@ -279,7 +341,7 @@ export function FarmerAuthPage() {
               <button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-sm font-bold text-white shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition hover:bg-emerald-500 disabled:opacity-60 active:scale-[0.98]"
+                className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-sm font-bold text-white shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition hover:bg-emerald-500 disabled:opacity-60 active:scale-[0.98] cursor-pointer"
               >
                 {loading ? (
                   <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -296,15 +358,21 @@ export function FarmerAuthPage() {
 
               {/* Toggle mode */}
               <button
-                onClick={() => { setMode(mode === "login" ? "register" : "login"); setError(null); }}
-                className="text-xs font-medium text-white/75 hover:text-white drop-shadow-md transition text-center"
+                onClick={() => {
+                  setMode(mode === "login" ? "register" : "login");
+                  setError(null);
+                }}
+                className="text-xs font-medium text-white/75 hover:text-white drop-shadow-md transition text-center cursor-pointer"
               >
                 {mode === "login" ? s.noAccount : s.hasAccount}
               </button>
 
               <button
-                onClick={() => { setMode("choose"); setError(null); }}
-                className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-white/60 hover:text-white/90 drop-shadow-md transition"
+                onClick={() => {
+                  setMode("choose");
+                  setError(null);
+                }}
+                className="inline-flex items-center justify-center gap-1.5 text-xs font-medium text-white/60 hover:text-white/90 drop-shadow-md transition cursor-pointer"
               >
                 <ArrowLeft size={13} />
                 <span>{s.back}</span>
